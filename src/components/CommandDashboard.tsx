@@ -23,6 +23,7 @@ export function CommandDashboard() {
   const [selectedMission, setSelectedMission] = useState<SelectedMission | null>(null);
   const [timerActive, setTimerActive] = useState(false);
   const [timerDuration, setTimerDuration] = useState(600); // 10 minutes par défaut
+  const [autoMode, setAutoMode] = useState(false);
   const { mascotState, showMascot } = useMascot();
 
   const handleServiceSelect = (service: Service) => {
@@ -57,12 +58,36 @@ export function CommandDashboard() {
     setSelectedService(null);
     setSelectedMission(null);
     setTimerActive(false);
+    setAutoMode(false);
+    setTimerDuration(600); // Reset à 10 minutes
   };
 
   const startMission = () => {
     soundManager.playSound('alert');
     setTimerActive(true);
     showMascot('encouraging', 'Mission lancée ! Tu as 10 minutes. Courage !');
+  };
+
+  const handleStartAuto = () => {
+    soundManager.playSound('alert');
+    setAutoMode(true);
+    
+    // Lancer une mission aléatoire
+    const allMissions = [
+      ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
+      ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
+      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m }))
+    ];
+    const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
+    setSelectedMission(randomMission);
+    setSelectedService(randomMission.service);
+    setCurrentView('missions');
+    
+    // Démarrer immédiatement avec 30s
+    setTimerDuration(30);
+    setTimerActive(true);
+    
+    showMascot('alert', 'MODE AUTO ACTIVÉ ! Mission de 30 secondes lancée !');
   };
 
   if (currentView === 'home') {
@@ -160,6 +185,13 @@ export function CommandDashboard() {
             >
               <Dice6 className="mr-2 h-6 w-6" />
               MISSION ALÉATOIRE
+            </Button>
+            <Button 
+              onClick={handleStartAuto}
+              className="btn-command-eagle px-8 py-4 text-lg"
+            >
+              <Timer className="mr-2 h-6 w-6" />
+              START AUTO (30s)
             </Button>
           </div>
         </div>
