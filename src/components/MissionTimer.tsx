@@ -40,12 +40,8 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
         // Bips progressifs pendant la mission
         const timeElapsed = duration - prev;
         
-        // Dans les 30 dernières secondes : bip chaque seconde
-        if (prev <= 30) {
-          soundManager.playSound('timer-tick');
-        }
         // Bips toutes les 2 minutes (120s)
-        else if (timeElapsed > 0 && timeElapsed % 120 === 0) {
+        if (timeElapsed > 0 && timeElapsed % 120 === 0) {
           soundManager.playSound('alert');
         }
         
