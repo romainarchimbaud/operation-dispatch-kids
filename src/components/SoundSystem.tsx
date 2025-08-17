@@ -39,19 +39,21 @@ class SoundManager {
         break;
         
       case 'alert':
-        // Sirène d'urgence intense sans diminution
+        // Bip bip sec d'urgence
         const alertDuration = duration || 0.6;
-        const cycles = Math.floor(alertDuration / 0.4);
+        const bipDuration = 0.1;
+        const pauseDuration = 0.1;
+        const totalBipCycle = bipDuration + pauseDuration;
+        const cycles = Math.floor(alertDuration / totalBipCycle);
         
         for (let i = 0; i < cycles; i++) {
-          const startTime = this.audioContext.currentTime + (i * 0.4);
-          oscillator.frequency.setValueAtTime(800, startTime);
-          oscillator.frequency.linearRampToValueAtTime(1200, startTime + 0.2);
-          oscillator.frequency.linearRampToValueAtTime(800, startTime + 0.4);
+          const startTime = this.audioContext.currentTime + (i * totalBipCycle);
+          oscillator.frequency.setValueAtTime(1000, startTime);
+          gainNode.gain.setValueAtTime(0.2, startTime);
+          gainNode.gain.setValueAtTime(0.2, startTime + bipDuration);
+          gainNode.gain.setValueAtTime(0, startTime + bipDuration);
         }
         
-        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime + alertDuration);
         oscillator.start();
         oscillator.stop(this.audioContext.currentTime + alertDuration);
         break;
