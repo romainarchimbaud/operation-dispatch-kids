@@ -73,7 +73,7 @@ export function CommandDashboard() {
   };
 
   const handleStartAuto = () => {
-    soundManager.playSound('alert', 10);
+    soundManager.playSound('alert', 5);
     setAutoMode(true);
     
     // Sélectionner une mission aléatoire
@@ -111,7 +111,7 @@ export function CommandDashboard() {
   };
 
   const handleNewAutoMission = () => {
-    soundManager.playSound('alert', 10);
+    soundManager.playSound('alert', 5);
     // Sélectionner une nouvelle mission aléatoire
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),

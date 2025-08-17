@@ -39,19 +39,33 @@ class SoundManager {
         break;
         
       case 'alert':
-        // Bip bip sec d'urgence
-        const alertDuration = duration || 0.6;
-        const bipDuration = 0.1;
-        const pauseDuration = 0.1;
-        const totalBipCycle = bipDuration + pauseDuration;
-        const cycles = Math.floor(alertDuration / totalBipCycle);
+        // Bip biiipp bip biiip avec progressivité
+        const alertDuration = duration || 5;
+        const pattern = [0.1, 0.1, 0.3, 0.1, 0.1, 0.1, 0.3, 0.2]; // bip pause biiip pause bip pause biiip pause
+        const totalPatternDuration = pattern.reduce((a, b) => a + b, 0);
+        const cycles = Math.floor(alertDuration / totalPatternDuration);
         
-        for (let i = 0; i < cycles; i++) {
-          const startTime = this.audioContext.currentTime + (i * totalBipCycle);
-          oscillator.frequency.setValueAtTime(1000, startTime);
-          gainNode.gain.setValueAtTime(0.2, startTime);
-          gainNode.gain.setValueAtTime(0.2, startTime + bipDuration);
-          gainNode.gain.setValueAtTime(0, startTime + bipDuration);
+        let currentTime = this.audioContext.currentTime;
+        
+        for (let cycle = 0; cycle < cycles; cycle++) {
+          // Progressivité du volume (normal vers fort)
+          const progressRatio = cycle / (cycles - 1);
+          const baseVolume = 0.1 + (progressRatio * 0.15); // de 0.1 à 0.25
+          
+          for (let i = 0; i < pattern.length; i += 2) {
+            const bipDuration = pattern[i];
+            const pauseDuration = pattern[i + 1] || 0;
+            
+            // Fréquence alternée: bip normal (800Hz) et biiip grave (600Hz)
+            const frequency = (i === 0 || i === 4) ? 800 : 600;
+            
+            oscillator.frequency.setValueAtTime(frequency, currentTime);
+            gainNode.gain.setValueAtTime(baseVolume, currentTime);
+            gainNode.gain.setValueAtTime(baseVolume, currentTime + bipDuration);
+            gainNode.gain.setValueAtTime(0, currentTime + bipDuration);
+            
+            currentTime += bipDuration + pauseDuration;
+          }
         }
         
         oscillator.start();
