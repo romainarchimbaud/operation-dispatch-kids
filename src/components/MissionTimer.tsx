@@ -37,9 +37,16 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
           return 0;
         }
         
-        // Son de tick pour les 10 dernières secondes
-        if (prev <= 10) {
+        // Bips progressifs pendant la mission
+        const timeElapsed = duration - prev;
+        
+        // Dans les 30 dernières secondes : bip chaque seconde
+        if (prev <= 30) {
           soundManager.playSound('timer-tick');
+        }
+        // Bips toutes les 2 minutes (120s)
+        else if (timeElapsed > 0 && timeElapsed % 120 === 0) {
+          soundManager.playSound('alert');
         }
         
         return prev - 1;
@@ -47,7 +54,7 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, status, onComplete, toast]);
+  }, [isRunning, status, onComplete, toast, duration]);
 
   // Son d'alerte au démarrage
   useEffect(() => {

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Zap, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car } from 'lucide-react';
+import { Truck, Shield, Zap, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
@@ -24,6 +24,8 @@ export function CommandDashboard() {
   const [timerActive, setTimerActive] = useState(false);
   const [timerDuration, setTimerDuration] = useState(600); // 10 minutes par défaut
   const [autoMode, setAutoMode] = useState(false);
+  const [autoAcceptancePhase, setAutoAcceptancePhase] = useState(false);
+  const [autoAcceptanceTime, setAutoAcceptanceTime] = useState(30);
   const { mascotState, showMascot } = useMascot();
 
   const handleServiceSelect = (service: Service) => {
@@ -59,6 +61,8 @@ export function CommandDashboard() {
     setSelectedMission(null);
     setTimerActive(false);
     setAutoMode(false);
+    setAutoAcceptancePhase(false);
+    setAutoAcceptanceTime(30);
     setTimerDuration(600); // Reset à 10 minutes
   };
 
@@ -72,7 +76,7 @@ export function CommandDashboard() {
     soundManager.playSound('alert');
     setAutoMode(true);
     
-    // Lancer une mission aléatoire
+    // Sélectionner une mission aléatoire
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
       ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
@@ -83,12 +87,59 @@ export function CommandDashboard() {
     setSelectedService(randomMission.service);
     setCurrentView('missions');
     
-    // Démarrer immédiatement avec 30s
-    setTimerDuration(30);
-    setTimerActive(true);
+    // Activer la phase d'acceptation de 30 secondes
+    setAutoAcceptancePhase(true);
+    setAutoAcceptanceTime(30);
     
-    showMascot('alert', 'MODE AUTO ACTIVÉ ! Mission de 30 secondes lancée !');
+    showMascot('alert', 'MISSION AUTO PROPOSÉE ! 30 secondes pour accepter !');
   };
+
+  const handleAcceptAutoMission = () => {
+    soundManager.playSound('success');
+    setAutoAcceptancePhase(false);
+    setTimerDuration(600); // 10 minutes
+    setTimerActive(true);
+    showMascot('encouraging', 'Mission acceptée ! 10 minutes pour la réaliser !');
+  };
+
+  const handleRefuseAutoMission = () => {
+    soundManager.playSound('fail');
+    setAutoAcceptancePhase(false);
+    setAutoMode(false);
+    showMascot('thinking', 'Mission refusée. Retour au centre de commandement.');
+    handleReset();
+  };
+
+  const handleNewAutoMission = () => {
+    soundManager.playSound('click');
+    // Sélectionner une nouvelle mission aléatoire
+    const allMissions = [
+      ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
+      ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
+      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m }))
+    ];
+    const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
+    setSelectedMission(randomMission);
+    setSelectedService(randomMission.service);
+    setAutoAcceptanceTime(30); // Reset le timer d'acceptation
+    showMascot('thinking', 'Nouvelle mission proposée !');
+  };
+
+  // Timer pour la phase d'acceptation auto
+  useEffect(() => {
+    if (!autoAcceptancePhase) return;
+
+    if (autoAcceptanceTime <= 0) {
+      handleRefuseAutoMission();
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setAutoAcceptanceTime(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [autoAcceptancePhase, autoAcceptanceTime]);
 
   if (currentView === 'home') {
     return (
@@ -244,6 +295,51 @@ export function CommandDashboard() {
             </div>
           )}
         </div>
+
+        {/* Phase d'acceptation Auto */}
+        {autoAcceptancePhase && (
+          <Card className="mission-card mb-6 pulse-alert">
+            <div className="space-y-4">
+              <div className="text-center">
+                <h3 className="text-2xl font-command text-primary mb-2">
+                  MISSION AUTO PROPOSÉE
+                </h3>
+                <div className="text-4xl font-command font-bold text-destructive">
+                  {autoAcceptanceTime}s
+                </div>
+                <p className="text-sm text-muted-foreground font-command">
+                  Temps restant pour décider
+                </p>
+              </div>
+              
+              <div className="flex justify-center gap-4">
+                <Button 
+                  onClick={handleAcceptAutoMission}
+                  className="btn-command px-6"
+                >
+                  <Check className="mr-2 h-4 w-4" />
+                  ACCEPTER
+                </Button>
+                <Button 
+                  onClick={handleNewAutoMission}
+                  variant="outline"
+                  className="btn-command px-6"
+                >
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  NOUVELLE
+                </Button>
+                <Button 
+                  onClick={handleRefuseAutoMission}
+                  variant="outline"
+                  className="btn-command-alert px-6"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  REFUSER
+                </Button>
+              </div>
+            </div>
+          </Card>
+        )}
 
         {/* Timer */}
         {timerActive && (
