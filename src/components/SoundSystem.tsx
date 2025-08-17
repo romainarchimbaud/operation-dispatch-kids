@@ -19,7 +19,7 @@ class SoundManager {
     }
   }
 
-  playSound(type: SoundType) {
+  playSound(type: SoundType, duration?: number) {
     if (!this.audioContext) return;
 
     const oscillator = this.audioContext.createOscillator();
@@ -39,14 +39,21 @@ class SoundManager {
         break;
         
       case 'alert':
-        // Douce sirène d'alerte
-        oscillator.frequency.setValueAtTime(400, this.audioContext.currentTime);
-        oscillator.frequency.linearRampToValueAtTime(600, this.audioContext.currentTime + 0.3);
-        oscillator.frequency.linearRampToValueAtTime(400, this.audioContext.currentTime + 0.6);
+        // Sirène d'alerte prolongeable
+        const alertDuration = duration || 0.6;
+        const cycles = Math.floor(alertDuration / 0.6);
+        
+        for (let i = 0; i < cycles; i++) {
+          const startTime = this.audioContext.currentTime + (i * 0.6);
+          oscillator.frequency.setValueAtTime(400, startTime);
+          oscillator.frequency.linearRampToValueAtTime(600, startTime + 0.3);
+          oscillator.frequency.linearRampToValueAtTime(400, startTime + 0.6);
+        }
+        
         gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.6);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + alertDuration);
         oscillator.start();
-        oscillator.stop(this.audioContext.currentTime + 0.6);
+        oscillator.stop(this.audioContext.currentTime + alertDuration);
         break;
         
       case 'success':

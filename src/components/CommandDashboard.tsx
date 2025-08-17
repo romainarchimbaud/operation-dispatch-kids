@@ -73,7 +73,7 @@ export function CommandDashboard() {
   };
 
   const handleStartAuto = () => {
-    soundManager.playSound('alert');
+    soundManager.playSound('alert', 10);
     setAutoMode(true);
     
     // Sélectionner une mission aléatoire
