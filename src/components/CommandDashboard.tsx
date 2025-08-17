@@ -235,7 +235,7 @@ export function CommandDashboard() {
             </Button>
             <Button 
               onClick={handleStartAuto}
-              className="btn-command-eagle px-8 py-4 text-lg"
+              className="bg-green-600 hover:bg-green-700 text-white font-command px-8 py-4 text-lg"
             >
               <Timer className="mr-2 h-6 w-6" />
               START AUTO (30s)
