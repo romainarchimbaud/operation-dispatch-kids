@@ -276,7 +276,7 @@ export function CommandDashboard() {
                   </svg>
                 </div>
                 <h2 className="mb-2 text-2xl font-command text-samu">
-                  SAMU
+                  SAMU - YELLOW LIFE LINE
                 </h2>
                 <p className="text-sm text-muted-foreground mb-4">
                   Yellow Life Line • Urgences Médicales
