@@ -99,29 +99,37 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
   }
 
   return (
-    <Card className={`fixed bottom-6 right-6 z-[100] max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in shadow-xl border-2`}>
+    <Card className={`fixed bottom-6 right-6 z-[100] max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in shadow-xl border-2 bg-background`}>
       <div className="relative">
         {/* Boutons de contrôle */}
-        <div className="absolute top-2 right-2 flex gap-1">
+        <div className="absolute top-2 right-2 flex gap-1 z-10">
           <Button
-            onClick={() => setIsMinimized(true)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsMinimized(true);
+            }}
             size="sm"
             variant="ghost"
-            className="h-6 w-6 p-0 rounded-full hover:bg-background/50"
+            className="h-6 w-6 p-0 rounded-full hover:bg-muted/80"
           >
             <Minimize2 className="h-3 w-3" />
           </Button>
           <Button
-            onClick={() => setIsVisible(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsVisible(false);
+            }}
             size="sm"
             variant="ghost"
-            className="h-6 w-6 p-0 rounded-full hover:bg-background/50"
+            className="h-6 w-6 p-0 rounded-full hover:bg-muted/80"
           >
             <X className="h-3 w-3" />
           </Button>
         </div>
 
-        <div className="p-4 space-y-3 pt-8 opacity-80">
+        <div className="p-4 space-y-3 pt-8">
           <div className="flex items-start gap-3">
             <div className="text-3xl animate-bounce">
               {getMascotEmoji()}
