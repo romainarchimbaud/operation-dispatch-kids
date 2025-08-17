@@ -136,6 +136,9 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
         <MissionObjectives 
           objectives={selectedMission.mission.objectives}
           missionTitle={selectedMission.mission.title}
+          onMissionComplete={() => {
+            console.log('Mission complétée!');
+          }}
         />
       )}
 

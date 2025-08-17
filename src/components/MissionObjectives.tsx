@@ -8,9 +8,10 @@ import { soundManager } from './SoundSystem';
 interface MissionObjectivesProps {
   objectives: string[];
   missionTitle: string;
+  onMissionComplete?: () => void;
 }
 
-export function MissionObjectives({ objectives, missionTitle }: MissionObjectivesProps) {
+export function MissionObjectives({ objectives, missionTitle, onMissionComplete }: MissionObjectivesProps) {
   const [completedObjectives, setCompletedObjectives] = useState<Set<number>>(new Set());
 
   const handleObjectiveToggle = (index: number, checked: boolean) => {
@@ -20,6 +21,15 @@ export function MissionObjectives({ objectives, missionTitle }: MissionObjective
       newCompleted.add(index);
       // Son de succès quand un objectif est validé
       soundManager.playSound('success');
+      
+      // Vérifier si tous les objectifs sont maintenant complétés
+      if (newCompleted.size === objectives.length) {
+        setTimeout(() => {
+          // Son de mission complète plus fort
+          soundManager.playSound('mission-complete');
+          onMissionComplete?.();
+        }, 500);
+      }
     } else {
       newCompleted.delete(index);
     }
@@ -63,20 +73,20 @@ export function MissionObjectives({ objectives, missionTitle }: MissionObjective
                   id={`objective-${index}`}
                   checked={isCompleted}
                   onCheckedChange={(checked) => handleObjectiveToggle(index, checked as boolean)}
-                  className="mt-0.5"
+                  className="mt-0.5 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                 />
                 <div className="flex-1">
                   <label 
                     htmlFor={`objective-${index}`}
                     className={`text-sm font-command cursor-pointer ${
-                      isCompleted ? 'text-primary font-medium' : 'text-foreground'
+                      isCompleted ? 'text-green-600 font-medium line-through' : 'text-foreground'
                     }`}
                   >
                     {objective}
                   </label>
                 </div>
                 {isCompleted && (
-                  <CheckCircle2 className="h-4 w-4 text-primary mt-0.5" />
+                  <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
                 )}
               </div>
             );
@@ -84,11 +94,11 @@ export function MissionObjectives({ objectives, missionTitle }: MissionObjective
         </div>
 
         {completedObjectives.size === objectives.length && (
-          <div className="text-center p-3 bg-primary/10 border border-primary/20 rounded">
-            <div className="flex items-center justify-center gap-2 text-primary font-command">
-              <CheckCircle2 className="h-5 w-5" />
-              <span className="font-semibold">
-                TOUS LES OBJECTIFS ACCOMPLIS - {completionPercentage}%
+          <div className="text-center p-4 bg-green-500/20 border border-green-500/30 rounded animate-pulse">
+            <div className="flex items-center justify-center gap-2 text-green-600 font-command">
+              <CheckCircle2 className="h-6 w-6" />
+              <span className="font-bold text-lg">
+                🎉 MISSION VALIDÉE - TOUS OBJECTIFS ACCOMPLIS! 🎉
               </span>
             </div>
           </div>

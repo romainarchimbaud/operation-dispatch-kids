@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-type SoundType = 'click' | 'alert' | 'success' | 'fail' | 'typewriter' | 'timer-tick';
+type SoundType = 'click' | 'alert' | 'success' | 'fail' | 'typewriter' | 'timer-tick' | 'mission-complete';
 
 interface SoundSystemProps {
   ambientSoundEnabled?: boolean;
@@ -86,6 +86,20 @@ class SoundManager {
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.8);
         oscillator.start();
         oscillator.stop(this.audioContext.currentTime + 0.8);
+        break;
+        
+      case 'mission-complete':
+        // Son de mission complète - Plus fort et plus long
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(523, this.audioContext.currentTime); // Do
+        oscillator.frequency.setValueAtTime(659, this.audioContext.currentTime + 0.2); // Mi
+        oscillator.frequency.setValueAtTime(784, this.audioContext.currentTime + 0.4); // Sol
+        oscillator.frequency.setValueAtTime(1047, this.audioContext.currentTime + 0.6); // Do aigu
+        oscillator.frequency.setValueAtTime(1319, this.audioContext.currentTime + 0.8); // Mi aigu
+        gainNode.gain.setValueAtTime(0.25, this.audioContext.currentTime); // Volume plus fort
+        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 1.2);
+        oscillator.start();
+        oscillator.stop(this.audioContext.currentTime + 1.2);
         break;
         
       case 'fail':
