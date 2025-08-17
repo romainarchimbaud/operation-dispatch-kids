@@ -193,9 +193,9 @@ export function CommandDashboard() {
                 <div className="mt-3">
                   <Button 
                     onClick={() => handleStartAuto('pompiers')}
-                    className="bg-red-600 hover:bg-red-700 text-white font-command px-4 py-2 text-sm w-full"
+                    className="bg-red-600 hover:bg-red-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO POMPIERS
+                    START AUTO
                   </Button>
                 </div>
               </div>
@@ -223,9 +223,9 @@ export function CommandDashboard() {
                 <div className="mt-3">
                   <Button 
                     onClick={() => handleStartAuto('police')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-command px-4 py-2 text-sm w-full"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO POLICE
+                    START AUTO
                   </Button>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export function CommandDashboard() {
             >
               <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
-                  <Bird className="h-16 w-16 text-eagle" />
+                  <Shield className="h-16 w-16 text-eagle" />
                   <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
                 </div>
                 <h2 className="mb-2 text-2xl font-command text-eagle">
@@ -253,9 +253,9 @@ export function CommandDashboard() {
                 <div className="mt-3">
                   <Button 
                     onClick={() => handleStartAuto('eagle')}
-                    className="bg-gray-700 hover:bg-gray-800 text-white font-command px-4 py-2 text-sm w-full"
+                    className="bg-gray-700 hover:bg-gray-800 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO EAGLE
+                    START AUTO
                   </Button>
                 </div>
               </div>
@@ -287,9 +287,9 @@ export function CommandDashboard() {
                 <div className="mt-3">
                   <Button 
                     onClick={() => handleStartAuto('samu')}
-                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-4 py-2 text-sm w-full"
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO SAMU
+                    START AUTO
                   </Button>
                 </div>
               </div>
