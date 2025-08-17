@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Zap, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw } from 'lucide-react';
+import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
@@ -158,7 +158,7 @@ export function CommandDashboard() {
   if (currentView === 'home') {
     return (
       <div className="min-h-screen bg-background p-6">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-full px-4">
           {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="mb-4 text-4xl font-command text-primary">
@@ -176,7 +176,7 @@ export function CommandDashboard() {
               className="btn-command cursor-pointer text-center"
               onClick={() => handleServiceSelect('pompiers')}
             >
-              <div className="p-8">
+              <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
                   <Truck className="h-16 w-16 text-destructive" />
                   <Siren className="absolute -top-1 -right-1 h-6 w-6 text-destructive animate-pulse" />
@@ -206,7 +206,7 @@ export function CommandDashboard() {
               className="btn-command cursor-pointer text-center"
               onClick={() => handleServiceSelect('police')}
             >
-              <div className="p-8">
+              <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
                   <Shield className="h-16 w-16 text-primary" />
                   <Car className="absolute -top-1 -right-1 h-6 w-6 text-primary animate-pulse" />
@@ -236,9 +236,9 @@ export function CommandDashboard() {
               className="btn-command-eagle cursor-pointer text-center"
               onClick={() => handleServiceSelect('eagle')}
             >
-              <div className="p-8">
+              <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
-                  <Zap className="h-16 w-16 text-eagle" />
+                  <Bird className="h-16 w-16 text-eagle" />
                   <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
                 </div>
                 <h2 className="mb-2 text-2xl font-command text-eagle">
@@ -266,7 +266,7 @@ export function CommandDashboard() {
               className="btn-command-samu cursor-pointer text-center"
               onClick={() => handleServiceSelect('samu')}
             >
-              <div className="p-8">
+              <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
                   <svg className="h-16 w-16 text-samu" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
@@ -329,7 +329,7 @@ export function CommandDashboard() {
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-full px-4">
         {/* Header avec controls */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
