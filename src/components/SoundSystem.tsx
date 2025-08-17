@@ -10,6 +10,7 @@ class SoundManager {
   private audioContext: AudioContext | null = null;
   private ambientOscillator: OscillatorNode | null = null;
   private ambientGain: GainNode | null = null;
+  private activeOscillators: OscillatorNode[] = [];
 
   constructor() {
     try {
@@ -24,6 +25,9 @@ class SoundManager {
 
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
+    
+    // Ajouter à la liste des oscillateurs actifs
+    this.activeOscillators.push(oscillator);
     
     oscillator.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
@@ -154,6 +158,25 @@ class SoundManager {
         );
       }
     }, 3000);
+  }
+
+  stopAllSounds() {
+    // Arrêter tous les oscillateurs actifs
+    this.activeOscillators.forEach(oscillator => {
+      try {
+        oscillator.stop();
+      } catch (e) {
+        // L'oscillateur est déjà arrêté
+      }
+    });
+    this.activeOscillators = [];
+    
+    // Arrêter le son ambiant
+    this.stopAmbientSound();
+  }
+
+  stopAmbient() {
+    this.stopAmbientSound();
   }
 }
 

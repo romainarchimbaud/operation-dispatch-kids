@@ -57,6 +57,7 @@ export function CommandDashboard() {
   };
 
   const handleReset = () => {
+    soundManager.stopAllSounds(); // Couper tous les sons
     setCurrentView('home');
     setSelectedService(null);
     setSelectedMission(null);
@@ -73,18 +74,24 @@ export function CommandDashboard() {
     showMascot('encouraging', 'Mission lancée ! Tu as 10 minutes. Courage !');
   };
 
-  const handleStartAuto = () => {
+  const handleStartAuto = (service?: Service) => {
     soundManager.playSound('alert', 5);
     setAutoMode(true);
     
-    // Sélectionner une mission aléatoire
-    const allMissions = [
-      ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
-      ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
-      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
-      ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
-    ];
-    const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
+    // Sélectionner une mission aléatoire du service spécifique ou de tous les services
+    let selectedMissions;
+    if (service) {
+      selectedMissions = missions[service].map(m => ({ service, mission: m }));
+    } else {
+      selectedMissions = [
+        ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
+        ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
+        ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
+        ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
+      ];
+    }
+    
+    const randomMission = selectedMissions[Math.floor(Math.random() * selectedMissions.length)];
     setSelectedMission(randomMission);
     setSelectedService(randomMission.service);
     setCurrentView('missions');
@@ -93,7 +100,11 @@ export function CommandDashboard() {
     setAutoAcceptancePhase(true);
     setAutoAcceptanceTime(30);
     
-    showMascot('alert', 'MISSION AUTO PROPOSÉE ! 30 secondes pour accepter !');
+    const serviceName = service === 'pompiers' ? 'POMPIERS' : 
+                       service === 'police' ? 'POLICE' : 
+                       service === 'eagle' ? 'EAGLE FORCE' :
+                       service === 'samu' ? 'SAMU' : 'TOUS SERVICES';
+    showMascot('alert', `MISSION AUTO ${serviceName} ! 30 secondes pour accepter !`);
   };
 
   const handleAcceptAutoMission = () => {
@@ -179,6 +190,14 @@ export function CommandDashboard() {
                 <Badge variant="destructive" className="font-command">
                   {missions.pompiers.length} MISSIONS
                 </Badge>
+                <div className="mt-3">
+                  <Button 
+                    onClick={() => handleStartAuto('pompiers')}
+                    className="bg-red-600 hover:bg-red-700 text-white font-command px-4 py-2 text-sm w-full"
+                  >
+                    START AUTO POMPIERS
+                  </Button>
+                </div>
               </div>
             </Card>
 
@@ -201,6 +220,14 @@ export function CommandDashboard() {
                 <Badge variant="secondary" className="font-command">
                   {missions.police.length} MISSIONS
                 </Badge>
+                <div className="mt-3">
+                  <Button 
+                    onClick={() => handleStartAuto('police')}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-command px-4 py-2 text-sm w-full"
+                  >
+                    START AUTO POLICE
+                  </Button>
+                </div>
               </div>
             </Card>
 
@@ -223,6 +250,14 @@ export function CommandDashboard() {
                 <Badge style={{backgroundColor: 'hsl(var(--eagle))', color: 'hsl(var(--eagle-foreground))'}} className="font-command">
                   {missions.eagle.length} MISSIONS
                 </Badge>
+                <div className="mt-3">
+                  <Button 
+                    onClick={() => handleStartAuto('eagle')}
+                    className="bg-gray-700 hover:bg-gray-800 text-white font-command px-4 py-2 text-sm w-full"
+                  >
+                    START AUTO EAGLE
+                  </Button>
+                </div>
               </div>
             </Card>
 
@@ -249,6 +284,14 @@ export function CommandDashboard() {
                 <Badge style={{backgroundColor: 'hsl(var(--samu))', color: 'hsl(var(--samu-foreground))'}} className="font-command">
                   {missions.samu.length} MISSIONS
                 </Badge>
+                <div className="mt-3">
+                  <Button 
+                    onClick={() => handleStartAuto('samu')}
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-4 py-2 text-sm w-full"
+                  >
+                    START AUTO SAMU
+                  </Button>
+                </div>
               </div>
             </Card>
           </div>
@@ -256,11 +299,11 @@ export function CommandDashboard() {
           {/* Action Buttons */}
           <div className="flex justify-center gap-4">
            <Button 
-              onClick={handleStartAuto}
+              onClick={() => handleStartAuto()}
               className="bg-green-600 hover:bg-green-700 text-white font-command px-8 py-4 text-lg"
             >
               <Timer className="mr-2 h-6 w-6" />
-              START AUTO (30s)
+              START AUTO GLOBAL (30s)
             </Button>
             <Button 
               onClick={handleRandomMission}
