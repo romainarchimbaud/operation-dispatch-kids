@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw } from 'lucide-react';
+import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw, Zap } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
@@ -238,7 +238,7 @@ export function CommandDashboard() {
             >
               <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
-                  <Bird className="h-16 w-16 text-eagle" />
+                  <Zap className="h-16 w-16 text-eagle" />
                   <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
                 </div>
                 <h2 className="mb-2 text-2xl font-command text-eagle">
