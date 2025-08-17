@@ -8,7 +8,7 @@ import { TypewriterText } from './TypewriterText';
 import { soundManager } from './SoundSystem';
 
 interface MissionListProps {
-  service: 'pompiers' | 'police' | 'eagle' | null;
+  service: 'pompiers' | 'police' | 'eagle' | 'samu' | null;
   selectedMission: { service: string; mission: Mission } | null;
   onMissionSelect: (mission: Mission) => void;
 }
@@ -28,7 +28,8 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
   const serviceColors = {
     pompiers: 'destructive',
     police: 'secondary',
-    eagle: 'eagle'
+    eagle: 'eagle',
+    samu: 'samu'
   };
 
   const getRandomMission = () => {
@@ -42,6 +43,7 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
       case 'pompiers': return 'SAPEURS-POMPIERS';
       case 'police': return 'POLICE NATIONALE';
       case 'eagle': return 'EAGLE FORCE';
+      case 'samu': return 'SAMU';
       default: return '';
     }
   };

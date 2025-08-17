@@ -10,7 +10,7 @@ import { Mascot, useMascot } from './Mascot';
 import { TypewriterText } from './TypewriterText';
 import { missions } from '../data/missions';
 
-type Service = 'pompiers' | 'police' | 'eagle';
+type Service = 'pompiers' | 'police' | 'eagle' | 'samu';
 
 interface SelectedMission {
   service: Service;
@@ -32,7 +32,7 @@ export function CommandDashboard() {
     soundManager.playSound('click');
     setSelectedService(service);
     setCurrentView('missions');
-    showMascot('thinking', `Super ! Explorons les missions ${service === 'pompiers' ? 'de pompiers' : service === 'police' ? 'de police' : 'Eagle Force'} !`);
+    showMascot('thinking', `Super ! Explorons les missions ${service === 'pompiers' ? 'de pompiers' : service === 'police' ? 'de police' : service === 'eagle' ? 'Eagle Force' : 'Samu'} !`);
   };
 
   const handleMissionSelect = (mission: any) => {
@@ -46,7 +46,8 @@ export function CommandDashboard() {
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
       ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
-      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m }))
+      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
+      ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
     ];
     const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
     setSelectedMission(randomMission);
@@ -80,7 +81,8 @@ export function CommandDashboard() {
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
       ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
-      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m }))
+      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
+      ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
     ];
     const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
     setSelectedMission(randomMission);
@@ -116,7 +118,8 @@ export function CommandDashboard() {
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
       ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
-      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m }))
+      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
+      ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
     ];
     const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
     setSelectedMission(randomMission);
@@ -156,7 +159,7 @@ export function CommandDashboard() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid gap-8 md:grid-cols-3 mb-8">
+          <div className="grid gap-8 md:grid-cols-4 mb-8">
             {/* Sapeurs-Pompiers */}
             <Card 
               className="btn-command cursor-pointer text-center"
@@ -219,6 +222,32 @@ export function CommandDashboard() {
                 </p>
                 <Badge style={{backgroundColor: 'hsl(var(--eagle))', color: 'hsl(var(--eagle-foreground))'}} className="font-command">
                   {missions.eagle.length} MISSIONS
+                </Badge>
+              </div>
+            </Card>
+
+            {/* Samu */}
+            <Card 
+              className="btn-command-samu cursor-pointer text-center"
+              onClick={() => handleServiceSelect('samu')}
+            >
+              <div className="p-8">
+                <div className="relative mx-auto mb-4 h-16 w-16">
+                  <svg className="h-16 w-16 text-samu" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
+                  </svg>
+                  <svg className="absolute -top-1 -right-1 h-6 w-6 text-samu animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H11V21H5V3H13V9H21Z"/>
+                  </svg>
+                </div>
+                <h2 className="mb-2 text-2xl font-command text-samu">
+                  SAMU
+                </h2>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Yellow Life Line • Urgences Médicales
+                </p>
+                <Badge style={{backgroundColor: 'hsl(var(--samu))', color: 'hsl(var(--samu-foreground))'}} className="font-command">
+                  {missions.samu.length} MISSIONS
                 </Badge>
               </div>
             </Card>

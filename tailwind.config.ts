@@ -56,6 +56,10 @@ export default {
 					DEFAULT: 'hsl(var(--eagle))',
 					foreground: 'hsl(var(--eagle-foreground))'
 				},
+				samu: {
+					DEFAULT: 'hsl(var(--samu))',
+					foreground: 'hsl(var(--samu-foreground))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

@@ -45,18 +45,24 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
     --ring: 217 91% 60%;
 
     /* Forces spéciales Eagle Force */
-    --eagle: 47 96% 53%;
-    --eagle-foreground: 215 25% 25%;
+    --eagle: 210 6% 35%;
+    --eagle-foreground: 0 0% 98%;
+
+    /* Samu - Équipe ambulancier */
+    --samu: 45 100% 51%;
+    --samu-foreground: 215 25% 25%;
 
     /* Gradients doux */
     --gradient-command: linear-gradient(135deg, hsl(217 91% 60% / 0.1), hsl(197 71% 73% / 0.05));
     --gradient-alert: linear-gradient(135deg, hsl(0 84% 60% / 0.1), hsl(14 91% 50% / 0.05));
-    --gradient-special: linear-gradient(135deg, hsl(47 96% 53% / 0.1), hsl(32 95% 44% / 0.05));
+    --gradient-special: linear-gradient(135deg, hsl(210 6% 35% / 0.1), hsl(210 6% 25% / 0.05));
+    --gradient-samu: linear-gradient(135deg, hsl(45 100% 51% / 0.1), hsl(45 90% 45% / 0.05));
 
     /* Effets lumineux doux */
     --glow-primary: 0 0 15px hsl(217 91% 60% / 0.2);
     --glow-destructive: 0 0 15px hsl(0 84% 60% / 0.2);
-    --glow-eagle: 0 0 15px hsl(47 96% 53% / 0.2);
+    --glow-eagle: 0 0 15px hsl(210 6% 35% / 0.2);
+    --glow-samu: 0 0 15px hsl(45 100% 51% / 0.2);
 
     /* Animations et transitions */
     --transition-command: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -126,7 +132,17 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
 
   .btn-command-eagle:hover {
     @apply border-eagle/40;
-    box-shadow: var(--glow-eagle), 0 10px 25px hsl(47 96% 53% / 0.2);
+    box-shadow: var(--glow-eagle), 0 10px 25px hsl(210 6% 35% / 0.2);
+  }
+
+  .btn-command-samu {
+    @apply border-samu/20 bg-gradient-to-br from-samu/10 to-samu/5;
+    box-shadow: var(--glow-samu);
+  }
+
+  .btn-command-samu:hover {
+    @apply border-samu/40;
+    box-shadow: var(--glow-samu), 0 10px 25px hsl(45 100% 51% / 0.2);
   }
 
   /* Cartes de mission */
