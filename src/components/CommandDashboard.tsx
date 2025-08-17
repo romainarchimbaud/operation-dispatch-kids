@@ -226,6 +226,13 @@ export function CommandDashboard() {
 
           {/* Action Buttons */}
           <div className="flex justify-center gap-4">
+           <Button 
+              onClick={handleStartAuto}
+              className="bg-green-600 hover:bg-green-700 text-white font-command px-8 py-4 text-lg"
+            >
+              <Timer className="mr-2 h-6 w-6" />
+              START AUTO (30s)
+            </Button>
             <Button 
               onClick={handleRandomMission}
               className="btn-command-alert px-8 py-4 text-lg"
@@ -233,13 +240,7 @@ export function CommandDashboard() {
               <Dice6 className="mr-2 h-6 w-6" />
               MISSION ALÉATOIRE
             </Button>
-            <Button 
-              onClick={handleStartAuto}
-              className="bg-green-600 hover:bg-green-700 text-white font-command px-8 py-4 text-lg"
-            >
-              <Timer className="mr-2 h-6 w-6" />
-              START AUTO (30s)
-            </Button>
+            
           </div>
         </div>
         
