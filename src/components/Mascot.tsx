@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Star, Zap, Award, Target } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Heart, Star, Zap, Award, Target, X, Minimize2, Maximize2 } from 'lucide-react';
 
 type MascotMood = 'welcome' | 'encouraging' | 'success' | 'alert' | 'thinking';
 
@@ -15,6 +16,7 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
   const [currentMood, setCurrentMood] = useState<MascotMood>(mood);
   const [isVisible, setIsVisible] = useState(show);
   const [currentMessage, setCurrentMessage] = useState(message);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   useEffect(() => {
     setCurrentMood(mood);
@@ -77,29 +79,70 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
 
   if (!isVisible) return null;
 
+  // Mode minimisé - juste l'avatar
+  if (isMinimized) {
+    return (
+      <div className="fixed bottom-6 right-6 z-[100]">
+        <Button
+          onClick={() => setIsMinimized(false)}
+          size="lg"
+          className="w-14 h-14 rounded-full p-0 animate-bounce shadow-lg hover:shadow-xl transition-all duration-300"
+          style={{
+            background: `hsl(var(--${currentMood === 'success' ? 'eagle' : currentMood === 'alert' ? 'destructive' : 'primary'}))`,
+            color: `hsl(var(--${currentMood === 'success' ? 'eagle' : currentMood === 'alert' ? 'destructive' : 'primary'}-foreground))`
+          }}
+        >
+          <span className="text-2xl">{getMascotEmoji()}</span>
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <Card className={`fixed bottom-6 right-6 z-50 max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in`}>
-      <div className="p-4 space-y-3">
-        <div className="flex items-start gap-3">
-          <div className="text-3xl animate-bounce">
-            {getMascotEmoji()}
-          </div>
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              {getMascotIcon()}
-              <Badge variant="secondary" className="text-xs font-command">
-                CAPITAINE RESCUE
-              </Badge>
-            </div>
-            <p className="text-sm text-foreground font-command leading-relaxed">
-              {currentMessage || getDefaultMessage()}
-            </p>
-          </div>
+    <Card className={`fixed bottom-6 right-6 z-[100] max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in shadow-xl border-2`}>
+      <div className="relative">
+        {/* Boutons de contrôle */}
+        <div className="absolute top-2 right-2 flex gap-1">
+          <Button
+            onClick={() => setIsMinimized(true)}
+            size="sm"
+            variant="ghost"
+            className="h-6 w-6 p-0 rounded-full hover:bg-background/50"
+          >
+            <Minimize2 className="h-3 w-3" />
+          </Button>
+          <Button
+            onClick={() => setIsVisible(false)}
+            size="sm"
+            variant="ghost"
+            className="h-6 w-6 p-0 rounded-full hover:bg-background/50"
+          >
+            <X className="h-3 w-3" />
+          </Button>
         </div>
-        
-        {/* Petite animation de respiration */}
-        <div className="flex justify-center">
-          <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+
+        <div className="p-4 space-y-3 pt-8">
+          <div className="flex items-start gap-3">
+            <div className="text-3xl animate-bounce">
+              {getMascotEmoji()}
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center gap-2">
+                {getMascotIcon()}
+                <Badge variant="secondary" className="text-xs font-command">
+                  CAPITAINE RESCUE
+                </Badge>
+              </div>
+              <p className="text-sm text-foreground font-command leading-relaxed">
+                {currentMessage || getDefaultMessage()}
+              </p>
+            </div>
+          </div>
+          
+          {/* Petite animation de respiration */}
+          <div className="flex justify-center">
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+          </div>
         </div>
       </div>
     </Card>
