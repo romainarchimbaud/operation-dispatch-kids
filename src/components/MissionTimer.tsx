@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Pause, Play, Square, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { soundManager } from './SoundSystem';
 
 interface MissionTimerProps {
   duration: number; // en secondes
@@ -31,28 +32,16 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
             description: "Bravo, vous avez terminé votre mission dans les temps !",
             duration: 5000,
           });
-          // Son de réussite (simple beep)
-          try {
-            const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.2);
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-            
-            oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.5);
-          } catch (e) {
-            console.log('Audio not supported');
-          }
+          // Son de réussite via le gestionnaire
+          soundManager.playSound('success');
           return 0;
         }
+        
+        // Son de tick pour les 10 dernières secondes
+        if (prev <= 10) {
+          soundManager.playSound('timer-tick');
+        }
+        
         return prev - 1;
       });
     }, 1000);
@@ -63,25 +52,7 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
   // Son d'alerte au démarrage
   useEffect(() => {
     if (status === 'running') {
-      try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.3);
-        
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.3);
-      } catch (e) {
-        console.log('Audio not supported');
-      }
+      soundManager.playSound('alert');
     }
   }, []);
 
@@ -96,11 +67,13 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
   };
 
   const handleTogglePause = () => {
+    soundManager.playSound('click');
     setIsRunning(!isRunning);
     setStatus(isRunning ? 'paused' : 'running');
   };
 
   const handleStop = () => {
+    soundManager.playSound('fail');
     setStatus('failed');
     setIsRunning(false);
     onStop();
@@ -113,6 +86,7 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
   };
 
   const handleMarkComplete = () => {
+    soundManager.playSound('success');
     setStatus('completed');
     setIsRunning(false);
     onComplete();

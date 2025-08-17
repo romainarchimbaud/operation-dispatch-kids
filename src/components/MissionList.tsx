@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { missions, vehicles, Mission } from '../data/missions';
 import { MapPin, Cloud, Car, Dice6 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { TypewriterText } from './TypewriterText';
+import { soundManager } from './SoundSystem';
 
 interface MissionListProps {
   service: 'pompiers' | 'police' | 'eagle' | null;
@@ -12,26 +14,11 @@ interface MissionListProps {
 }
 
 export function MissionList({ service, selectedMission, onMissionSelect }: MissionListProps) {
-  const [typewriterText, setTypewriterText] = useState('');
   const [showTypewriter, setShowTypewriter] = useState(false);
 
   useEffect(() => {
     if (selectedMission) {
       setShowTypewriter(true);
-      setTypewriterText('');
-      const fullText = selectedMission.mission.title;
-      let currentIndex = 0;
-      
-      const typeInterval = setInterval(() => {
-        if (currentIndex < fullText.length) {
-          setTypewriterText(fullText.slice(0, currentIndex + 1));
-          currentIndex++;
-        } else {
-          clearInterval(typeInterval);
-        }
-      }, 50);
-
-      return () => clearInterval(typeInterval);
     }
   }, [selectedMission]);
 
@@ -45,6 +32,7 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
   };
 
   const getRandomMission = () => {
+    soundManager.playSound('click');
     const randomIndex = Math.floor(Math.random() * serviceMissions.length);
     onMissionSelect(serviceMissions[randomIndex]);
   };
@@ -89,7 +77,11 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
             <div>
               <h3 className="text-xl font-command text-foreground mb-2">
                 {showTypewriter ? (
-                  <span className="typewriter">{typewriterText}</span>
+                  <TypewriterText 
+                    text={selectedMission.mission.title}
+                    speed={80}
+                    playSound={true}
+                  />
                 ) : (
                   selectedMission.mission.title
                 )}

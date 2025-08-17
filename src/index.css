@@ -8,55 +8,55 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
 
 @layer base {
   :root {
-    /* Interface sombre de commandement */
-    --background: 217 19% 9%;
-    --foreground: 210 40% 98%;
+    /* Interface claire et enfantine */
+    --background: 210 40% 96%;
+    --foreground: 215 25% 25%;
 
-    /* Cartes avec effet métallique */
-    --card: 217 19% 12%;
-    --card-foreground: 210 40% 95%;
+    /* Cartes avec effet doux */
+    --card: 210 40% 98%;
+    --card-foreground: 215 25% 25%;
 
-    --popover: 217 19% 12%;
-    --popover-foreground: 210 40% 95%;
+    --popover: 210 40% 98%;
+    --popover-foreground: 215 25% 25%;
 
     /* Bleu pompier/police principal */
     --primary: 217 91% 60%;
-    --primary-foreground: 217 19% 9%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Gris métallique secondaire */
-    --secondary: 215 25% 27%;
-    --secondary-foreground: 210 40% 98%;
+    /* Gris doux secondaire */
+    --secondary: 215 20% 85%;
+    --secondary-foreground: 215 25% 25%;
 
     /* Zones d'information */
-    --muted: 215 25% 16%;
-    --muted-foreground: 217 10% 64%;
+    --muted: 210 30% 90%;
+    --muted-foreground: 215 15% 45%;
 
     /* Accents lumineux */
     --accent: 197 71% 73%;
-    --accent-foreground: 217 19% 9%;
+    --accent-foreground: 215 25% 25%;
 
-    /* Rouge d'urgence */
+    /* Rouge d'urgence adouci */
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
     /* Bordures et inputs */
-    --border: 215 25% 27%;
-    --input: 215 25% 16%;
+    --border: 215 20% 80%;
+    --input: 210 30% 94%;
     --ring: 217 91% 60%;
 
     /* Forces spéciales Eagle Force */
     --eagle: 47 96% 53%;
-    --eagle-foreground: 217 19% 9%;
+    --eagle-foreground: 215 25% 25%;
 
-    /* Gradients de commandement */
-    --gradient-command: linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(197 71% 73% / 0.1));
-    --gradient-alert: linear-gradient(135deg, hsl(0 84% 60% / 0.2), hsl(14 91% 50% / 0.1));
-    --gradient-special: linear-gradient(135deg, hsl(47 96% 53% / 0.2), hsl(32 95% 44% / 0.1));
+    /* Gradients doux */
+    --gradient-command: linear-gradient(135deg, hsl(217 91% 60% / 0.1), hsl(197 71% 73% / 0.05));
+    --gradient-alert: linear-gradient(135deg, hsl(0 84% 60% / 0.1), hsl(14 91% 50% / 0.05));
+    --gradient-special: linear-gradient(135deg, hsl(47 96% 53% / 0.1), hsl(32 95% 44% / 0.05));
 
-    /* Effets lumineux */
-    --glow-primary: 0 0 20px hsl(217 91% 60% / 0.3);
-    --glow-destructive: 0 0 20px hsl(0 84% 60% / 0.3);
-    --glow-eagle: 0 0 20px hsl(47 96% 53% / 0.3);
+    /* Effets lumineux doux */
+    --glow-primary: 0 0 15px hsl(217 91% 60% / 0.2);
+    --glow-destructive: 0 0 15px hsl(0 84% 60% / 0.2);
+    --glow-eagle: 0 0 15px hsl(47 96% 53% / 0.2);
 
     /* Animations et transitions */
     --transition-command: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -64,19 +64,12 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -91,8 +84,9 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
   body {
     @apply bg-background text-foreground font-mono;
     background-image: 
-      radial-gradient(circle at 20% 80%, hsl(217 91% 60% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(197 71% 73% / 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, hsl(217 91% 60% / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(197 71% 73% / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(210 40% 98%) 0%, transparent 70%);
   }
 
   /* Polices de commandement */
@@ -187,5 +181,27 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
       transform: scale(1.02);
       box-shadow: var(--glow-destructive), 0 0 30px hsl(0 84% 60% / 0.4);
     }
+  }
+
+  /* Curseur typewriter */
+  .typewriter-cursor::after {
+    content: '|';
+    animation: blink-cursor 1s infinite;
+    color: hsl(var(--primary));
+  }
+
+  @keyframes blink-cursor {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Animations d'entrée */
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-out;
   }
 }

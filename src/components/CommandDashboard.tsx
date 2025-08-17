@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Zap, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck } from 'lucide-react';
+import { Truck, Shield, Zap, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
+import { SoundSystem, soundManager } from './SoundSystem';
+import { Mascot, useMascot } from './Mascot';
+import { TypewriterText } from './TypewriterText';
 import { missions } from '../data/missions';
 
 type Service = 'pompiers' | 'police' | 'eagle';
@@ -20,10 +23,13 @@ export function CommandDashboard() {
   const [selectedMission, setSelectedMission] = useState<SelectedMission | null>(null);
   const [timerActive, setTimerActive] = useState(false);
   const [timerDuration, setTimerDuration] = useState(600); // 10 minutes par défaut
+  const { mascotState, showMascot } = useMascot();
 
   const handleServiceSelect = (service: Service) => {
+    soundManager.playSound('click');
     setSelectedService(service);
     setCurrentView('missions');
+    showMascot('thinking', `Super ! Explorons les missions ${service === 'pompiers' ? 'de pompiers' : service === 'police' ? 'de police' : 'Eagle Force'} !`);
   };
 
   const handleMissionSelect = (mission: any) => {
@@ -33,6 +39,7 @@ export function CommandDashboard() {
   };
 
   const handleRandomMission = () => {
+    soundManager.playSound('alert');
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
       ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
@@ -42,6 +49,7 @@ export function CommandDashboard() {
     setSelectedMission(randomMission);
     setSelectedService(randomMission.service);
     setCurrentView('missions');
+    showMascot('alert', 'Mission aléatoire sélectionnée ! C\'est parti !');
   };
 
   const handleReset = () => {
@@ -52,7 +60,9 @@ export function CommandDashboard() {
   };
 
   const startMission = () => {
+    soundManager.playSound('alert');
     setTimerActive(true);
+    showMascot('encouraging', 'Mission lancée ! Tu as 10 minutes. Courage !');
   };
 
   if (currentView === 'home') {
@@ -62,7 +72,11 @@ export function CommandDashboard() {
           {/* Header */}
           <div className="mb-8 text-center">
             <h1 className="mb-4 text-4xl font-command text-foreground">
-              <span className="text-primary">CENTRE DE COMMANDEMENT</span>
+              <TypewriterText 
+                text="CENTRE DE COMMANDEMENT" 
+                className="text-primary"
+                speed={100}
+              />
             </h1>
             <p className="text-xl text-muted-foreground font-command">
               Sélectionnez votre service d'intervention
@@ -77,7 +91,10 @@ export function CommandDashboard() {
               onClick={() => handleServiceSelect('pompiers')}
             >
               <div className="p-8">
-                <Truck className="mx-auto mb-4 h-16 w-16 text-destructive" />
+                <div className="relative mx-auto mb-4 h-16 w-16">
+                  <Truck className="h-16 w-16 text-destructive" />
+                  <Siren className="absolute -top-1 -right-1 h-6 w-6 text-destructive animate-pulse" />
+                </div>
                 <h2 className="mb-2 text-2xl font-command text-destructive">
                   SAPEURS-POMPIERS
                 </h2>
@@ -96,7 +113,10 @@ export function CommandDashboard() {
               onClick={() => handleServiceSelect('police')}
             >
               <div className="p-8">
-                <Shield className="mx-auto mb-4 h-16 w-16 text-primary" />
+                <div className="relative mx-auto mb-4 h-16 w-16">
+                  <Shield className="h-16 w-16 text-primary" />
+                  <Car className="absolute -top-1 -right-1 h-6 w-6 text-primary animate-pulse" />
+                </div>
                 <h2 className="mb-2 text-2xl font-command text-primary">
                   POLICE NATIONALE
                 </h2>
@@ -115,7 +135,10 @@ export function CommandDashboard() {
               onClick={() => handleServiceSelect('eagle')}
             >
               <div className="p-8">
-                <Zap className="mx-auto mb-4 h-16 w-16 text-eagle" />
+                <div className="relative mx-auto mb-4 h-16 w-16">
+                  <Zap className="h-16 w-16 text-eagle" />
+                  <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
+                </div>
                 <h2 className="mb-2 text-2xl font-command text-eagle">
                   EAGLE FORCE
                 </h2>
@@ -140,6 +163,14 @@ export function CommandDashboard() {
             </Button>
           </div>
         </div>
+        
+        {/* Système de sons et mascotte */}
+        <SoundSystem ambientSoundEnabled={true} />
+        <Mascot 
+          mood={mascotState.mood}
+          message={mascotState.message}
+          show={mascotState.show}
+        />
       </div>
     );
   }
@@ -196,6 +227,14 @@ export function CommandDashboard() {
           service={selectedService}
           selectedMission={selectedMission}
           onMissionSelect={handleMissionSelect}
+        />
+        
+        {/* Système de sons et mascotte */}
+        <SoundSystem ambientSoundEnabled={true} />
+        <Mascot 
+          mood={mascotState.mood}
+          message={mascotState.message}
+          show={mascotState.show}
         />
       </div>
     </div>
