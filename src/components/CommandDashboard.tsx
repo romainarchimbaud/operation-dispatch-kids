@@ -238,7 +238,7 @@ export function CommandDashboard() {
             >
               <div className="p-4">
                 <div className="relative mx-auto mb-4 h-16 w-16">
-                  <Shield className="h-16 w-16 text-eagle" />
+                  <Bird className="h-16 w-16 text-eagle" />
                   <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
                 </div>
                 <h2 className="mb-2 text-2xl font-command text-eagle">
