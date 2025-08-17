@@ -147,12 +147,8 @@ export function CommandDashboard() {
         <div className="mx-auto max-w-6xl">
           {/* Header */}
           <div className="mb-8 text-center">
-            <h1 className="mb-4 text-4xl font-command text-foreground">
-              <TypewriterText 
-                text="CENTRE DE COMMANDEMENT" 
-                className="text-primary"
-                speed={100}
-              />
+            <h1 className="mb-4 text-4xl font-command text-primary">
+              CENTRE DE COMMANDEMENT
             </h1>
             <p className="text-xl text-muted-foreground font-command">
               Sélectionnez votre service d'intervention
