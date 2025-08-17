@@ -6,6 +6,7 @@ import { MapPin, Cloud, Car, Dice6 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { TypewriterText } from './TypewriterText';
 import { soundManager } from './SoundSystem';
+import { MissionObjectives } from './MissionObjectives';
 
 interface MissionListProps {
   service: 'pompiers' | 'police' | 'eagle' | 'samu' | null;
@@ -128,6 +129,14 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
             </div>
           </div>
         </Card>
+      )}
+
+      {/* Objectifs de mission */}
+      {selectedMission && selectedMission.mission.objectives && (
+        <MissionObjectives 
+          objectives={selectedMission.mission.objectives}
+          missionTitle={selectedMission.mission.title}
+        />
       )}
 
       {/* Actions rapides */}

@@ -77,12 +77,12 @@ class SoundManager {
         break;
         
       case 'success':
-        // Jingle joyeux
+        // Jingle joyeux - Volume augmenté
         oscillator.frequency.setValueAtTime(523, this.audioContext.currentTime); // Do
         oscillator.frequency.setValueAtTime(659, this.audioContext.currentTime + 0.15); // Mi
         oscillator.frequency.setValueAtTime(784, this.audioContext.currentTime + 0.3); // Sol
         oscillator.frequency.setValueAtTime(1047, this.audioContext.currentTime + 0.45); // Do aigu
-        gainNode.gain.setValueAtTime(0.06, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.12, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.8);
         oscillator.start();
         oscillator.stop(this.audioContext.currentTime + 0.8);

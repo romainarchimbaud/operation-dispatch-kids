@@ -7,6 +7,7 @@ export interface Mission {
   location: string;
   conditions: string;
   vehicles: string[];
+  objectives?: string[];
 }
 
 export interface Vehicles {
@@ -47,9 +48,9 @@ export const vehicles: Vehicles = {
 
 export const missions = {
   pompiers: [
-    { id: 1, title: 'Feu de péniche à Toulouse — Incendie signalé sur les quais de Toulouse. Mets en batterie les canons du bateau, protège les passagers et refroidis les zones exposées.', location: 'Berges de Garonne', conditions: 'Après-midi, Canicule, crue lente', vehicles: ['VSAV', 'Fourgon pompe', 'Hélico pompier'] },
-    { id: 2, title: 'Pollution légère aux hydrocarbures à Saint-Malo — Nappe brillante près des quais à Saint-Malo. Déploie des barrages flottants et surveille les prises d\'eau.', location: 'Remparts et digues', conditions: 'Nuit, Vent fort, houle modérée', vehicles: ['VL commandement', 'Fourgon pompe', 'Hélico pompier'] },
-    { id: 3, title: 'Feu d\'annexe fluviale à Reims — Incendie signalé sur les quais de Reims. Mets en batterie les canons du bateau, protège les passagers et refroidis les zones exposées.', location: 'Canaux urbains', conditions: 'Nuit, Brouillard, niveau du fleuve élevé', vehicles: ['VSAV', 'Hélico pompier', 'Fourgon pompe'] },
+    { id: 1, title: 'Feu de péniche à Toulouse — Incendie signalé sur les quais de Toulouse. Mets en batterie les canons du bateau, protège les passagers et refroidis les zones exposées.', location: 'Berges de Garonne', conditions: 'Après-midi, Canicule, crue lente', vehicles: ['VSAV', 'Fourgon pompe', 'Hélico pompier'], objectives: ['Mettre en batterie les canons du bateau', 'Protéger et évacuer les passagers', 'Refroidir les zones exposées', 'Sécuriser le périmètre'] },
+    { id: 2, title: 'Pollution légère aux hydrocarbures à Saint-Malo — Nappe brillante près des quais à Saint-Malo. Déploie des barrages flottants et surveille les prises d\'eau.', location: 'Remparts et digues', conditions: 'Nuit, Vent fort, houle modérée', vehicles: ['VL commandement', 'Fourgon pompe', 'Hélico pompier'], objectives: ['Déployer les barrages flottants', 'Surveiller les prises d\'eau', 'Évaluer l\'étendue de la pollution', 'Coordonner les équipes d\'intervention'] },
+    { id: 3, title: 'Feu d\'annexe fluviale à Reims — Incendie signalé sur les quais de Reims. Mets en batterie les canons du bateau, protège les passagers et refroidis les zones exposées.', location: 'Canaux urbains', conditions: 'Nuit, Brouillard, niveau du fleuve élevé', vehicles: ['VSAV', 'Hélico pompier', 'Fourgon pompe'], objectives: ['Mettre en batterie les canons du bateau', 'Évacuer les passagers en sécurité', 'Refroidir les structures exposées', 'Contrôler la propagation vers les quais'] },
     { id: 4, title: 'Personnes bloquées par crue à Metz — L\'eau progresse dans plusieurs rues de Metz. Évacue calmement et organise un point de regroupement.', location: 'Bords de Moselle', conditions: 'Soir, Pluie, courant soutenu', vehicles: ['VL commandement', 'Bateau pompier', 'Hélico pompier', 'Fourgon pompe'] },
     { id: 5, title: 'Feu de bateau à Marseille — Incendie signalé au port de Marseille. Mets en batterie les canons du bateau, protège les passagers et refroidis les zones exposées.', location: 'Vieux-Port, calanques', conditions: 'Matin, Pluie, mer agitée', vehicles: ['Bateau pompier', 'Fourgon pompe', 'VL commandement', 'Hélico pompier'] },
     { id: 6, title: 'Pompage cave inondée à Reims — L\'eau progresse dans plusieurs rues de Reims. Évacue calmement et organise un point de regroupement.', location: 'Canaux urbains', conditions: 'Nuit, Soleil, niveau du fleuve élevé', vehicles: ['Hélico pompier', 'VSAV', 'VL commandement', 'Fourgon pompe'] },
