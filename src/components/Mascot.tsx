@@ -121,7 +121,7 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
           </Button>
         </div>
 
-        <div className="p-4 space-y-3 pt-8">
+        <div className="p-4 space-y-3 pt-8 opacity-80">
           <div className="flex items-start gap-3">
             <div className="text-3xl animate-bounce">
               {getMascotEmoji()}
