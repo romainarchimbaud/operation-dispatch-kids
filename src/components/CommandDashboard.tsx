@@ -111,7 +111,7 @@ export function CommandDashboard() {
   };
 
   const handleNewAutoMission = () => {
-    soundManager.playSound('click');
+    soundManager.playSound('alert', 10);
     // Sélectionner une nouvelle mission aléatoire
     const allMissions = [
       ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
@@ -311,15 +311,14 @@ export function CommandDashboard() {
               <div className="flex justify-center gap-4">
                 <Button 
                   onClick={handleAcceptAutoMission}
-                  className="btn-command px-6"
+                  className="bg-green-600 hover:bg-green-700 text-white font-command px-6"
                 >
                   <Check className="mr-2 h-4 w-4" />
                   ACCEPTER
                 </Button>
                 <Button 
                   onClick={handleNewAutoMission}
-                  variant="outline"
-                  className="btn-command px-6"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-command px-6"
                 >
                   <RefreshCw className="mr-2 h-4 w-4" />
                   NOUVELLE

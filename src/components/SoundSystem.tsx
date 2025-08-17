@@ -39,19 +39,19 @@ class SoundManager {
         break;
         
       case 'alert':
-        // Sirène d'alerte prolongeable
+        // Sirène d'urgence intense sans diminution
         const alertDuration = duration || 0.6;
-        const cycles = Math.floor(alertDuration / 0.6);
+        const cycles = Math.floor(alertDuration / 0.4);
         
         for (let i = 0; i < cycles; i++) {
-          const startTime = this.audioContext.currentTime + (i * 0.6);
-          oscillator.frequency.setValueAtTime(400, startTime);
-          oscillator.frequency.linearRampToValueAtTime(600, startTime + 0.3);
-          oscillator.frequency.linearRampToValueAtTime(400, startTime + 0.6);
+          const startTime = this.audioContext.currentTime + (i * 0.4);
+          oscillator.frequency.setValueAtTime(800, startTime);
+          oscillator.frequency.linearRampToValueAtTime(1200, startTime + 0.2);
+          oscillator.frequency.linearRampToValueAtTime(800, startTime + 0.4);
         }
         
-        gainNode.gain.setValueAtTime(0.08, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + alertDuration);
+        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.15, this.audioContext.currentTime + alertDuration);
         oscillator.start();
         oscillator.stop(this.audioContext.currentTime + alertDuration);
         break;
