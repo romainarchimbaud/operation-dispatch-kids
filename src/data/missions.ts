@@ -114,6 +114,20 @@ export const missions = {
       location: "Port de commerce",
       conditions: "Pluie, rafales 120 km/h",
       vehicles: ["VSAV", "Fourgon pompe", "Hélico pompier"]
+    },
+    {
+      id: 11,
+      title: "Feu de cuisine à Lille",
+      location: "Vieux-Lille",
+      conditions: "Midi, fumées denses",
+      vehicles: ["FPT", "VSAV", "EPA"]
+    },
+    {
+      id: 12,
+      title: "Arbre tombé sur chaussée à Nantes",
+      location: "Quartier Beaulieu",
+      conditions: "Après orage, routes glissantes",
+      vehicles: ["VL commandement", "FPT", "Fourgon pompe"]
     }
   ] as Mission[],
 
@@ -187,6 +201,20 @@ export const missions = {
       location: "Quartier résidentiel",
       conditions: "Nuit, quartier calme",
       vehicles: ["VL", "Moto police"]
+    },
+    {
+      id: 11,
+      title: "Sécurisation périmètre école à Rennes",
+      location: "Quartier Sainte-Thérèse",
+      conditions: "Matin, sortie des classes",
+      vehicles: ["VL", "Moto police"]
+    },
+    {
+      id: 12,
+      title: "Surveillance marché de Noël à Strasbourg",
+      location: "Centre historique",
+      conditions: "Soir, forte affluence",
+      vehicles: ["Fourgon maintien", "VL"]
     }
   ] as Mission[],
 
@@ -260,6 +288,20 @@ export const missions = {
       location: "Plaine découverte",
       conditions: "Été, visibilité parfaite",
       vehicles: ["Drone", "Hélico", "VL blindé"]
+    },
+    {
+      id: 11,
+      title: "Exfiltration équipe scientifique",
+      location: "Station de recherche isolée",
+      conditions: "Soir, météo changeante",
+      vehicles: ["Hélico", "VL blindé", "Camion logistique"]
+    },
+    {
+      id: 12,
+      title: "Reconnaissance zone boisée",
+      location: "Forêt dense",
+      conditions: "Aube, brouillard léger",
+      vehicles: ["Drone", "Quad", "VL blindé"]
     }
   ] as Mission[]
 };
