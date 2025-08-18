@@ -124,6 +124,7 @@ export function CommandDashboard() {
   };
 
   const handleNewAutoMission = () => {
+    soundManager.stopAllSounds();
     soundManager.playSound('alert', 5);
     // Sélectionner une nouvelle mission aléatoire
     const allMissions = [
