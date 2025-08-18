@@ -305,13 +305,7 @@ export function CommandDashboard() {
               <Timer className="mr-2 h-6 w-6" />
               START AUTO GLOBAL (30s)
             </Button>
-            <Button 
-              onClick={handleRandomMission}
-              className="btn-command-alert px-8 py-4 text-lg"
-            >
-              <Dice6 className="mr-2 h-6 w-6" />
-              MISSION ALÉATOIRE
-            </Button>
+
             
           </div>
         </div>
