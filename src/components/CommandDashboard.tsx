@@ -195,7 +195,7 @@ export function CommandDashboard() {
                     onClick={() => handleStartAuto('pompiers')}
                     className="bg-red-600 hover:bg-red-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO
+                    START AUTO (30s)
                   </Button>
                 </div>
               </div>
@@ -225,7 +225,7 @@ export function CommandDashboard() {
                     onClick={() => handleStartAuto('police')}
                     className="bg-blue-600 hover:bg-blue-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO
+                    START AUTO (30s)
                   </Button>
                 </div>
               </div>
@@ -255,7 +255,7 @@ export function CommandDashboard() {
                     onClick={() => handleStartAuto('eagle')}
                     className="bg-gray-700 hover:bg-gray-800 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO
+                    START AUTO (30s)
                   </Button>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export function CommandDashboard() {
                     onClick={() => handleStartAuto('samu')}
                     className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-2 py-2 text-xs w-full"
                   >
-                    START AUTO
+                    START AUTO (30s)
                   </Button>
                 </div>
               </div>
