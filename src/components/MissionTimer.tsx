@@ -52,12 +52,7 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
     return () => clearInterval(interval);
   }, [isRunning, status, onComplete, toast, duration]);
 
-  // Son d'alerte au démarrage
-  useEffect(() => {
-    if (status === 'running') {
-      soundManager.playSound('alert');
-    }
-  }, []);
+  // Son d'alerte au démarrage supprimé : ne doit jouer que pendant la phase d'acceptation
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

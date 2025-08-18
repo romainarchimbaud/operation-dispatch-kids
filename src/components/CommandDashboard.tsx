@@ -69,7 +69,8 @@ export function CommandDashboard() {
   };
 
   const startMission = () => {
-    soundManager.playSound('alert');
+    soundManager.stopAllSounds();
+  soundManager.playSound('success', 2); // Volume fort
     setTimerActive(true);
     showMascot('encouraging', 'Mission lancée ! Tu as 10 minutes. Courage !');
   };
@@ -108,7 +109,8 @@ export function CommandDashboard() {
   };
 
   const handleAcceptAutoMission = () => {
-    soundManager.playSound('success');
+    soundManager.stopAllSounds();
+    soundManager.playSound('success', 1.2); // Volume augmenté
     setAutoAcceptancePhase(false);
     setTimerDuration(600); // 10 minutes
     setTimerActive(true);
@@ -116,6 +118,7 @@ export function CommandDashboard() {
   };
 
   const handleRefuseAutoMission = () => {
+    soundManager.stopAllSounds();
     soundManager.playSound('fail');
     setAutoAcceptancePhase(false);
     setAutoMode(false);
@@ -201,7 +204,6 @@ export function CommandDashboard() {
                 </div>
               </div>
             </Card>
-
             {/* Police */}
             <Card 
               className="btn-command cursor-pointer text-center"
@@ -341,14 +343,7 @@ export function CommandDashboard() {
               <RotateCcw className="mr-2 h-4 w-4" />
               RESET
             </Button>
-            <Button 
-              onClick={handleRandomMission}
-              variant="outline"
-              className="btn-command"
-            >
-              <Dice6 className="mr-2 h-4 w-4" />
-              NOUVELLE MISSION
-            </Button>
+            {/* Bouton NOUVELLE MISSION supprimé */}
           </div>
 
           {selectedMission && (
