@@ -27,6 +27,7 @@ export function CommandDashboard() {
   const [autoAcceptancePhase, setAutoAcceptancePhase] = useState(false);
   const [autoAcceptanceTime, setAutoAcceptanceTime] = useState(30);
   const { mascotState, showMascot } = useMascot();
+  const [missionCompleted, setMissionCompleted] = useState(false);
 
   const handleServiceSelect = (service: Service) => {
     soundManager.playSound('click');
@@ -414,11 +415,44 @@ export function CommandDashboard() {
         )}
 
         {/* Mission Content */}
-        <MissionList 
-          service={selectedService}
-          selectedMission={selectedMission}
-          onMissionSelect={handleMissionSelect}
-        />
+        <>
+          <MissionList 
+            service={selectedService}
+            selectedMission={selectedMission}
+            onMissionSelect={handleMissionSelect}
+            timerActive={timerActive}
+            autoAcceptancePhase={autoAcceptancePhase}
+            onObjectivesComplete={() => {
+              setTimerActive(false);
+              setMissionCompleted(true);
+              showMascot('encouraging', 'Mission accomplie ! Félicitations !');
+              setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }, 100);
+            }}
+          />
+          {missionCompleted && (
+            <div
+              className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-start bg-black/30 animate-fade-in"
+              onClick={() => setMissionCompleted(false)}
+            >
+              <div
+                className="relative bg-green-600 text-white font-command text-3xl md:text-5xl font-bold py-8 px-12 mt-8 rounded-xl shadow-2xl border-4 border-green-400 drop-shadow-xl flex items-center gap-4"
+                onClick={e => e.stopPropagation()}
+              >
+                <Check className="w-12 h-12 text-white drop-shadow" />
+                MISSION COMPLÉTÉE !
+                <button
+                  className="absolute top-2 right-2 text-white hover:text-green-200 text-3xl p-2 rounded-full focus:outline-none"
+                  onClick={() => setMissionCompleted(false)}
+                  aria-label="Fermer"
+                >
+                  <X className="w-8 h-8" />
+                </button>
+              </div>
+            </div>
+          )}
+        </>
         
         {/* Système de sons et mascotte */}
         <SoundSystem ambientSoundEnabled={true} />

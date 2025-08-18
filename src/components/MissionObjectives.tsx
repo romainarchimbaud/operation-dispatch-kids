@@ -9,12 +9,14 @@ interface MissionObjectivesProps {
   objectives: string[];
   missionTitle: string;
   onMissionComplete?: () => void;
+  canValidateObjectives?: boolean;
 }
 
-export function MissionObjectives({ objectives, missionTitle, onMissionComplete }: MissionObjectivesProps) {
+export function MissionObjectives({ objectives, missionTitle, onMissionComplete, canValidateObjectives = true }: MissionObjectivesProps) {
   const [completedObjectives, setCompletedObjectives] = useState<Set<number>>(new Set());
 
   const handleObjectiveToggle = (index: number, checked: boolean) => {
+    if (!canValidateObjectives) return;
     const newCompleted = new Set(completedObjectives);
     
     if (checked) {

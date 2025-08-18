@@ -12,9 +12,12 @@ interface MissionListProps {
   service: 'pompiers' | 'police' | 'eagle' | 'samu' | null;
   selectedMission: { service: string; mission: Mission } | null;
   onMissionSelect: (mission: Mission) => void;
+  onObjectivesComplete?: () => void;
+  timerActive?: boolean;
+  autoAcceptancePhase?: boolean;
 }
 
-export function MissionList({ service, selectedMission, onMissionSelect }: MissionListProps) {
+export function MissionList({ service, selectedMission, onMissionSelect, onObjectivesComplete, timerActive, autoAcceptancePhase }: MissionListProps) {
   const [showTypewriter, setShowTypewriter] = useState(false);
 
   useEffect(() => {
@@ -137,9 +140,7 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
         <MissionObjectives 
           objectives={selectedMission.mission.objectives}
           missionTitle={selectedMission.mission.title}
-          onMissionComplete={() => {
-            console.log('Mission complétée!');
-          }}
+          onMissionComplete={onObjectivesComplete}
         />
       )}
 
