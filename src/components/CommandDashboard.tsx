@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw, Zap } from 'lucide-react';
+import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw, Zap, Ambulance } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
@@ -175,127 +175,89 @@ export function CommandDashboard() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid gap-8 md:grid-cols-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             {/* Sapeurs-Pompiers */}
             <Card 
-              className="btn-command cursor-pointer text-center"
+              className="btn-command flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
               onClick={() => handleServiceSelect('pompiers')}
             >
-              <div className="p-4">
-                <div className="relative mx-auto mb-4 h-16 w-16">
+              <div className="flex flex-col items-center w-full h-full justify-between">
+                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
                   <Truck className="h-16 w-16 text-destructive" />
                   <Siren className="absolute -top-1 -right-1 h-6 w-6 text-destructive animate-pulse" />
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-destructive">
-                  SAPEURS-POMPIERS
-                </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Marseille • Paris • Anglet
-                </p>
-                <Badge variant="destructive" className="font-command">
-                  {missions.pompiers.length} MISSIONS
-                </Badge>
-                <div className="mt-3">
-                  <Button 
-                    onClick={() => handleStartAuto('pompiers')}
-                    className="bg-red-600 hover:bg-red-700 text-white font-command px-2 py-2 text-xs w-full"
-                  >
-                    START AUTO (30s)
-                  </Button>
-                </div>
+                <h2 className="mb-2 text-2xl font-command text-destructive">SAPEURS-POMPIERS</h2>
+                <p className="text-sm text-muted-foreground mb-4">Marseille • Paris • Anglet</p>
+                <Badge variant="destructive" className="font-command mb-2">{missions.pompiers.length} MISSIONS</Badge>
+                <Button 
+                  onClick={e => { e.stopPropagation(); handleStartAuto('pompiers'); }}
+                  className="bg-red-600 hover:bg-red-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
+                >
+                  START AUTO (30s)
+                </Button>
               </div>
             </Card>
             {/* Police */}
             <Card 
-              className="btn-command cursor-pointer text-center"
+              className="btn-command flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
               onClick={() => handleServiceSelect('police')}
             >
-              <div className="p-4">
-                <div className="relative mx-auto mb-4 h-16 w-16">
+              <div className="flex flex-col items-center w-full h-full justify-between">
+                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
                   <Shield className="h-16 w-16 text-primary" />
                   <Car className="absolute -top-1 -right-1 h-6 w-6 text-primary animate-pulse" />
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-primary">
-                  POLICE NATIONALE
-                </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Intervention • Patrouille • Sécurité
-                </p>
-                <Badge variant="secondary" className="font-command">
-                  {missions.police.length} MISSIONS
-                </Badge>
-                <div className="mt-3">
-                  <Button 
-                    onClick={() => handleStartAuto('police')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-command px-2 py-2 text-xs w-full"
-                  >
-                    START AUTO (30s)
-                  </Button>
-                </div>
+                <h2 className="mb-2 text-2xl font-command text-primary">POLICE NATIONALE</h2>
+                <p className="text-sm text-muted-foreground mb-4">Intervention • Patrouille • Sécurité</p>
+                <Badge variant="secondary" className="font-command mb-2">{missions.police.length} MISSIONS</Badge>
+                <Button 
+                  onClick={e => { e.stopPropagation(); handleStartAuto('police'); }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
+                >
+                  START AUTO (30s)
+                </Button>
               </div>
             </Card>
-
             {/* Eagle Force */}
             <Card 
-              className="btn-command-eagle cursor-pointer text-center"
+              className="btn-command-eagle flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
               onClick={() => handleServiceSelect('eagle')}
             >
-              <div className="p-4">
-                <div className="relative mx-auto mb-4 h-16 w-16">
+              <div className="flex flex-col items-center w-full h-full justify-between">
+                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
                   <Zap className="h-16 w-16 text-eagle" />
                   <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-eagle">
-                  EAGLE FORCE
-                </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Forces Spéciales • Missions Secrètes
-                </p>
-                <Badge style={{backgroundColor: 'hsl(var(--eagle))', color: 'hsl(var(--eagle-foreground))'}} className="font-command">
-                  {missions.eagle.length} MISSIONS
-                </Badge>
-                <div className="mt-3">
-                  <Button 
-                    onClick={() => handleStartAuto('eagle')}
-                    className="bg-gray-700 hover:bg-gray-800 text-white font-command px-2 py-2 text-xs w-full"
-                  >
-                    START AUTO (30s)
-                  </Button>
-                </div>
+                <h2 className="mb-2 text-2xl font-command text-eagle">EAGLE FORCE</h2>
+                <p className="text-sm text-muted-foreground mb-4">Forces Spéciales • Missions Secrètes</p>
+                <Badge style={{backgroundColor: 'hsl(var(--eagle))', color: 'hsl(var(--eagle-foreground))'}} className="font-command mb-2">{missions.eagle.length} MISSIONS</Badge>
+                <Button 
+                  onClick={e => { e.stopPropagation(); handleStartAuto('eagle'); }}
+                  className="bg-gray-700 hover:bg-gray-800 text-white font-command px-2 py-2 text-xs w-full mt-2"
+                >
+                  START AUTO (30s)
+                </Button>
               </div>
             </Card>
-
             {/* Samu */}
             <Card 
-              className="btn-command-samu cursor-pointer text-center"
+              className="btn-command-samu flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
               onClick={() => handleServiceSelect('samu')}
             >
-              <div className="p-4">
-                <div className="relative mx-auto mb-4 h-16 w-16">
-                  <svg className="h-16 w-16 text-samu" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
-                  </svg>
-                  <svg className="absolute -top-1 -right-1 h-6 w-6 text-samu animate-pulse" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H11V21H5V3H13V9H21Z"/>
-                  </svg>
+              <div className="flex flex-col items-center w-full h-full justify-between">
+                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
+                  <Ambulance className="h-16 w-16 text-samu" />
+                  <Ambulance className="absolute -top-1 -right-1 h-6 w-6 text-samu animate-pulse" />
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-samu">
-                  SAMU - YELLOW LIFE LINE
-                </h2>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Yellow Life Line • Urgences Médicales
-                </p>
-                <Badge style={{backgroundColor: 'hsl(var(--samu))', color: 'hsl(var(--samu-foreground))'}} className="font-command">
-                  {missions.samu.length} MISSIONS
-                </Badge>
-                <div className="mt-3">
-                  <Button 
-                    onClick={() => handleStartAuto('samu')}
-                    className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-2 py-2 text-xs w-full"
-                  >
-                    START AUTO (30s)
-                  </Button>
-                </div>
+                <h2 className="mb-2 text-2xl font-command text-samu">SAMU - YELLOW LIFE LINE</h2>
+                <p className="text-sm text-muted-foreground mb-4">Yellow Life Line • Urgences Médicales</p>
+                <Badge style={{backgroundColor: 'hsl(var(--samu))', color: 'hsl(var(--samu-foreground))'}} className="font-command mb-2">{missions.samu.length} MISSIONS</Badge>
+                <Button 
+                  onClick={e => { e.stopPropagation(); handleStartAuto('samu'); }}
+                  className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
+                >
+                  START AUTO (30s)
+                </Button>
               </div>
             </Card>
           </div>
