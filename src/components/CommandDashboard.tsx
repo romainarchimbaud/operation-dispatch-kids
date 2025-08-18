@@ -322,6 +322,11 @@ export function CommandDashboard() {
     );
   }
 
+  // Permet à MissionList de déclencher le start auto random avec timer d'acceptation
+  (window as any).handleStartAutoFromMissionList = (service: Service) => {
+    handleStartAuto(service);
+  };
+
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="mx-auto max-w-full px-4">

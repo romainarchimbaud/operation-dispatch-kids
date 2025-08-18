@@ -34,9 +34,10 @@ export function MissionList({ service, selectedMission, onMissionSelect }: Missi
   };
 
   const getRandomMission = () => {
-    soundManager.playSound('click');
-    const randomIndex = Math.floor(Math.random() * serviceMissions.length);
-    onMissionSelect(serviceMissions[randomIndex]);
+    // On délègue au parent la gestion du random auto avec timer d'acceptation
+    if (typeof (window as any).handleStartAutoFromMissionList === 'function') {
+      (window as any).handleStartAutoFromMissionList(service);
+    }
   };
 
   const getServiceTitle = () => {
