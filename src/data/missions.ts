@@ -8,7 +8,7 @@ export interface Mission {
   location: string;
   conditions: string;
   vehicles: string[];
-  objectives: string[];
+  objectives?: string[];
 }
 
 export interface Vehicles {
@@ -19,48 +19,30 @@ export interface Vehicles {
 }
 
 export const vehicles: Vehicles = {
-  'VSAV': { name: 'VSAV', description: 'Véhicule de Secours et d\'Assistance aux Victimes' },
-  'FPT': { name: 'FPT', description: 'Fourgon Pompe-Tonne' },
-  'CCF': { name: 'CCF', description: 'Camion Citerne Feux de forêt' },
-  'EPA': { name: 'EPA', description: 'Échelle Pivotante Automatique' },
-  'Hélico pompier': { name: 'Hélico pompier', description: 'Hélicoptère de secours et bombardier d\'eau' },
-  'Canadair': { name: 'Canadair', description: 'Avion bombardier d\'eau' },
-  'Bateau pompier': { name: 'Bateau pompier', description: 'Embarcation de secours aquatique' },
-  'VL commandement': { name: 'VL commandement', description: 'Véhicule Léger de commandement' },
-  'Fourgon pompe': { name: 'Fourgon pompe', description: 'Véhicule de pompage pour inondations' },
-  'VL': { name: 'VL', description: 'Véhicule Léger de patrouille' },
-  'Moto': { name: 'Moto', description: 'Motocyclette de police' },
-  'Fourgon': { name: 'Fourgon', description: 'Fourgon de maintien de l\'ordre' },
-  'Hélico': { name: 'Hélico', description: 'Hélicoptère de surveillance' },
-  'Bateau fluvial': { name: 'Bateau fluvial', description: 'Embarcation de surveillance des ports' },
-  'Drone': { name: 'Drone', description: 'Drone de surveillance et reconnaissance' },
-  'Fourgon maintien': { name: 'Fourgon maintien', description: 'Véhicule de maintien de l\'ordre' },
-  'Moto police': { name: 'Moto police', description: 'Motocyclette d\'intervention rapide' },
-  'VL blindé': { name: 'VL blindé léger', description: 'Véhicule Léger blindé pour missions spéciales' },
-  'Camion logistique': { name: 'Camion logistique', description: 'Véhicule de transport et logistique' },
-  'Quad': { name: 'Quad', description: 'Véhicule tout-terrain d\'intervention rapide' },
-  'Bateau rapide': { name: 'Bateau rapide', description: 'Embarcation d\'intervention maritime' },
-  'Hélico Eagle': { name: 'Hélico Eagle', description: 'Hélicoptère d\'assaut et transport' },
-  'Ambulance': { name: 'Ambulance', description: 'Véhicule de secours médical d\'urgence' },
-  'SMUR': { name: 'SMUR', description: 'Service Mobile d\'Urgence et de Réanimation' },
-  'Hélico médical': { name: 'Hélico médical', description: 'Hélicoptère médicalisé' },
-  'VL médical': { name: 'VL médical', description: 'Véhicule Léger médical' },
-  'vl feu': { name: 'vl feu', description: 'Véhicule léger incendie (chef d'agrès)' },
+  // Pompiers
+  'vl feu': { name: 'vl feu', description: "Véhicule léger incendie (chef d'agrès)" },
   'annexe': { name: 'annexe', description: 'Annexe légère (zodiac) pour accès rapide' },
   'bateau pompe': { name: 'bateau pompe', description: 'Bateau de lutte avec pompe incendie' },
   'hélico (recherche)': { name: 'hélico (recherche)', description: 'Hélicoptère de repérage et hélitreuillage' },
+
+  // Police
   'voiture banalisée': { name: 'voiture banalisée', description: 'Véhicule discret de patrouille et filature' },
   'vl police': { name: 'vl police', description: 'Véhicule léger de police' },
   'fourgon blindé': { name: 'fourgon blindé', description: 'Fourgon de protection/transport sécurisé' },
   'hélico': { name: 'hélico', description: 'Hélicoptère de surveillance' },
+
+  // Samu
   'ambulance': { name: 'ambulance', description: 'Ambulance de secours et transport sanitaire' },
+
+  // Eagle (inchangés)
+  'VL blindé': { name: 'VL blindé', description: 'Véhicule Léger blindé pour missions spéciales' },
+  'Camion logistique': { name: 'Camion logistique', description: 'Véhicule de transport et logistique' },
+  'Quad': { name: 'Quad', description: "Véhicule tout-terrain d'intervention rapide" },
+  'Bateau rapide': { name: 'Bateau rapide', description: "Embarcation d'intervention maritime" },
+  'Hélico Eagle': { name: 'Hélico Eagle', description: "Hélicoptère d'assaut et transport" },
+  'Drone': { name: 'Drone', description: 'Drone de reconnaissance et surveillance' },
+  'Hélico': { name: 'Hélico', description: 'Hélicoptère (générique Eagle)' },
 };
-export const vehiclesByRole = {
-  pompiers: ['vl feu', 'annexe', 'bateau pompe', 'hélico (recherche)'],
-  police: ['voiture banalisée', 'vl police', 'fourgon blindé', 'hélico'],
-  samu: ['ambulance'],
-  eagle: ['Hélico', 'VL blindé', 'Camion logistique', 'Drone', 'Quad', 'Bateau rapide', 'Hélico Eagle']
-} as const;
 
 
 export const missions = {
