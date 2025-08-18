@@ -141,6 +141,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
           objectives={selectedMission.mission.objectives}
           missionTitle={selectedMission.mission.title}
           onMissionComplete={onObjectivesComplete}
+          canValidateObjectives={!!timerActive}
         />
       )}
 

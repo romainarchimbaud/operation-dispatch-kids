@@ -42,7 +42,7 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
   const completionPercentage = Math.round((completedObjectives.size / objectives.length) * 100);
 
   return (
-    <Card className="mission-card">
+    <Card className={`mission-card transition-all duration-300 ${!canValidateObjectives ? 'opacity-60 grayscale pointer-events-none' : ''}`}>
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
