@@ -53,6 +53,12 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
     }
   };
 
+  // Scroll to top on mission select
+  const handleMissionSelect = (mission: Mission) => {
+    onMissionSelect(mission);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="space-y-6">
       {/* Header du service */}
@@ -161,12 +167,18 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
         {serviceMissions.map((mission) => (
           <Card 
             key={mission.id}
-            className={`mission-card cursor-pointer transition-all duration-300 ${
-              selectedMission?.mission.id === mission.id 
-                ? 'border-primary ring-2 ring-primary/20' 
-                : 'hover:border-primary/60'
+            className={`mission-card transition-all duration-300 ${
+              selectedMission?.mission.id === mission.id
+                ? 'border-primary ring-2 ring-primary/20'
+                : timerActive
+                  ? 'opacity-60 grayscale pointer-events-none'
+                  : 'cursor-pointer hover:border-primary/60'
             }`}
-            onClick={() => onMissionSelect(mission)}
+            onClick={() => {
+              if (!timerActive || selectedMission?.mission.id === mission.id) {
+                handleMissionSelect(mission);
+              }
+            }}
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
