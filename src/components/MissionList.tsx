@@ -7,9 +7,10 @@ import { useState, useEffect } from 'react';
 import { TypewriterText } from './TypewriterText';
 import { soundManager } from './SoundSystem';
 import { MissionObjectives } from './MissionObjectives';
+import { MultiServiceObjectives } from './MultiServiceObjectives';
 
 interface MissionListProps {
-  service: 'pompiers' | 'police' | 'eagle' | 'samu' | null;
+  service: 'pompiers' | 'police' | 'eagle' | 'samu' | 'alerte_generale' | null;
   selectedMission: { service: string; mission: Mission } | null;
   onMissionSelect: (mission: Mission) => void;
   onObjectivesComplete?: () => void;
@@ -28,12 +29,102 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
 
   if (!service) return null;
 
-  const serviceMissions = missions[service];
+  // Pour alerte_generale, on n'a pas de missions à lister, on affiche directement les objectifs
+  if (service === 'alerte_generale' && selectedMission) {
+    return (
+      <div className="space-y-6">
+        {/* Header du service */}
+        <div className="text-center">
+          <h2 className="text-3xl font-command text-destructive mb-2">
+            ALERTE GÉNÉRALE
+          </h2>
+          <p className="text-muted-foreground">
+            Mission multi-services - Tous les corps de métiers mobilisés
+          </p>
+        </div>
+
+        {/* Mission sélectionnée */}
+        <Card className="mission-card border-destructive/40">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Badge 
+                variant="destructive"
+                className="font-command text-lg px-4 py-1"
+              >
+                MISSION ACTIVE - ALERTE GÉNÉRALE
+              </Badge>
+              <Badge variant="outline" className="font-command">
+                ID: {selectedMission.mission.id.toString().padStart(3, '0')}
+              </Badge>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-command text-foreground mb-2">
+                {showTypewriter ? (
+                  <TypewriterText 
+                    text={selectedMission.mission.title}
+                    speed={80}
+                    playSound={true}
+                  />
+                ) : (
+                  selectedMission.mission.title
+                )}
+              </h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-muted-foreground" />
+                <span>{selectedMission.mission.location}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Cloud className="h-4 w-4 text-muted-foreground" />
+                <span>{selectedMission.mission.conditions}</span>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline" className="font-command text-xs">
+                {selectedMission.mission.vehicles.length} véhicules
+              </Badge>
+              <Badge variant="outline" className="font-command text-xs">
+                4 corps de métiers mobilisés
+              </Badge>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {selectedMission.mission.vehicles.map((vehicle) => (
+                <Badge 
+                  key={vehicle}
+                  variant="secondary" 
+                  className="text-xs font-command"
+                  title={vehicles[vehicle]?.description || vehicle}
+                >
+                  {vehicle}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </Card>
+
+        {/* Objectifs multi-services avec 4 blocs séparés */}
+        <MultiServiceObjectives 
+          objectivesByService={selectedMission.mission.objectivesByService}
+          missionTitle={selectedMission.mission.title}
+          onMissionComplete={onObjectivesComplete}
+          canValidateObjectives={!!timerActive}
+        />
+      </div>
+    );
+  }
+
+  const serviceMissions = missions[service as keyof typeof missions] || [];
   const serviceColors = {
     pompiers: 'destructive',
     police: 'secondary',
     eagle: 'eagle',
-    samu: 'samu'
+    samu: 'samu',
+    alerte_generale: 'destructive'
   };
 
   const getRandomMission = () => {
@@ -49,6 +140,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
       case 'police': return 'POLICE NATIONALE';
       case 'eagle': return 'EAGLE FORCE';
       case 'samu': return 'SAMU';
+      case 'alerte_generale': return 'ALERTE GÉNÉRALE';
       default: return '';
     }
   };

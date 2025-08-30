@@ -9,12 +9,18 @@ import { SoundSystem, soundManager } from './SoundSystem';
 import { Mascot, useMascot } from './Mascot';
 import { TypewriterText } from './TypewriterText';
 import { missions } from '../data/missions';
+import { MissionObjectives } from './MissionObjectives';
 
-type Service = 'pompiers' | 'police' | 'eagle' | 'samu';
+type Service = 'pompiers' | 'police' | 'eagle' | 'samu' | 'alerte_generale';
 
 interface SelectedMission {
   service: Service;
-  mission: any;
+  mission: any | {
+    pompiers: string[];
+    police: string[];
+    eagle: string[];
+    samu: string[];
+  };
 }
 
 export function CommandDashboard() {
@@ -142,6 +148,41 @@ export function CommandDashboard() {
     setSelectedService(randomMission.service);
     setAutoAcceptanceTime(30); // Reset le timer d'acceptation
     showMascot('thinking', 'Nouvelle mission proposée !');
+  };
+
+  const handleGeneralAlert = () => {
+    soundManager.playSound('alert', 5);
+    setAutoMode(true);
+    
+    // Créer une mission spéciale "Alerte Générale" avec des objectifs séparés par corps de métier
+    const generalAlertMission = {
+      service: 'alerte_generale' as Service,
+      mission: {
+        id: 999,
+        title: 'ALERTE GÉNÉRALE — Mobilisation de tous les corps de métiers pour une intervention coordonnée.',
+        location: 'Zone multi-services',
+        conditions: 'Urgence maximale, coordination requise',
+        vehicles: ['vl feu', 'vl police', 'VL blindé', 'ambulance'],
+        objectives: [], // On n'utilise plus ce champ pour alerte_generale
+        // Nouveaux champs pour organiser les objectifs par métier
+        objectivesByService: {
+          pompiers: missions.pompiers[Math.floor(Math.random() * missions.pompiers.length)]?.objectives || [],
+          police: missions.police[Math.floor(Math.random() * missions.police.length)]?.objectives || [],
+          eagle: missions.eagle[Math.floor(Math.random() * missions.eagle.length)]?.objectives || [],
+          samu: missions.samu[Math.floor(Math.random() * missions.samu.length)]?.objectives || []
+        }
+      }
+    };
+
+    setSelectedMission(generalAlertMission);
+    setSelectedService('alerte_generale');
+    setCurrentView('missions');
+    
+    // Activer la phase d'acceptation de 30 secondes
+    setAutoAcceptancePhase(true);
+    setAutoAcceptanceTime(30);
+    
+    showMascot('alert', 'MISSION AUTO ALERTE GÉNÉRALE ! 30 secondes pour accepter !');
   };
 
   // Timer pour la phase d'acceptation auto
@@ -276,10 +317,8 @@ export function CommandDashboard() {
                   </div>
                 </div>
                 <Button
-                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground font-command px-8 py-6 text-lg"
-                  onClick={() => {
-                    console.log("Alerte Générale cliquée");
-                  }}
+                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground font-command font-extrabold px-8 py-6 text-lg"
+                  onClick={handleGeneralAlert}
                 >
                   DÉCLENCHER
                 </Button>
@@ -311,6 +350,11 @@ export function CommandDashboard() {
       </div>
     );
   }
+
+  // Permet à MissionList de déclencher le start auto random avec timer d'acceptation
+  (window as any).handleStartAutoFromMissionList = (service: Service) => {
+    handleStartAuto(service);
+  };
 
   // Permet à MissionList de déclencher le start auto random avec timer d'acceptation
   (window as any).handleStartAutoFromMissionList = (service: Service) => {

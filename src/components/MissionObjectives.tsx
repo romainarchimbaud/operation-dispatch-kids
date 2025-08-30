@@ -67,22 +67,34 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
             return (
               <div 
                 key={index} 
-                className={`flex items-start gap-3 p-3 rounded border ${
+                className={`flex items-start gap-3 p-3 rounded border cursor-pointer transition-colors hover:bg-muted/50 ${
                   isCompleted ? 'bg-primary/5 border-primary/20' : 'border-border'
-                }`}
+                } ${!canValidateObjectives ? 'cursor-not-allowed opacity-50' : ''}`}
+                onClick={() => {
+                  if (canValidateObjectives) {
+                    handleObjectiveToggle(index, !isCompleted);
+                  }
+                }}
               >
                 <Checkbox
                   id={`objective-${index}`}
                   checked={isCompleted}
                   onCheckedChange={(checked) => handleObjectiveToggle(index, checked as boolean)}
                   className="mt-0.5 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
+                  onClick={(e) => e.stopPropagation()} // Empêche le double clic
                 />
                 <div className="flex-1">
                   <label 
                     htmlFor={`objective-${index}`}
-                    className={`text-sm font-command cursor-pointer ${
+                    className={`text-sm font-command cursor-pointer select-none ${
                       isCompleted ? 'text-green-600 font-medium line-through' : 'text-foreground'
                     }`}
+                    onClick={(e) => {
+                      e.preventDefault(); // Empêche le comportement par défaut du label
+                      if (canValidateObjectives) {
+                        handleObjectiveToggle(index, !isCompleted);
+                      }
+                    }}
                   >
                     {objective}
                   </label>
