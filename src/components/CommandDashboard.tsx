@@ -35,6 +35,24 @@ export function CommandDashboard() {
   const { mascotState, showMascot } = useMascot();
   const [missionCompleted, setMissionCompleted] = useState(false);
 
+  // Fonction utilitaire pour générer des objectifs adaptés pour chaque service
+  const generateObjectivesForService = (service: Service, alertMission: any): string[] => {
+    // Les missions d'alerte ont déjà des objectifs bien définis, on les utilise directement
+    const baseObjectives = alertMission.objectives || [];
+    
+    // Si la mission d'alerte a moins de 12 objectifs, on les répartit
+    // Sinon on prend les objectifs par groupes de 3
+    const objectivesPerService = Math.ceil(baseObjectives.length / 4);
+    const startIndex = {
+      'pompiers': 0,
+      'police': objectivesPerService,
+      'eagle': objectivesPerService * 2,
+      'samu': objectivesPerService * 3
+    }[service] || 0;
+    
+    return baseObjectives.slice(startIndex, startIndex + objectivesPerService);
+  };
+
   const handleServiceSelect = (service: Service) => {
     soundManager.playSound('click');
     setSelectedService(service);
@@ -154,22 +172,31 @@ export function CommandDashboard() {
     soundManager.playSound('alert', 5);
     setAutoMode(true);
     
-    // Créer une mission spéciale "Alerte Générale" avec des objectifs séparés par corps de métier
+    // Sélectionner une mission d'alerte générale aléatoire
+    const randomAlerteMission = missions.alertes[Math.floor(Math.random() * missions.alertes.length)];
+    
+    if (!randomAlerteMission) {
+      // Fallback si pas de missions d'alerte
+      console.error('Aucune mission d\'alerte trouvée');
+      return;
+    }
+    
+    // Créer une mission spéciale "Alerte Générale" basée sur la mission sélectionnée
     const generalAlertMission = {
       service: 'alerte_generale' as Service,
       mission: {
-        id: 999,
-        title: 'ALERTE GÉNÉRALE — Mobilisation de tous les corps de métiers pour une intervention coordonnée.',
-        location: 'Zone multi-services',
-        conditions: 'Urgence maximale, coordination requise',
-        vehicles: ['vl feu', 'vl police', 'VL blindé', 'ambulance'],
+        id: randomAlerteMission.id,
+        title: randomAlerteMission.title,
+        location: randomAlerteMission.location,
+        conditions: randomAlerteMission.conditions,
+        vehicles: randomAlerteMission.vehicles,
         objectives: [], // On n'utilise plus ce champ pour alerte_generale
-        // Nouveaux champs pour organiser les objectifs par métier
+        // Objectifs spécifiques par corps de métier basés sur le scénario
         objectivesByService: {
-          pompiers: missions.pompiers[Math.floor(Math.random() * missions.pompiers.length)]?.objectives || [],
-          police: missions.police[Math.floor(Math.random() * missions.police.length)]?.objectives || [],
-          eagle: missions.eagle[Math.floor(Math.random() * missions.eagle.length)]?.objectives || [],
-          samu: missions.samu[Math.floor(Math.random() * missions.samu.length)]?.objectives || []
+          pompiers: generateObjectivesForService('pompiers', randomAlerteMission),
+          police: generateObjectivesForService('police', randomAlerteMission),
+          eagle: generateObjectivesForService('eagle', randomAlerteMission),
+          samu: generateObjectivesForService('samu', randomAlerteMission)
         }
       }
     };
