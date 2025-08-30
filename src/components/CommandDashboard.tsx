@@ -332,25 +332,62 @@ export function CommandDashboard() {
 
           {/* Alerte Générale */}
           <div className="mb-8">
-            <Card className="bg-gradient-to-br from-orange-500 to-red-700 border-red-800/50 border-2 p-6 w-full">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-6">
-                  <Siren className="h-12 w-12 text-white drop-shadow-lg animate-pulse" />
-                  <div>
-                    <h2 className="text-2xl font-command text-white drop-shadow-md">ALERTE GÉNÉRALE</h2>
-                    <p className="text-sm text-red-100">
-                      Déclenche une mission critique pour toutes les unités.
+            <div className="relative">
+              {/* Glow effect background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-lg blur-lg opacity-75 animate-pulse"></div>
+              
+              <Card className="relative bg-gradient-to-br from-red-600 via-orange-600 to-red-800 border-yellow-400/70 border-4 p-8 w-full shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
+                {/* Warning stripes animation */}
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-yellow-400 to-transparent animate-slow-pulse animate-rainbow-border"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-yellow-400 to-transparent animate-slow-pulse animate-rainbow-border"></div>
+                
+                <div className="flex items-center justify-between relative z-10">
+                  <div className="flex items-center gap-8">
+                    {/* Icon with multiple effects */}
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-yellow-400 rounded-full blur-md opacity-60 animate-ping"></div>
+                      <Siren className="relative h-16 w-16 text-yellow-300 drop-shadow-2xl animate-slow-pulse filter drop-shadow-[0_0_10px_rgba(255,255,0,0.8)]" />
+                    </div>
+                    
+                    <div>
+                      <h2 className="text-3xl font-command text-yellow-100 drop-shadow-lg mb-2 animate-slow-pulse tracking-wider">
+                        🚨 ALERTE GÉNÉRALE 🚨
+                      </h2>
+                      <p className="text-lg text-yellow-200 font-semibold drop-shadow-md">
+                        ⚡ Mission critique multi-services ⚡
+                      </p>
+                      <p className="text-sm text-red-100 mt-1">
+                        Mobilisation immédiate de toutes les unités d'intervention
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Super flashy button */}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-500 rounded-lg blur-md opacity-70 animate-slow-pulse"></div>
+                    <Button
+                      className="relative button-emergency bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-300 hover:via-orange-400 hover:to-red-400 text-black font-command font-black px-12 py-8 text-xl border-4 border-yellow-300 shadow-2xl transform hover:scale-110 transition-all duration-200 active:scale-95"
+                      onClick={handleGeneralAlert}
+                    >
+                      <span className="flex items-center gap-3">
+                        <Zap className="h-6 w-6 animate-bounce" />
+                        DÉCLENCHER
+                        <Zap className="h-6 w-6 animate-bounce" />
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Bottom warning message */}
+                <div className="mt-6 text-center">
+                  <div className="bg-black/30 rounded-lg p-3 border border-yellow-400/50">
+                    <p className="text-yellow-300 text-sm font-bold animate-pulse">
+                      ⚠️ ATTENTION : Cette action mobilise TOUS les corps de métier simultanément ⚠️
                     </p>
                   </div>
                 </div>
-                <Button
-                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground font-command font-extrabold px-8 py-6 text-lg"
-                  onClick={handleGeneralAlert}
-                >
-                  DÉCLENCHER
-                </Button>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
 
           {/* Action Buttons */}
