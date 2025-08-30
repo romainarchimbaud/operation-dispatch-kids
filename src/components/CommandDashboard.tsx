@@ -262,6 +262,31 @@ export function CommandDashboard() {
             </Card>
           </div>
 
+          {/* Alerte Générale */}
+          <div className="mb-8">
+            <Card className="bg-gradient-to-br from-orange-500 to-red-700 border-red-800/50 border-2 p-6 w-full">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <Siren className="h-12 w-12 text-white drop-shadow-lg animate-pulse" />
+                  <div>
+                    <h2 className="text-2xl font-command text-white drop-shadow-md">ALERTE GÉNÉRALE</h2>
+                    <p className="text-sm text-red-100">
+                      Déclenche une mission critique pour toutes les unités.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground font-command px-8 py-6 text-lg"
+                  onClick={() => {
+                    console.log("Alerte Générale cliquée");
+                  }}
+                >
+                  DÉCLENCHER
+                </Button>
+              </div>
+            </Card>
+          </div>
+
           {/* Action Buttons */}
           <div className="flex justify-center gap-4">
            <Button 
