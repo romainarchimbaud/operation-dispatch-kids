@@ -10,6 +10,7 @@ class SoundManager {
   private audioContext: AudioContext | null = null;
   private ambientOscillator: OscillatorNode | null = null;
   private ambientGain: GainNode | null = null;
+  private ambientVariationInterval: ReturnType<typeof setInterval> | null = null;
   private activeOscillators: OscillatorNode[] = [];
 
   constructor() {
@@ -31,6 +32,12 @@ class SoundManager {
     
     oscillator.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
+
+    oscillator.onended = () => {
+      // Nettoyer l'oscillateur du tableau une fois terminé
+      this.activeOscillators = this.activeOscillators.filter(osc => osc !== oscillator);
+      gainNode.disconnect();
+    };
     
     switch (type) {
       case 'click':
@@ -153,22 +160,33 @@ class SoundManager {
   }
 
   stopAmbientSound() {
+    if (this.ambientVariationInterval) {
+      clearInterval(this.ambientVariationInterval);
+      this.ambientVariationInterval = null;
+    }
+
     if (this.ambientOscillator) {
       this.ambientOscillator.stop();
+      this.ambientOscillator.disconnect();
       this.ambientOscillator = null;
+    }
+    if (this.ambientGain) {
+      this.ambientGain.disconnect();
       this.ambientGain = null;
     }
   }
 
   private createAmbientVariation() {
-    if (!this.ambientOscillator || !this.audioContext) return;
-    
-    setInterval(() => {
+    if (this.ambientVariationInterval) {
+      clearInterval(this.ambientVariationInterval);
+    }
+
+    this.ambientVariationInterval = setInterval(() => {
       if (this.ambientOscillator && this.audioContext) {
         const randomFreq = 80 + Math.random() * 40;
-        this.ambientOscillator.frequency.setValueAtTime(
+        this.ambientOscillator.frequency.linearRampToValueAtTime(
           randomFreq, 
-          this.audioContext.currentTime
+          this.audioContext.currentTime + 3
         );
       }
     }, 3000);
@@ -176,14 +194,13 @@ class SoundManager {
 
   stopAllSounds() {
     // Arrêter tous les oscillateurs actifs
-    this.activeOscillators.forEach(oscillator => {
+    [...this.activeOscillators].forEach(oscillator => {
       try {
         oscillator.stop();
       } catch (e) {
-        // L'oscillateur est déjà arrêté
+        // L'oscillateur est peut-être déjà arrêté, ce n'est pas grave
       }
     });
-    this.activeOscillators = [];
     
     // Arrêter le son ambiant
     this.stopAmbientSound();
@@ -197,18 +214,26 @@ class SoundManager {
 export const soundManager = new SoundManager();
 
 export function SoundSystem({ ambientSoundEnabled = true }: SoundSystemProps) {
+  const isMounted = useRef(false);
+
   useEffect(() => {
-    if (ambientSoundEnabled) {
-      // Délai pour permettre l'interaction utilisateur nécessaire
-      const timer = setTimeout(() => {
+    isMounted.current = true;
+
+    const startSound = () => {
+      if (isMounted.current && ambientSoundEnabled) {
+        // Délai pour permettre l'interaction utilisateur nécessaire
         soundManager.startAmbientSound();
-      }, 1000);
-      
-      return () => {
-        clearTimeout(timer);
-        soundManager.stopAmbientSound();
-      };
-    }
+      }
+    };
+
+    // L'AudioContext a besoin d'une interaction utilisateur pour démarrer
+    document.addEventListener('click', startSound, { once: true });
+    
+    return () => {
+      isMounted.current = false;
+      document.removeEventListener('click', startSound);
+      soundManager.stopAllSounds();
+    };
   }, [ambientSoundEnabled]);
 
   return null;
