@@ -35,6 +35,10 @@ export function CommandDashboard() {
   const { mascotState, showMascot } = useMascot();
   const [missionCompleted, setMissionCompleted] = useState(false);
   const [alerteGeneraleCompleted, setAlerteGeneraleCompleted] = useState(false);
+  const [pompiersCompleted, setPompiersCompleted] = useState(false);
+  const [policeCompleted, setPoliceCompleted] = useState(false);
+  const [eagleCompleted, setEagleCompleted] = useState(false);
+  const [samuCompleted, setSamuCompleted] = useState(false);
 
   // Fonction utilitaire pour générer des objectifs adaptés pour chaque service
   const generateObjectivesForService = (service: Service, alertMission: any): string[] => {
@@ -52,6 +56,83 @@ export function CommandDashboard() {
     }[service] || 0;
     
     return baseObjectives.slice(startIndex, startIndex + objectivesPerService);
+  };
+
+  // Fonction utilitaire pour créer un popup de mission accomplie
+  const createMissionPopup = (isVisible: boolean, onClose: () => void, config: {
+    title: string;
+    bgGradient: string;
+    borderColor: string;
+    emoji: string;
+    buttonColor?: string;
+    buttonHoverColor?: string;
+    buttonTextColor?: string;
+  }) => {
+    if (!isVisible) return null;
+    
+    // Style du bouton personnalisable
+    const defaultButtonStyle = "bg-yellow-500 hover:bg-yellow-400 text-black";
+    const customButtonStyle = config.buttonColor 
+      ? `${config.buttonColor} ${config.buttonHoverColor || 'hover:bg-opacity-80'} ${config.buttonTextColor || 'text-black'}`
+      : defaultButtonStyle;
+    
+    return (
+      <div
+        className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center bg-black/50 animate-fade-in"
+        onClick={() => {
+          onClose();
+          handleReset();
+        }}
+      >
+        <div
+          className={`relative ${config.bgGradient} text-white font-command text-center p-12 rounded-xl shadow-2xl border-4 ${config.borderColor} drop-shadow-xl max-w-6xl w-11/12 mx-4`}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <div className="relative">
+              <CheckCircle2 className="w-20 h-20 text-yellow-300 drop-shadow-lg" />
+            </div>
+            <div className="text-5xl md:text-6xl font-black">
+              {config.emoji} {config.title} {config.emoji}
+            </div>
+            <div className="relative">
+              <CheckCircle2 className="w-20 h-20 text-yellow-300 drop-shadow-lg" />
+            </div>
+          </div>
+          
+          <div className="text-3xl md:text-4xl font-bold text-yellow-100 mb-6">
+            TOUS LES OBJECTIFS ONT ÉTÉ ACCOMPLIS!
+          </div>
+          
+          <div className="text-xl text-emerald-100 mb-8">
+            ⭐ Mission réussie avec brio ⭐
+            <br />
+            🏆 Bravo Hugo ! 🏆
+          </div>
+          
+          <button
+            className={`${customButtonStyle} font-command font-bold px-12 py-6 rounded-lg text-2xl transition-all transform hover:scale-105`}
+            onClick={() => {
+              onClose();
+              handleReset();
+            }}
+          >
+            CONTINUER
+          </button>
+          
+          <button
+            className="absolute top-4 right-4 text-white hover:text-yellow-300 text-3xl p-2 rounded-full focus:outline-none"
+            onClick={() => {
+              onClose();
+              handleReset();
+            }}
+            aria-label="Fermer"
+          >
+            <X className="w-10 h-10" />
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const handleServiceSelect = (service: Service) => {
@@ -94,6 +175,10 @@ export function CommandDashboard() {
     setTimerDuration(600); // Reset à 10 minutes
     setMissionCompleted(false);
     setAlerteGeneraleCompleted(false);
+    setPompiersCompleted(false);
+    setPoliceCompleted(false);
+    setEagleCompleted(false);
+    setSamuCompleted(false);
   };
 
   const startMission = () => {
@@ -186,17 +271,38 @@ export function CommandDashboard() {
         showMascot('thinking', 'Nouvelle mission d\'alerte générale proposée !');
       }
     } else {
-      // Sélectionner une nouvelle mission aléatoire normale
-      const allMissions = [
+      // Sélectionner une nouvelle mission aléatoire (incluant les alertes générales)
+      const normalMissions = [
         ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
         ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
         ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
         ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
       ];
+      
+      // Ajouter les alertes générales
+      const alerteMissions = missions.alertes.map(alerteMission => ({
+        service: 'alerte_generale' as Service,
+        mission: {
+          id: alerteMission.id,
+          title: alerteMission.title,
+          location: alerteMission.location,
+          conditions: alerteMission.conditions,
+          vehicles: alerteMission.vehicles,
+          objectives: [],
+          objectivesByService: {
+            pompiers: generateObjectivesForService('pompiers', alerteMission),
+            police: generateObjectivesForService('police', alerteMission),
+            eagle: generateObjectivesForService('eagle', alerteMission),
+            samu: generateObjectivesForService('samu', alerteMission)
+          }
+        }
+      }));
+      
+      const allMissions = [...normalMissions, ...alerteMissions];
       const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
       setSelectedMission(randomMission);
       setSelectedService(randomMission.service);
-      showMascot('thinking', 'Nouvelle mission proposée !');
+      showMascot('thinking', randomMission.service === 'alerte_generale' ? 'Alerte générale proposée !' : 'Nouvelle mission proposée !');
     }
     
     setAutoAcceptanceTime(30); // Reset le timer d'acceptation
@@ -556,6 +662,18 @@ export function CommandDashboard() {
               if (selectedMission?.service === 'alerte_generale') {
                 setAlerteGeneraleCompleted(true);
                 showMascot('encouraging', 'Alerte générale validée ! Tous les services ont réussi !');
+              } else if (selectedMission?.service === 'pompiers') {
+                setPompiersCompleted(true);
+                showMascot('encouraging', 'Mission pompiers accomplie ! Excellent travail !');
+              } else if (selectedMission?.service === 'police') {
+                setPoliceCompleted(true);
+                showMascot('encouraging', 'Mission police accomplie ! Ordre maintenu !');
+              } else if (selectedMission?.service === 'eagle') {
+                setEagleCompleted(true);
+                showMascot('encouraging', 'Mission Eagle Force accomplie ! Intervention tactique réussie !');
+              } else if (selectedMission?.service === 'samu') {
+                setSamuCompleted(true);
+                showMascot('encouraging', 'Mission SAMU accomplie ! Vies sauvées !');
               } else {
                 setMissionCompleted(true);
                 showMascot('encouraging', 'Mission accomplie ! Félicitations !');
@@ -588,54 +706,44 @@ export function CommandDashboard() {
           )}
           
           {/* Popup spécial pour alertes générales */}
-          {alerteGeneraleCompleted && (
-            <div
-              className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center bg-black/50 animate-fade-in"
-              onClick={() => setAlerteGeneraleCompleted(false)}
-            >
-              <div
-                className="relative bg-gradient-to-r from-emerald-700 via-green-700 to-emerald-700 text-white font-command text-center p-8 rounded-xl shadow-2xl border-4 border-yellow-400 drop-shadow-xl max-w-2xl mx-4"
-                onClick={e => e.stopPropagation()}
-              >
-                <div className="flex items-center justify-center gap-4 mb-4">
-                  <div className="relative">
-                    <CheckCircle2 className="w-16 h-16 text-yellow-300 drop-shadow-lg" />
-                  </div>
-                  <div className="text-4xl md:text-5xl font-black">
-                    🎉 ALERTE GÉNÉRALE VALIDÉE 🎉
-                  </div>
-                  <div className="relative">
-                    <CheckCircle2 className="w-16 h-16 text-yellow-300 drop-shadow-lg" />
-                  </div>
-                </div>
-                
-                <div className="text-2xl md:text-3xl font-bold text-yellow-100 mb-4">
-                  MISSION ACCOMPLIE!
-                </div>
-                
-                <div className="text-lg text-emerald-100 mb-6">
-                  ⭐ Tous les services ont accompli leurs objectifs avec succès ⭐
-                  <br />
-                  🏆 Bravo Hugo ! 🏆
-                </div>
-                
-                <button
-                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-command font-bold px-8 py-4 rounded-lg text-xl transition-all transform hover:scale-105"
-                  onClick={() => setAlerteGeneraleCompleted(false)}
-                >
-                  CONTINUER
-                </button>
-                
-                <button
-                  className="absolute top-2 right-2 text-white hover:text-yellow-300 text-3xl p-2 rounded-full focus:outline-none"
-                  onClick={() => setAlerteGeneraleCompleted(false)}
-                  aria-label="Fermer"
-                >
-                  <X className="w-8 h-8" />
-                </button>
-              </div>
-            </div>
-          )}
+          {createMissionPopup(alerteGeneraleCompleted, () => setAlerteGeneraleCompleted(false), {
+            title: "ALERTE GÉNÉRALE VALIDÉE",
+            bgGradient: "bg-gradient-to-r from-emerald-700 via-green-700 to-emerald-700",
+            borderColor: "border-yellow-400",
+            emoji: "🎉"
+          })}
+          
+          {/* Popups pour chaque service */}
+          {createMissionPopup(pompiersCompleted, () => setPompiersCompleted(false), {
+            title: "MISSION POMPIERS VALIDÉE",
+            bgGradient: "bg-gradient-to-r from-red-700 via-red-600 to-red-700",
+            borderColor: "border-orange-400",
+            emoji: "🚒"
+          })}
+          
+          {createMissionPopup(policeCompleted, () => setPoliceCompleted(false), {
+            title: "MISSION POLICE VALIDÉE",
+            bgGradient: "bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700",
+            borderColor: "border-cyan-400",
+            emoji: "🚔"
+          })}
+          
+          {createMissionPopup(eagleCompleted, () => setEagleCompleted(false), {
+            title: "MISSION EAGLE VALIDÉE",
+            bgGradient: "bg-gradient-to-r from-gray-800 via-stone-700 to-olive-900",
+            borderColor: "border-stone-400",
+            emoji: "🚁"
+          })}
+          
+          {createMissionPopup(samuCompleted, () => setSamuCompleted(false), {
+            title: "MISSION SAMU VALIDÉE",
+            bgGradient: "bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600",
+            borderColor: "border-yellow-400",
+            emoji: "🚑",
+            buttonColor: "bg-red-600",
+            buttonHoverColor: "hover:bg-red-500",
+            buttonTextColor: "text-white"
+          })}
         </>
         
         {/* Système de sons et mascotte */}

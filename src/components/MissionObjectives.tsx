@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, Target } from 'lucide-react';
+import { CheckCircle2, Target, Siren } from 'lucide-react';
 import { soundManager } from './SoundSystem';
 
 interface MissionObjectivesProps {
@@ -14,6 +14,9 @@ interface MissionObjectivesProps {
 
 export function MissionObjectives({ objectives, missionTitle, onMissionComplete, canValidateObjectives = true }: MissionObjectivesProps) {
   const [completedObjectives, setCompletedObjectives] = useState<Set<number>>(new Set());
+
+  // Bloc d'objectifs validés façon MultiServiceObjectives
+  const allCompleted = completedObjectives.size === objectives.length;
 
   const handleObjectiveToggle = (index: number, checked: boolean) => {
     if (!canValidateObjectives) return;
@@ -44,15 +47,16 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
   return (
     <Card className={`mission-card transition-all duration-300 ${!canValidateObjectives ? 'opacity-60 grayscale pointer-events-none' : ''}`}>
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Target className="h-5 w-5 text-primary" />
-            <h3 className="font-command text-lg font-semibold text-foreground">
-              OBJECTIFS DE MISSION
+        {/* Bloc d'objectifs validés façon MultiServiceObjectives */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <Siren className="h-7 w-7 text-yellow-300" />
+            <h3 className="font-command text-xl font-bold text-yellow-900 drop-shadow-lg tracking-wide">
+              🚨 OBJECTIFS DE LA MISSION 🚨
             </h3>
           </div>
-          <Badge variant="outline" className="font-command">
-            {completedObjectives.size}/{objectives.length} accomplis
+          <Badge variant="outline" className={`font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 ${allCompleted ? 'text-green-600' : 'text-yellow-900'}`}>
+            {completedObjectives.size}/{objectives.length} objectifs validés
           </Badge>
         </div>
 
@@ -63,7 +67,6 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
         <div className="space-y-3">
           {objectives.map((objective, index) => {
             const isCompleted = completedObjectives.has(index);
-            
             return (
               <div 
                 key={index} 
@@ -107,12 +110,12 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
           })}
         </div>
 
-        {completedObjectives.size === objectives.length && (
+        {allCompleted && (
           <div className="text-center p-4 bg-green-500/20 border border-green-500/30 rounded animate-pulse">
             <div className="flex items-center justify-center gap-2 text-green-600 font-command">
               <CheckCircle2 className="h-6 w-6" />
               <span className="font-bold text-lg">
-                🎉 TOUS OBJECTIFS ACCOMPLIS! 🎉
+                🎉 TOUS LES OBJECTIFS ONT ÉTÉ ACCOMPLIS! 🎉
               </span>
             </div>
           </div>

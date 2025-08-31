@@ -240,6 +240,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
           missionTitle={selectedMission.mission.title}
           onMissionComplete={onObjectivesComplete}
           canValidateObjectives={!!timerActive}
+          service={service === 'alerte_generale' ? undefined : service}
         />
       )}
 
