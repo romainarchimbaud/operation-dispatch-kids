@@ -27,6 +27,17 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
     setIsVisible(show);
   }, [show]);
 
+  // Auto-minimise après 2 secondes
+  useEffect(() => {
+    if (isVisible && !isMinimized) {
+      const timer = setTimeout(() => {
+        setIsMinimized(true);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, isMinimized]);
+
   const getMascotEmoji = () => {
     switch (currentMood) {
       case 'welcome': return '👨‍🚒';
@@ -86,7 +97,7 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
         <Button
           onClick={() => setIsMinimized(false)}
           size="lg"
-          className="w-14 h-14 rounded-full p-0 animate-bounce shadow-lg hover:shadow-xl transition-all duration-300"
+          className="w-14 h-14 rounded-full p-0 shadow-lg hover:shadow-xl transition-all duration-300"
           style={{
             background: `hsl(var(--${currentMood === 'success' ? 'eagle' : currentMood === 'alert' ? 'destructive' : 'primary'}))`,
             color: `hsl(var(--${currentMood === 'success' ? 'eagle' : currentMood === 'alert' ? 'destructive' : 'primary'}-foreground))`
