@@ -445,9 +445,9 @@ export function CommandDashboard() {
               {/* Center - Logo */}
               <div className="flex justify-center animate-fade-in-scale">
                 <img 
-                  src="/logo.png"
+                  src={theme === 'light' ? "/logo-dark.png" : "/logo.png"}
                   alt="Call Center Logo"
-                  className="transition-all duration-500 hover:scale-105 max-h-[200px] w-auto"
+                  className="transition-all duration-500 hover:scale-105 w-auto"
                 />
               </div>
               
