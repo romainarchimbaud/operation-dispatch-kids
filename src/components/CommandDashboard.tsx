@@ -560,7 +560,7 @@ export function CommandDashboard() {
             </div>
             {/* Eagle Force - Modern Card */}
             <div className="animate-slide-in-right" style={{animationDelay: '0.1s'}}>
-              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-eagle border-gray-500/30 glass-effect"
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-eagle border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('eagle')}>
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
@@ -594,7 +594,7 @@ export function CommandDashboard() {
             </div>
             {/* SAMU - Modern Card */}
             <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
-              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-samu border-yellow-500/30 glass-effect"
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-samu border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('samu')}>
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
