@@ -112,7 +112,7 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
             <div className="flex items-center justify-center gap-2 text-green-600 font-command">
               <CheckCircle2 className="h-6 w-6" />
               <span className="font-bold text-lg">
-                🎉 MISSION VALIDÉE - TOUS OBJECTIFS ACCOMPLIS! 🎉
+                🎉 TOUS OBJECTIFS ACCOMPLIS! 🎉
               </span>
             </div>
           </div>

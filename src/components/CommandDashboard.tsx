@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw, Zap, Ambulance } from 'lucide-react';
+import { Truck, Shield, Bird, RotateCcw, Dice6, Timer, Play, Pause, SquareCheck, Siren, Plane, Car, Check, X, RefreshCw, Zap, Ambulance, CheckCircle2 } from 'lucide-react';
 import { MissionList } from './MissionList';
 import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
@@ -34,6 +34,7 @@ export function CommandDashboard() {
   const [autoAcceptanceTime, setAutoAcceptanceTime] = useState(30);
   const { mascotState, showMascot } = useMascot();
   const [missionCompleted, setMissionCompleted] = useState(false);
+  const [alerteGeneraleCompleted, setAlerteGeneraleCompleted] = useState(false);
 
   // Fonction utilitaire pour générer des objectifs adaptés pour chaque service
   const generateObjectivesForService = (service: Service, alertMission: any): string[] => {
@@ -91,6 +92,8 @@ export function CommandDashboard() {
     setAutoAcceptancePhase(false);
     setAutoAcceptanceTime(30);
     setTimerDuration(600); // Reset à 10 minutes
+    setMissionCompleted(false);
+    setAlerteGeneraleCompleted(false);
   };
 
   const startMission = () => {
@@ -154,18 +157,49 @@ export function CommandDashboard() {
   const handleNewAutoMission = () => {
     soundManager.stopAllSounds();
     soundManager.playSound('alert', 5);
-    // Sélectionner une nouvelle mission aléatoire
-    const allMissions = [
-      ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
-      ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
-      ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
-      ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
-    ];
-    const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
-    setSelectedMission(randomMission);
-    setSelectedService(randomMission.service);
+    
+    // Vérifier si on est en mode alerte générale
+    if (selectedMission?.service === 'alerte_generale') {
+      // Sélectionner une nouvelle mission d'alerte générale aléatoire
+      const randomAlerteMission = missions.alertes[Math.floor(Math.random() * missions.alertes.length)];
+      
+      if (randomAlerteMission) {
+        const generalAlertMission = {
+          service: 'alerte_generale' as Service,
+          mission: {
+            id: randomAlerteMission.id,
+            title: randomAlerteMission.title,
+            location: randomAlerteMission.location,
+            conditions: randomAlerteMission.conditions,
+            vehicles: randomAlerteMission.vehicles,
+            objectives: [],
+            objectivesByService: {
+              pompiers: generateObjectivesForService('pompiers', randomAlerteMission),
+              police: generateObjectivesForService('police', randomAlerteMission),
+              eagle: generateObjectivesForService('eagle', randomAlerteMission),
+              samu: generateObjectivesForService('samu', randomAlerteMission)
+            }
+          }
+        };
+        setSelectedMission(generalAlertMission);
+        setSelectedService('alerte_generale');
+        showMascot('thinking', 'Nouvelle mission d\'alerte générale proposée !');
+      }
+    } else {
+      // Sélectionner une nouvelle mission aléatoire normale
+      const allMissions = [
+        ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
+        ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
+        ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
+        ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
+      ];
+      const randomMission = allMissions[Math.floor(Math.random() * allMissions.length)];
+      setSelectedMission(randomMission);
+      setSelectedService(randomMission.service);
+      showMascot('thinking', 'Nouvelle mission proposée !');
+    }
+    
     setAutoAcceptanceTime(30); // Reset le timer d'acceptation
-    showMascot('thinking', 'Nouvelle mission proposée !');
   };
 
   const handleGeneralAlert = () => {
@@ -519,8 +553,13 @@ export function CommandDashboard() {
             autoAcceptancePhase={autoAcceptancePhase}
             onObjectivesComplete={() => {
               setTimerActive(false);
-              setMissionCompleted(true);
-              showMascot('encouraging', 'Mission accomplie ! Félicitations !');
+              if (selectedMission?.service === 'alerte_generale') {
+                setAlerteGeneraleCompleted(true);
+                showMascot('encouraging', 'Alerte générale validée ! Tous les services ont réussi !');
+              } else {
+                setMissionCompleted(true);
+                showMascot('encouraging', 'Mission accomplie ! Félicitations !');
+              }
               setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }, 100);
@@ -540,6 +579,56 @@ export function CommandDashboard() {
                 <button
                   className="absolute top-2 right-2 text-white hover:text-green-200 text-3xl p-2 rounded-full focus:outline-none"
                   onClick={() => setMissionCompleted(false)}
+                  aria-label="Fermer"
+                >
+                  <X className="w-8 h-8" />
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {/* Popup spécial pour alertes générales */}
+          {alerteGeneraleCompleted && (
+            <div
+              className="fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center bg-black/50 animate-fade-in"
+              onClick={() => setAlerteGeneraleCompleted(false)}
+            >
+              <div
+                className="relative bg-gradient-to-r from-emerald-700 via-green-700 to-emerald-700 text-white font-command text-center p-8 rounded-xl shadow-2xl border-4 border-yellow-400 drop-shadow-xl max-w-2xl mx-4"
+                onClick={e => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-center gap-4 mb-4">
+                  <div className="relative">
+                    <CheckCircle2 className="w-16 h-16 text-yellow-300 drop-shadow-lg" />
+                  </div>
+                  <div className="text-4xl md:text-5xl font-black">
+                    🎉 ALERTE GÉNÉRALE VALIDÉE 🎉
+                  </div>
+                  <div className="relative">
+                    <CheckCircle2 className="w-16 h-16 text-yellow-300 drop-shadow-lg" />
+                  </div>
+                </div>
+                
+                <div className="text-2xl md:text-3xl font-bold text-yellow-100 mb-4">
+                  MISSION ACCOMPLIE!
+                </div>
+                
+                <div className="text-lg text-emerald-100 mb-6">
+                  ⭐ Tous les services ont accompli leurs objectifs avec succès ⭐
+                  <br />
+                  🏆 Bravo Hugo ! 🏆
+                </div>
+                
+                <button
+                  className="bg-yellow-500 hover:bg-yellow-400 text-black font-command font-bold px-8 py-4 rounded-lg text-xl transition-all transform hover:scale-105"
+                  onClick={() => setAlerteGeneraleCompleted(false)}
+                >
+                  CONTINUER
+                </button>
+                
+                <button
+                  className="absolute top-2 right-2 text-white hover:text-yellow-300 text-3xl p-2 rounded-full focus:outline-none"
+                  onClick={() => setAlerteGeneraleCompleted(false)}
                   aria-label="Fermer"
                 >
                   <X className="w-8 h-8" />

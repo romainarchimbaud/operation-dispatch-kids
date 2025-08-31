@@ -110,25 +110,6 @@ export function MultiServiceObjectives({
             <span className="font-semibold">{missionTitle}</span>
           </div>
         </div>
-
-        {completedServices.size === 4 && (
-          <div className="text-center p-6 bg-gradient-to-r from-emerald-800/90 via-green-800/90 to-emerald-800/90 border-2 border-emerald-400 rounded-lg shadow-lg mb-4">
-            <div className="flex items-center justify-center gap-3 text-white font-command">
-              <div className="relative">
-                <CheckCircle2 className="h-8 w-8 text-emerald-300" />
-              </div>
-              <span className="font-black text-xl drop-shadow-lg">
-                🎉 ALERTE GÉNÉRALE VALIDÉE - MISSION ACCOMPLIE! 🎉
-              </span>
-              <div className="relative">
-                <CheckCircle2 className="h-8 w-8 text-emerald-300" />
-              </div>
-            </div>
-            <p className="mt-2 text-emerald-100 font-semibold">
-              ⭐ Tous les services ont accompli leurs objectifs avec succès ⭐
-            </p>
-          </div>
-        )}
       </Card>
 
       {/* Grille des 4 blocs d'objectifs */}
