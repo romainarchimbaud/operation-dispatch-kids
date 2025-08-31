@@ -431,10 +431,18 @@ export function CommandDashboard() {
               {/* Left side - Title only */}
               <div className="text-left flex items-center">
                 <div className="relative py-2 px-3">
-                  <h1 className="text-3xl font-command text-white drop-shadow-2xl tracking-wider">
+                  <h1 className={`text-3xl font-command drop-shadow-2xl tracking-wider ${
+                    theme === 'light'
+                      ? 'text-slate-800'
+                      : 'text-white'
+                  }`}>
                     CENTRE DE COMMANDEMENT
                   </h1>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-20 animate-glow-pulse"></div>
+                  <div className={`absolute -inset-1 rounded-lg blur opacity-20 animate-glow-pulse ${
+                    theme === 'light'
+                      ? 'bg-gradient-to-r from-blue-600 to-blue-700'
+                      : 'bg-gradient-to-r from-blue-600 to-purple-600'
+                  }`}></div>
                 </div>
               </div>
               
@@ -675,21 +683,21 @@ export function CommandDashboard() {
                     <div>
                       <h2 className={`text-2xl font-command drop-shadow-lg mb-1 tracking-wider ${
                         theme === 'light'
-                          ? 'text-slate-800'
+                          ? 'text-blue-100'
                           : 'text-green-100'
                       }`}>
                         🚨 ALERTE GÉNÉRALE 🚨
                       </h2>
                       <p className={`text-base font-semibold drop-shadow-md ${
                         theme === 'light'
-                          ? 'text-blue-600'
+                          ? 'text-blue-200'
                           : 'text-green-300'
                       }`}>
                         ⚡ Mission critique multi-services ⚡
                       </p>
                       <p className={`text-xs mt-1 opacity-90 ${
                         theme === 'light'
-                          ? 'text-slate-600'
+                          ? 'text-blue-200'
                           : 'text-green-200'
                       }`}>
                         Mobilisation immédiate de toutes les unités d'intervention
