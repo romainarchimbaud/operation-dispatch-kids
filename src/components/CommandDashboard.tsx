@@ -81,17 +81,17 @@ export function CommandDashboard() {
     // Fond coloré selon le métier mais adaptatif dark/light
     const getServiceBackground = () => {
       if (config.bgGradient.includes('red')) {
-        return 'bg-gradient-to-br from-red-600 to-red-700 text-white';
+        return 'bg-gradient-to-br from-red-600 to-red-700 dark:from-red-700 dark:to-red-800';
       } else if (config.bgGradient.includes('blue')) {
-        return 'bg-gradient-to-br from-blue-600 to-blue-700 text-white';
+        return 'bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-700 dark:to-blue-800';
       } else if (config.bgGradient.includes('gray') || config.bgGradient.includes('stone')) {
-        return 'bg-gradient-to-br from-gray-700 to-gray-800 text-white';
+        return 'bg-gradient-to-br from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800';
       } else if (config.bgGradient.includes('yellow')) {
-        return 'bg-gradient-to-br from-yellow-500 to-yellow-600 text-black';
+        return 'bg-gradient-to-br from-yellow-500 to-yellow-600 dark:from-yellow-600 dark:to-yellow-700';
       } else if (config.bgGradient.includes('emerald') || config.bgGradient.includes('green')) {
-        return 'bg-gradient-to-br from-emerald-600 to-green-700 text-white';
+        return 'bg-gradient-to-br from-emerald-600 to-emerald-700 dark:from-emerald-700 dark:to-emerald-800';
       }
-      return 'bg-gradient-to-br from-gray-600 to-gray-700 text-white';
+      return 'bg-gradient-to-br from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800';
     };
     
     return (
@@ -114,7 +114,7 @@ export function CommandDashboard() {
           </div>
           
           {/* Titre principal */}
-          <div className="text-2xl md:text-3xl font-black mb-6">
+          <div className="text-2xl md:text-3xl font-black mb-6 text-white">
             {config.title}
           </div>
           
@@ -124,7 +124,7 @@ export function CommandDashboard() {
           </div>
           
           {/* Félicitations */}
-          <div className="text-lg text-gray-100 mb-8">
+          <div className="text-lg text-white/90 mb-8">
             ⭐ Mission réussie avec brio ⭐
             <br />
             🏆 Bravo Hugo ! 🏆
@@ -143,7 +143,7 @@ export function CommandDashboard() {
           
           {/* Bouton fermer */}
           <button
-            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground text-2xl p-2 rounded-full focus:outline-none transition-colors"
+            className="absolute top-4 right-4 text-white/80 hover:text-white text-2xl p-2 rounded-full focus:outline-none transition-colors"
             onClick={() => {
               onClose();
               handleReset();
