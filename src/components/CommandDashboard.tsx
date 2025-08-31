@@ -631,32 +631,16 @@ export function CommandDashboard() {
           {/* Alerte Générale - Ultra Modern */}
           <div className="mb-6 px-2 animate-fade-in-scale" style={{animationDelay: '0.4s'}}>
             <div className="relative mx-0 group max-w-6xl mx-auto" style={{
-              '--emergency-glow-color': theme === 'light' 
-                ? 'rgba(37, 99, 235, 0.6)' 
-                : 'rgba(34, 197, 94, 0.6)',
-              '--emergency-glow-color-secondary': theme === 'light' 
-                ? 'rgba(37, 99, 235, 0.7)' 
-                : 'rgba(34, 197, 94, 0.7)'
+              '--emergency-glow-color': 'rgba(245, 158, 11, 0.6)',
+              '--emergency-glow-color-secondary': 'rgba(245, 158, 11, 0.7)'
             } as React.CSSProperties}>
               {/* Dynamic background effect */}
-              <div className={`absolute -inset-2 rounded-xl blur-lg opacity-60 animate-emergency-glow ${
-                theme === 'light' 
-                  ? 'bg-gradient-to-r from-blue-400/20 via-slate-400/20 to-blue-400/20' 
-                  : 'bg-gradient-to-r from-green-400/20 via-green-500/20 to-green-400/20'
-              }`}></div>
+              <div className="absolute -inset-2 rounded-xl blur-lg opacity-60 animate-emergency-glow bg-gradient-to-r from-yellow-400/20 via-orange-400/20 to-yellow-400/20"></div>
               
-              <Card className={`relative glass-effect border-2 p-4 shadow-2xl overflow-hidden backdrop-blur-sm ${
-                theme === 'light'
-                  ? 'border-blue-600/40 bg-gradient-to-br from-slate-800/90 to-blue-900/90'
-                  : 'border-green-600/40 bg-gradient-to-br from-green-900/90 to-black/90'
-              }`}>{/* Classe spéciale pour AG */}
+              <Card className="relative ag-emergency-card border-2 p-4 shadow-2xl overflow-hidden backdrop-blur-sm">{/* Classe spéciale pour AG */}
                 {/* Animated background pattern */}
                 <div className="absolute inset-0 opacity-20">
-                  <div className={`absolute inset-0 animate-shimmer ${
-                    theme === 'light'
-                      ? 'bg-gradient-to-r from-blue-600/20 via-slate-500/20 to-blue-600/20'
-                      : 'bg-gradient-to-r from-green-600/20 via-green-500/20 to-green-600/20'
-                  }`}
+                  <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-yellow-600/20 via-orange-500/20 to-yellow-600/20"
                     style={{
                       backgroundSize: '200% 100%',
                       backgroundImage: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)'
@@ -665,55 +649,27 @@ export function CommandDashboard() {
                 </div>
                 
                 {/* Warning stripes */}
-                <div className={`absolute top-0 left-0 right-0 h-1 opacity-60 ${
-                  theme === 'light'
-                    ? 'bg-gradient-to-r from-transparent via-blue-400 to-transparent'
-                    : 'bg-gradient-to-r from-transparent via-green-400 to-transparent'
-                }`}></div>
-                <div className={`absolute bottom-0 left-0 right-0 h-1 opacity-60 ${
-                  theme === 'light'
-                    ? 'bg-gradient-to-r from-transparent via-blue-400 to-transparent'
-                    : 'bg-gradient-to-r from-transparent via-green-400 to-transparent'
-                }`}></div>
+                <div className="absolute top-0 left-0 right-0 h-1 opacity-60 bg-gradient-to-r from-transparent via-yellow-300 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 opacity-60 bg-gradient-to-r from-transparent via-yellow-300 to-transparent"></div>
                 
                 <div className="relative z-10 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     {/* Ultra modern icon with theme colors */}
                     <div className="relative">
-                      <div className={`absolute inset-0 rounded-full blur-md opacity-60 animate-emergency-glow ${
-                        theme === 'light' 
-                          ? 'bg-blue-500' 
-                          : 'bg-green-500'
-                      }`}></div>
-                      <div className={`relative h-12 w-12 rounded-full flex items-center justify-center ${
-                        theme === 'light'
-                          ? 'bg-gradient-to-br from-blue-400 to-blue-600'
-                          : 'bg-gradient-to-br from-green-500 to-green-700'
-                      }`}>
+                      <div className="absolute inset-0 rounded-full blur-md opacity-60 animate-emergency-glow bg-yellow-300"></div>
+                      <div className="relative h-12 w-12 rounded-full flex items-center justify-center bg-gradient-to-br from-yellow-300 to-orange-400">
                         <Siren className="h-6 w-6 text-white drop-shadow-lg" />
                       </div>
                     </div>
                     
                     <div>
-                      <h2 className={`text-2xl font-command drop-shadow-lg mb-1 tracking-wider ${
-                        theme === 'light'
-                          ? 'text-blue-100'
-                          : 'text-green-100'
-                      }`}>
+                      <h2 className="text-2xl font-command drop-shadow-lg mb-1 tracking-wider text-white">
                         🚨 ALERTE GÉNÉRALE 🚨
                       </h2>
-                      <p className={`text-base font-semibold drop-shadow-md ${
-                        theme === 'light'
-                          ? 'text-blue-200'
-                          : 'text-green-300'
-                      }`}>
+                      <p className="text-base font-semibold drop-shadow-md text-yellow-100">
                         ⚡ Mission critique multi-services ⚡
                       </p>
-                      <p className={`text-xs mt-1 opacity-90 ${
-                        theme === 'light'
-                          ? 'text-blue-200'
-                          : 'text-green-200'
-                      }`}>
+                      <p className="text-xs mt-1 opacity-90 text-yellow-100">
                         Mobilisation immédiate de toutes les unités d'intervention
                       </p>
                     </div>
@@ -721,17 +677,9 @@ export function CommandDashboard() {
                   
                   {/* Ultra flashy button with theme colors */}
                   <div className="relative">
-                    <div className={`absolute -inset-1 rounded-lg blur opacity-70 ${
-                      theme === 'light'
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700'
-                        : 'bg-gradient-to-r from-green-600 to-green-700'
-                    }`}></div>
+                    <div className="absolute -inset-1 rounded-lg blur opacity-70 bg-gradient-to-r from-yellow-300 to-orange-400"></div>
                     <Button
-                      className={`relative text-white font-command font-black px-8 py-4 text-lg shadow-2xl btn-professional transform hover:scale-105 transition-all duration-300 ${
-                        theme === 'light'
-                          ? 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-400 hover:via-blue-500 hover:to-blue-600 border border-blue-400/50'
-                          : 'bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:from-green-400 hover:via-green-500 hover:to-green-600 border border-green-400/50'
-                      }`}
+                      className="relative text-white font-command font-black px-8 py-4 text-lg shadow-2xl btn-professional transform hover:scale-105 transition-all duration-300 bg-gradient-to-r from-yellow-600 via-orange-600 to-red-600 hover:from-yellow-500 hover:via-orange-500 hover:to-red-500 border border-yellow-300/50"
                       onClick={handleGeneralAlert}
                     >
                       <span className="flex items-center gap-2">
@@ -743,16 +691,8 @@ export function CommandDashboard() {
                 
                 {/* Bottom warning with theme colors */}
                 <div className="mt-3 text-center">
-                  <div className={`glass-effect-dark rounded-lg p-2 ${
-                    theme === 'light'
-                      ? 'border border-blue-400/30'
-                      : 'border border-green-400/30'
-                  }`}>
-                    <p className={`text-sm font-bold animate-pulse ${
-                      theme === 'light'
-                        ? 'text-blue-700'
-                        : 'text-green-300'
-                    }`}>
+                  <div className="glass-effect-dark rounded-lg p-2 border border-yellow-300/30">
+                    <p className="text-sm font-bold animate-pulse text-yellow-100">
                       ⚠️ ATTENTION : Cette action mobilise TOUS les corps de métier simultanément ⚠️
                     </p>
                   </div>
