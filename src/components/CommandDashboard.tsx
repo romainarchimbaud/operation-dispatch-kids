@@ -436,29 +436,23 @@ export function CommandDashboard() {
         </div>
 
         <div className="relative z-10 mx-auto max-w-full px-4 flex flex-col min-h-screen">
-          {/* Header with aligned layout */}
+          {/* Header with logo and controls */}
           <div className="mb-6 pt-4 px-4 animate-slide-in-top">
-            <div className="flex items-center justify-between">
-              {/* Left side - Title only */}
-              <div className="text-left flex items-center">
-                <div className="relative py-2 px-3">
-                  <h1 className={`text-3xl font-command drop-shadow-2xl tracking-wider ${
-                    theme === 'light'
-                      ? 'text-slate-800'
-                      : 'text-white'
-                  }`}>
-                    CENTRE DE COMMANDEMENT
-                  </h1>
-                  <div className={`absolute -inset-1 rounded-lg blur opacity-20 animate-glow-pulse ${
-                    theme === 'light'
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700'
-                      : 'bg-gradient-to-r from-blue-600 to-purple-600'
-                  }`}></div>
-                </div>
+            <div className="flex items-start justify-between">
+              {/* Left side - Empty for spacing */}
+              <div className="flex-1"></div>
+              
+              {/* Center - Logo */}
+              <div className="flex justify-center animate-fade-in-scale">
+                <img 
+                  src="/logo.png"
+                  alt="Call Center Logo"
+                  className="transition-all duration-500 hover:scale-105 max-h-[200px] w-auto"
+                />
               </div>
               
-              {/* Right side - Buttons */}
-              <div className="flex items-center gap-4">
+              {/* Right side - START AUTO GLOBAL and Theme Toggle */}
+              <div className="flex-1 flex items-center justify-end gap-3">
                 {/* Start Auto Global Button */}
                 <div className="relative animate-fade-in-scale">
                   <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg blur opacity-60"></div>
@@ -475,17 +469,6 @@ export function CommandDashboard() {
                 <ThemeToggle />
               </div>
             </div>
-          </div>
-
-          {/* Centered subtitle */}
-          <div className="text-center py-6 animate-fade-in-scale">
-            <p className={`text-lg font-command opacity-90 ${
-              theme === 'light'
-                ? 'text-slate-700'
-                : 'text-slate-300'
-            }`}>
-              Sélectionnez votre service d'intervention
-            </p>
           </div>
 
           {/* Services Grid - Redesigned */}
