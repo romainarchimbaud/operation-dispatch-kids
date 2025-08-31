@@ -99,30 +99,14 @@
   animation: shimmer 2s linear infinite;
 }
 
-/* Patterns de fond pour chaque métier */
+/* Patterns de fond pour chaque métier - identiques pour light et dark */
 .bg-pattern-fire {
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(239, 68, 68, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(245, 101, 101, 0.25) 0%, transparent 50%);
-}
-
-.dark .bg-pattern-fire {
   background-image: 
     radial-gradient(circle at 25% 25%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 75% 75%, rgba(245, 101, 101, 0.15) 0%, transparent 50%);
 }
 
 .bg-pattern-police {
-  background-image: 
-    linear-gradient(45deg, rgba(59, 130, 246, 0.15) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(59, 130, 246, 0.15) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(59, 130, 246, 0.15) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(59, 130, 246, 0.15) 75%);
-  background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-}
-
-.dark .bg-pattern-police {
   background-image: 
     linear-gradient(45deg, rgba(59, 130, 246, 0.08) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(59, 130, 246, 0.08) 25%, transparent 25%),
@@ -134,24 +118,11 @@
 
 .bg-pattern-eagle {
   background-image: 
-    conic-gradient(from 0deg at 50% 50%, rgba(107, 114, 128, 0.25) 0deg, transparent 60deg, rgba(107, 114, 128, 0.25) 120deg, transparent 180deg, rgba(107, 114, 128, 0.25) 240deg, transparent 300deg);
-  background-size: 40px 40px;
-}
-
-.dark .bg-pattern-eagle {
-  background-image: 
     conic-gradient(from 0deg at 50% 50%, rgba(107, 114, 128, 0.15) 0deg, transparent 60deg, rgba(107, 114, 128, 0.15) 120deg, transparent 180deg, rgba(107, 114, 128, 0.15) 240deg, transparent 300deg);
   background-size: 40px 40px;
 }
 
 .bg-pattern-samu {
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.25) 0%, transparent 70%),
-    linear-gradient(45deg, rgba(234, 179, 8, 0.15) 50%, transparent 50%);
-  background-size: 30px 30px, 15px 15px;
-}
-
-.dark .bg-pattern-samu {
   background-image: 
     radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.15) 0%, transparent 70%),
     linear-gradient(45deg, rgba(234, 179, 8, 0.08) 50%, transparent 50%);

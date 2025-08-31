@@ -492,61 +492,32 @@ export function CommandDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8 px-8 animate-fade-in-scale">
             {/* Sapeurs-Pompiers - Modern Card */}
             <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
-              <Card className={`group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect card-hover-lift bg-pattern-fire ${
-                theme === 'light'
-                  ? 'border-red-300/40 bg-red-100/80'
-                  : 'border-red-500/30'
-              }`}
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-fire border-red-500/30 glass-effect"
                 onClick={() => handleServiceSelect('pompiers')}>
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-red-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Truck className={`relative h-12 w-12 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-red-600 group-hover:text-red-500'
-                        : 'text-red-400 group-hover:text-red-300'
-                    }`} />
-                    <Siren className={`absolute -top-1 -right-1 h-4 w-4 group-hover:animate-bounce ${
-                      theme === 'light'
-                        ? 'text-red-600'
-                        : 'text-red-400'
-                    }`} />
+                    <Truck className="relative h-12 w-12 text-red-400 group-hover:text-red-300 transition-colors duration-300" />
+                    <Siren className="absolute -top-1 -right-1 h-4 w-4 text-red-400 group-hover:animate-bounce" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-red-600 group-hover:text-red-500'
-                        : 'text-red-400 group-hover:text-red-300'
-                    }`}>
+                    <h2 className="mb-1 text-lg font-command text-red-400 group-hover:text-red-300 transition-colors duration-300">
                       SAPEURS-POMPIERS
                     </h2>
-                    <p className={`text-xs mb-2 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-red-600/80 group-hover:text-red-600'
-                        : 'text-slate-400 group-hover:text-slate-300'
-                    }`}>
+                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                       Marseille • Paris • Anglet
                     </p>
-                    <Badge className={`font-command mb-2 text-xs inline-block ${
-                      theme === 'light'
-                        ? 'bg-red-200/80 text-red-800 border-red-300/50'
-                        : 'bg-red-600/80 text-red-100 border-red-500/50'
-                    }`}>
+                    <Badge className="font-command mb-2 text-xs inline-block bg-red-600/80 text-red-100 border-red-500/50">
                       {missions.pompiers.length} MISSIONS
                     </Badge>
                   </div>
                   
                   <Button 
                     onClick={e => { e.stopPropagation(); handleStartAuto('pompiers'); }}
-                    className={`font-command px-3 py-2 text-xs w-full btn-professional ${
-                      theme === 'light'
-                        ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white border-red-400/50'
-                        : 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white border-red-500/50'
-                    }`}
+                    className="font-command px-3 py-2 text-xs w-full btn-professional bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white border-red-500/50"
                   >
                     START AUTO (30s)
                   </Button>
@@ -555,60 +526,32 @@ export function CommandDashboard() {
             </div>
             {/* Police - Modern Card */}
             <div className="animate-slide-in-left" style={{animationDelay: '0.2s'}}>
-              <Card className={`group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect card-hover-lift bg-pattern-police ${
-                theme === 'light'
-                  ? 'border-blue-300/40 bg-blue-100/80'
-                  : 'border-blue-500/30'
-              }`}
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-police border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('police')}>
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Shield className={`relative h-12 w-12 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-blue-600 group-hover:text-blue-500'
-                        : 'text-blue-400 group-hover:text-blue-300'
-                    }`} />
-                    <Car className={`absolute -top-1 -right-1 h-4 w-4 group-hover:animate-bounce ${
-                      theme === 'light'
-                        ? 'text-blue-600'
-                        : 'text-blue-400'
-                    }`} />
+                    <Shield className="relative h-12 w-12 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                    <Car className="absolute -top-1 -right-1 h-4 w-4 text-blue-400 group-hover:animate-bounce" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-blue-600 group-hover:text-blue-500'
-                        : 'text-blue-400 group-hover:text-blue-300'
-                    }`}>
+                    <h2 className="mb-1 text-lg font-command text-blue-400 group-hover:text-blue-300 transition-colors duration-300">
                       POLICE NATIONALE
                     </h2>
-                    <p className={`text-xs mb-2 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-blue-600/80 group-hover:text-blue-600'
-                        : 'text-slate-400 group-hover:text-slate-300'
-                    }`}>
+                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                       Intervention • Patrouille • Sécurité
                     </p>
-                    <Badge className={`font-command mb-2 text-xs inline-block ${
-                      theme === 'light'
-                        ? 'bg-blue-200/80 text-blue-800 border-blue-300/50'
-                        : 'bg-blue-600/80 text-blue-100 border-blue-500/50'
-                    }`}>
+                    <Badge className="font-command mb-2 text-xs inline-block bg-blue-600/80 text-blue-100 border-blue-500/50">
                       {missions.police.length} MISSIONS
                     </Badge>
                   </div>
                   
                   <Button 
                     onClick={e => { e.stopPropagation(); handleStartAuto('police'); }}
-                    className={`font-command px-3 py-2 text-xs w-full btn-professional ${
-                      theme === 'light'
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white border-blue-400/50'
-                        : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white border-blue-500/50'
-                    }`}
+                    className="font-command px-3 py-2 text-xs w-full btn-professional bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white border-blue-500/50"
                   >
                     START AUTO (30s)
                   </Button>
@@ -617,64 +560,32 @@ export function CommandDashboard() {
             </div>
             {/* Eagle Force - Modern Card */}
             <div className="animate-slide-in-right" style={{animationDelay: '0.1s'}}>
-              <Card className={`group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect card-hover-lift bg-pattern-eagle ${
-                theme === 'light'
-                  ? 'border-gray-300/40 bg-gray-100/80'
-                  : 'border-gray-500/30'
-              }`}
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-eagle border-gray-500/30 glass-effect"
                 onClick={() => handleServiceSelect('eagle')}>
-                <div className={`absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 transition-all duration-500 ${
-                  theme === 'light'
-                    ? 'opacity-100'
-                    : 'opacity-0 group-hover:opacity-100'
-                }`}></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-gray-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Zap className={`relative h-12 w-12 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-gray-600 group-hover:text-gray-500'
-                        : 'text-gray-400 group-hover:text-gray-300'
-                    }`} />
-                    <Plane className={`absolute -top-1 -right-1 h-4 w-4 group-hover:animate-bounce ${
-                      theme === 'light'
-                        ? 'text-gray-600'
-                        : 'text-gray-400'
-                    }`} />
+                    <Zap className="relative h-12 w-12 text-gray-400 group-hover:text-gray-300 transition-colors duration-300" />
+                    <Plane className="absolute -top-1 -right-1 h-4 w-4 text-gray-400 group-hover:animate-bounce" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-gray-600 group-hover:text-gray-500'
-                        : 'text-gray-400 group-hover:text-gray-300'
-                    }`}>
+                    <h2 className="mb-1 text-lg font-command text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
                       EAGLE FORCE
                     </h2>
-                    <p className={`text-xs mb-2 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-gray-600/80 group-hover:text-gray-600'
-                        : 'text-slate-400 group-hover:text-slate-300'
-                    }`}>
+                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                       Forces Spéciales • Missions Secrètes
                     </p>
-                    <Badge className={`font-command mb-2 text-xs inline-block ${
-                      theme === 'light'
-                        ? 'bg-gray-200/80 text-gray-800 border-gray-300/50'
-                        : 'bg-gray-600/80 text-gray-100 border-gray-500/50'
-                    }`}>
+                    <Badge className="font-command mb-2 text-xs inline-block bg-gray-600/80 text-gray-100 border-gray-500/50">
                       {missions.eagle.length} MISSIONS
                     </Badge>
                   </div>
                   
                   <Button 
                     onClick={e => { e.stopPropagation(); handleStartAuto('eagle'); }}
-                    className={`font-command px-3 py-2 text-xs w-full btn-professional ${
-                      theme === 'light'
-                        ? 'bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-400 hover:to-gray-500 text-white border-gray-400/50'
-                        : 'bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 text-white border-gray-500/50'
-                    }`}
+                    className="font-command px-3 py-2 text-xs w-full btn-professional bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 text-white border-gray-500/50"
                   >
                     START AUTO (30s)
                   </Button>
@@ -683,60 +594,32 @@ export function CommandDashboard() {
             </div>
             {/* SAMU - Modern Card */}
             <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
-              <Card className={`group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect card-hover-lift bg-pattern-samu ${
-                theme === 'light'
-                  ? 'border-yellow-300/40 bg-yellow-100/80'
-                  : 'border-yellow-500/30'
-              }`}
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-samu border-yellow-500/30 glass-effect"
                 onClick={() => handleServiceSelect('samu')}>
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-yellow-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Ambulance className={`relative h-12 w-12 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-yellow-600 group-hover:text-yellow-500'
-                        : 'text-yellow-400 group-hover:text-yellow-300'
-                    }`} />
-                    <Ambulance className={`absolute -top-1 -right-1 h-4 w-4 group-hover:animate-bounce ${
-                      theme === 'light'
-                        ? 'text-yellow-600'
-                        : 'text-yellow-400'
-                    }`} />
+                    <Ambulance className="relative h-12 w-12 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300" />
+                    <Ambulance className="absolute -top-1 -right-1 h-4 w-4 text-yellow-400 group-hover:animate-bounce" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-yellow-600 group-hover:text-yellow-500'
-                        : 'text-yellow-400 group-hover:text-yellow-300'
-                    }`}>
+                    <h2 className="mb-1 text-lg font-command text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300">
                       SAMU - YELLOW LIFE LINE
                     </h2>
-                    <p className={`text-xs mb-2 transition-colors duration-300 ${
-                      theme === 'light'
-                        ? 'text-yellow-600/80 group-hover:text-yellow-600'
-                        : 'text-slate-400 group-hover:text-slate-300'
-                    }`}>
+                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                       Yellow Life Line • Urgences Médicales
                     </p>
-                    <Badge className={`font-command mb-2 text-xs inline-block ${
-                      theme === 'light'
-                        ? 'bg-yellow-200/80 text-yellow-800 border-yellow-300/50'
-                        : 'bg-yellow-400/80 text-black border-yellow-400/50'
-                    }`}>
+                    <Badge className="font-command mb-2 text-xs inline-block bg-yellow-400/80 text-black border-yellow-400/50">
                       {missions.samu.length} MISSIONS
                     </Badge>
                   </div>
                   
                   <Button 
                     onClick={e => { e.stopPropagation(); handleStartAuto('samu'); }}
-                    className={`font-command px-3 py-2 text-xs w-full btn-professional ${
-                      theme === 'light'
-                        ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-white border-yellow-400/50'
-                        : 'bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black border-yellow-400/50'
-                    }`}
+                    className="font-command px-3 py-2 text-xs w-full btn-professional bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black border-yellow-400/50"
                   >
                     START AUTO (30s)
                   </Button>
