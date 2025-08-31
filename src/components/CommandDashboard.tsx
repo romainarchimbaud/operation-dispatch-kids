@@ -73,10 +73,26 @@ export function CommandDashboard() {
     if (!isVisible) return null;
     
     // Style du bouton personnalisable
-    const defaultButtonStyle = "bg-yellow-500 hover:bg-yellow-400 text-black";
+    const defaultButtonStyle = "bg-yellow-500 hover:bg-yellow-400 text-black dark:bg-yellow-600 dark:hover:bg-yellow-500";
     const customButtonStyle = config.buttonColor 
       ? `${config.buttonColor} ${config.buttonHoverColor || 'hover:bg-opacity-80'} ${config.buttonTextColor || 'text-black'}`
       : defaultButtonStyle;
+
+    // Fond coloré selon le métier mais adaptatif dark/light
+    const getServiceBackground = () => {
+      if (config.bgGradient.includes('red')) {
+        return 'bg-gradient-to-br from-red-600 to-red-700 text-white';
+      } else if (config.bgGradient.includes('blue')) {
+        return 'bg-gradient-to-br from-blue-600 to-blue-700 text-white';
+      } else if (config.bgGradient.includes('gray') || config.bgGradient.includes('stone')) {
+        return 'bg-gradient-to-br from-gray-700 to-gray-800 text-white';
+      } else if (config.bgGradient.includes('yellow')) {
+        return 'bg-gradient-to-br from-yellow-500 to-yellow-600 text-black';
+      } else if (config.bgGradient.includes('emerald') || config.bgGradient.includes('green')) {
+        return 'bg-gradient-to-br from-emerald-600 to-green-700 text-white';
+      }
+      return 'bg-gradient-to-br from-gray-600 to-gray-700 text-white';
+    };
     
     return (
       <div
@@ -87,33 +103,36 @@ export function CommandDashboard() {
         }}
       >
         <div
-          className={`relative ${config.bgGradient} text-white font-command text-center p-12 rounded-xl shadow-2xl border-4 ${config.borderColor} drop-shadow-xl max-w-6xl w-11/12 mx-4`}
+          className={`relative mission-card border-2 ${config.borderColor} font-command text-center p-8 rounded-xl shadow-2xl drop-shadow-xl max-w-4xl w-11/12 mx-4 ${getServiceBackground()} backdrop-blur-sm`}
           onClick={e => e.stopPropagation()}
         >
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <div className="relative">
-              <CheckCircle2 className="w-20 h-20 text-yellow-300 drop-shadow-lg" />
-            </div>
-            <div className="text-5xl md:text-6xl font-black">
-              {config.emoji} {config.title} {config.emoji}
-            </div>
-            <div className="relative">
-              <CheckCircle2 className="w-20 h-20 text-yellow-300 drop-shadow-lg" />
+          {/* Emoji en haut */}
+          <div className="flex justify-center mb-4">
+            <div className="text-6xl md:text-7xl drop-shadow-lg">
+              {config.emoji}
             </div>
           </div>
           
-          <div className="text-3xl md:text-4xl font-bold text-yellow-100 mb-6">
+          {/* Titre principal */}
+          <div className="text-2xl md:text-3xl font-black mb-6">
+            {config.title}
+          </div>
+          
+          {/* Message de validation */}
+          <div className="text-xl md:text-2xl font-bold mb-4 text-yellow-200">
             TOUS LES OBJECTIFS ONT ÉTÉ ACCOMPLIS!
           </div>
           
-          <div className="text-xl text-emerald-100 mb-8">
+          {/* Félicitations */}
+          <div className="text-lg text-gray-100 mb-8">
             ⭐ Mission réussie avec brio ⭐
             <br />
             🏆 Bravo Hugo ! 🏆
           </div>
           
+          {/* Bouton continuer */}
           <button
-            className={`${customButtonStyle} font-command font-bold px-12 py-6 rounded-lg text-2xl transition-all transform hover:scale-105`}
+            className={`${customButtonStyle} font-command font-bold px-8 py-4 rounded-lg text-xl transition-all transform hover:scale-105 shadow-lg`}
             onClick={() => {
               onClose();
               handleReset();
@@ -122,15 +141,16 @@ export function CommandDashboard() {
             CONTINUER
           </button>
           
+          {/* Bouton fermer */}
           <button
-            className="absolute top-4 right-4 text-white hover:text-yellow-300 text-3xl p-2 rounded-full focus:outline-none"
+            className="absolute top-4 right-4 text-muted-foreground hover:text-foreground text-2xl p-2 rounded-full focus:outline-none transition-colors"
             onClick={() => {
               onClose();
               handleReset();
             }}
             aria-label="Fermer"
           >
-            <X className="w-10 h-10" />
+            <X className="w-8 h-8" />
           </button>
         </div>
       </div>
