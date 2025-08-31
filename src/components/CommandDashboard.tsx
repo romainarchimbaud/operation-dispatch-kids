@@ -413,13 +413,24 @@ export function CommandDashboard() {
 
   if (currentView === 'home') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black relative">
+      <div className={`min-h-screen relative ${
+        theme === 'light'
+          ? 'bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50'
+          : 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black'
+      }`}>
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10"></div>
+          <div className={`absolute inset-0 ${
+            theme === 'light'
+              ? 'bg-gradient-to-r from-gray-400/10 via-gray-500/10 to-gray-400/10'
+              : 'bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10'
+          }`}></div>
           <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                             radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%)`,
+            backgroundImage: theme === 'light' 
+              ? `radial-gradient(circle at 25% 25%, rgba(156, 163, 175, 0.1) 0%, transparent 50%),
+                 radial-gradient(circle at 75% 75%, rgba(107, 114, 128, 0.1) 0%, transparent 50%)`
+              : `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                 radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%)`,
             backgroundSize: '400px 400px'
           }}></div>
         </div>
@@ -774,7 +785,7 @@ export function CommandDashboard() {
   return (
     <div className={`min-h-screen relative ${
       theme === 'light' 
-        ? 'bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50' 
+        ? 'bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50' 
         : 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black'
     }`}>
       {/* Background Pattern identique à la home */}
