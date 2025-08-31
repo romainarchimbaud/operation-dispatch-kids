@@ -10,7 +10,7 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       variant="outline"
       size="icon"
-      className="glass-effect hover:glass-effect-dark transition-all duration-300"
+      className="bg-card dark:bg-background border border-border dark:border-border hover:bg-card/80 dark:hover:bg-background/80 transition-all duration-300"
       aria-label="Toggle theme"
     >
       {theme === 'light' ? (

@@ -494,20 +494,20 @@ export function CommandDashboard() {
             <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
               <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-fire border-red-500/30 glass-effect"
                 onClick={() => handleServiceSelect('pompiers')}>
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 opacity-0 dark:group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-red-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Truck className="relative h-12 w-12 text-red-400 group-hover:text-red-300 transition-colors duration-300" />
-                    <Siren className="absolute -top-1 -right-1 h-4 w-4 text-red-400 group-hover:animate-bounce" />
+                    <Truck className="relative h-12 w-12 text-red-400 transition-colors duration-300" />
+                    <Siren className="absolute -top-1 -right-1 h-4 w-4 text-red-400" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className="mb-1 text-lg font-command text-red-400 group-hover:text-red-300 transition-colors duration-300">
+                    <h2 className="mb-1 text-lg font-command text-red-400 transition-colors duration-300">
                       SAPEURS-POMPIERS
                     </h2>
-                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                    <p className="text-xs mb-2 text-slate-400 transition-colors duration-300">
                       Marseille • Paris • Anglet
                     </p>
                     <Badge className="font-command mb-2 text-xs inline-block bg-red-600/80 text-red-100 border-red-500/50">
@@ -528,20 +528,20 @@ export function CommandDashboard() {
             <div className="animate-slide-in-left" style={{animationDelay: '0.2s'}}>
               <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-police border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('police')}>
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 dark:group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Shield className="relative h-12 w-12 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
-                    <Car className="absolute -top-1 -right-1 h-4 w-4 text-blue-400 group-hover:animate-bounce" />
+                    <Shield className="relative h-12 w-12 text-blue-400 transition-colors duration-300" />
+                    <Car className="absolute -top-1 -right-1 h-4 w-4 text-blue-400" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className="mb-1 text-lg font-command text-blue-400 group-hover:text-blue-300 transition-colors duration-300">
+                    <h2 className="mb-1 text-lg font-command text-blue-400 transition-colors duration-300">
                       POLICE NATIONALE
                     </h2>
-                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                    <p className="text-xs mb-2 text-slate-400 transition-colors duration-300">
                       Intervention • Patrouille • Sécurité
                     </p>
                     <Badge className="font-command mb-2 text-xs inline-block bg-blue-600/80 text-blue-100 border-blue-500/50">
@@ -562,20 +562,20 @@ export function CommandDashboard() {
             <div className="animate-slide-in-right" style={{animationDelay: '0.1s'}}>
               <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-eagle border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('eagle')}>
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 dark:group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-gray-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Zap className="relative h-12 w-12 text-gray-400 group-hover:text-gray-300 transition-colors duration-300" />
-                    <Plane className="absolute -top-1 -right-1 h-4 w-4 text-gray-400 group-hover:animate-bounce" />
+                    <Zap className="relative h-12 w-12 text-gray-400 transition-colors duration-300" />
+                    <Plane className="absolute -top-1 -right-1 h-4 w-4 text-gray-400" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className="mb-1 text-lg font-command text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                    <h2 className="mb-1 text-lg font-command text-gray-400 transition-colors duration-300">
                       EAGLE FORCE
                     </h2>
-                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                    <p className="text-xs mb-2 text-slate-400 transition-colors duration-300">
                       Forces Spéciales • Missions Secrètes
                     </p>
                     <Badge className="font-command mb-2 text-xs inline-block bg-gray-600/80 text-gray-100 border-gray-500/50">
@@ -596,20 +596,20 @@ export function CommandDashboard() {
             <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
               <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer card-hover-lift bg-pattern-samu border-blue-500/30 glass-effect"
                 onClick={() => handleServiceSelect('samu')}>
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 opacity-0 dark:group-hover:opacity-100 transition-all duration-500"></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
                     <div className="absolute inset-0 bg-yellow-500 rounded-full opacity-20 animate-glow-pulse"></div>
-                    <Ambulance className="relative h-12 w-12 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300" />
-                    <Ambulance className="absolute -top-1 -right-1 h-4 w-4 text-yellow-400 group-hover:animate-bounce" />
+                    <Ambulance className="relative h-12 w-12 text-yellow-400 transition-colors duration-300" />
+                    <Ambulance className="absolute -top-1 -right-1 h-4 w-4 text-yellow-400" />
                   </div>
                   
                   <div className="text-center flex-1 flex flex-col justify-center">
-                    <h2 className="mb-1 text-lg font-command text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300">
+                    <h2 className="mb-1 text-lg font-command text-yellow-400 transition-colors duration-300">
                       SAMU - YELLOW LIFE LINE
                     </h2>
-                    <p className="text-xs mb-2 text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                    <p className="text-xs mb-2 text-slate-400 transition-colors duration-300">
                       Yellow Life Line • Urgences Médicales
                     </p>
                     <Badge className="font-command mb-2 text-xs inline-block bg-yellow-400/80 text-black border-yellow-400/50">

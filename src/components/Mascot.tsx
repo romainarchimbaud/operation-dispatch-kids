@@ -99,7 +99,7 @@ export function Mascot({ mood = 'welcome', message, show = true }: MascotProps) 
   }
 
   return (
-    <Card className={`fixed bottom-6 right-6 z-[100] max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in shadow-xl border-2 bg-background`}>
+    <Card className={`fixed bottom-6 right-6 z-[100] max-w-sm transition-all duration-500 transform ${getMoodColor()} animate-fade-in shadow-xl border-2 bg-card dark:bg-background`}>
       <div className="relative">
         {/* Boutons de contrôle */}
         <div className="absolute top-2 right-2 flex gap-1 z-10">

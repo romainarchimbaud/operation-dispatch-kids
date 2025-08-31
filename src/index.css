@@ -166,7 +166,7 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
 @layer components {
   /* Boutons de commandement */
   .btn-command {
-    @apply relative overflow-hidden rounded-lg border border-primary/20 bg-gradient-to-br from-primary/10 to-primary/5 px-8 py-6 text-lg font-command text-foreground transition-all duration-300 hover:border-primary/40 hover:shadow-lg;
+    @apply relative overflow-hidden rounded-lg border border-border bg-card dark:bg-gradient-to-br dark:from-primary/10 dark:to-primary/5 px-8 py-6 text-lg font-command text-foreground transition-all duration-300 hover:border-primary/40 hover:shadow-lg;
     box-shadow: var(--glow-primary);
   }
 
@@ -176,7 +176,7 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
   }
 
   .btn-command-alert {
-    @apply border-destructive/20 bg-gradient-to-br from-destructive/10 to-destructive/5;
+    @apply border-border bg-card dark:border-destructive/20 dark:bg-gradient-to-br dark:from-destructive/10 dark:to-destructive/5;
     box-shadow: var(--glow-destructive);
   }
 
@@ -186,7 +186,7 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
   }
 
   .btn-command-eagle {
-    @apply border-eagle/20 bg-gradient-to-br from-eagle/10 to-eagle/5;
+    @apply border-border bg-card dark:border-eagle/20 dark:bg-gradient-to-br dark:from-eagle/10 dark:to-eagle/5;
     box-shadow: var(--glow-eagle);
   }
 
