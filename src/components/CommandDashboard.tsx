@@ -9,6 +9,7 @@ import { SoundSystem, soundManager } from './SoundSystem';
 import { Mascot, useMascot } from './Mascot';
 import { TypewriterText } from './TypewriterText';
 import { ThemeToggle } from './ThemeToggle';
+import { useTheme } from '../contexts/ThemeContext';
 import { missions } from '../data/missions';
 import { MissionObjectives } from './MissionObjectives';
 import './ui/animations.css';
@@ -26,6 +27,7 @@ interface SelectedMission {
 }
 
 export function CommandDashboard() {
+  const { theme } = useTheme();
   const [currentView, setCurrentView] = useState<'home' | 'missions'>('home');
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedMission, setSelectedMission] = useState<SelectedMission | null>(null);
@@ -699,7 +701,11 @@ export function CommandDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black relative">
+    <div className={`min-h-screen relative ${
+      theme === 'light' 
+        ? 'bg-gradient-to-br from-blue-50 via-blue-100 to-blue-50' 
+        : 'bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black'
+    }`}>
       {/* Background Pattern identique à la home */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10"></div>
