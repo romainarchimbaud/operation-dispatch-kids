@@ -218,6 +218,19 @@
   border: 2px solid rgba(251, 146, 60, 0.5) !important;
 }
 
+/* Classe spéciale pour le bloc Alerte Générale - même style pour dark/light */
+.ag-emergency-card {
+  background: linear-gradient(to bottom right, rgb(245 158 11), rgb(249 115 22)) !important;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(245, 158, 11, 0.4) !important;
+}
+
+.dark .ag-emergency-card {
+  background: linear-gradient(to bottom right, rgb(245 158 11), rgb(249 115 22)) !important;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(245, 158, 11, 0.4) !important;
+}
+
 /* Alerte Générale - couleurs jaune/orange */
 .ag-mission-card {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(249, 115, 22, 0.1)) !important;
