@@ -24,6 +24,11 @@ class SoundManager {
   playSound(type: SoundType, duration?: number) {
     if (!this.audioContext) return;
 
+    // Résumer l'AudioContext si nécessaire
+    if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
+
     const oscillator = this.audioContext.createOscillator();
     const gainNode = this.audioContext.createGain();
     
@@ -33,17 +38,25 @@ class SoundManager {
     oscillator.connect(gainNode);
     gainNode.connect(this.audioContext.destination);
 
+    // Éviter les clics en commençant et finissant avec un gain à 0
+    gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+
     oscillator.onended = () => {
       // Nettoyer l'oscillateur du tableau une fois terminé
       this.activeOscillators = this.activeOscillators.filter(osc => osc !== oscillator);
-      gainNode.disconnect();
+      try {
+        gainNode.disconnect();
+      } catch (e) {
+        // Peut être déjà déconnecté
+      }
     };
     
     switch (type) {
       case 'click':
         // Petit "tac" amical
         oscillator.frequency.setValueAtTime(800, this.audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.05, this.audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0, this.audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.05, this.audioContext.currentTime + 0.01);
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + 0.1);
         oscillator.start();
         oscillator.stop(this.audioContext.currentTime + 0.1);
@@ -140,23 +153,9 @@ class SoundManager {
   }
 
   startAmbientSound() {
-    if (!this.audioContext || this.ambientOscillator) return;
-
-    this.ambientOscillator = this.audioContext.createOscillator();
-    this.ambientGain = this.audioContext.createGain();
-    
-    this.ambientOscillator.connect(this.ambientGain);
-    this.ambientGain.connect(this.audioContext.destination);
-    
-    // Son d'ambiance léger : simulation radio/vent
-    this.ambientOscillator.frequency.setValueAtTime(100, this.audioContext.currentTime);
-    this.ambientOscillator.type = 'sawtooth';
-    this.ambientGain.gain.setValueAtTime(0.008, this.audioContext.currentTime);
-    
-    this.ambientOscillator.start();
-    
-    // Variation lente pour simuler l'ambiance
-    this.createAmbientVariation();
+    // Son d'ambiance désactivé pour éviter le grésillement
+    // if (!this.audioContext || this.ambientOscillator) return;
+    return; // Désactivé temporairement
   }
 
   stopAmbientSound() {
@@ -197,10 +196,14 @@ class SoundManager {
     [...this.activeOscillators].forEach(oscillator => {
       try {
         oscillator.stop();
+        oscillator.disconnect();
       } catch (e) {
         // L'oscillateur est peut-être déjà arrêté, ce n'est pas grave
       }
     });
+    
+    // Vider le tableau des oscillateurs actifs
+    this.activeOscillators = [];
     
     // Arrêter le son ambiant
     this.stopAmbientSound();

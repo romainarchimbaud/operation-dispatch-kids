@@ -545,7 +545,7 @@ export function CommandDashboard() {
         </div>
         
         {/* Système de sons et mascotte */}
-        <SoundSystem ambientSoundEnabled={true} />
+        <SoundSystem ambientSoundEnabled={false} />
         <Mascot 
           mood={mascotState.mood}
           message={mascotState.message}
@@ -747,7 +747,7 @@ export function CommandDashboard() {
         </>
         
         {/* Système de sons et mascotte */}
-        <SoundSystem ambientSoundEnabled={true} />
+        <SoundSystem ambientSoundEnabled={false} />
         <Mascot 
           mood={mascotState.mood}
           message={mascotState.message}
