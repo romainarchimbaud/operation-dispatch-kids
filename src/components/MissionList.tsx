@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { missions, vehicles, Mission } from '../data/missions';
-import { MapPin, Cloud, Car, Dice6 } from 'lucide-react';
+import { MapPin, Cloud, Car, Dice6, Siren } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { TypewriterText } from './TypewriterText';
 import { soundManager } from './SoundSystem';
@@ -43,70 +43,101 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
           </p>
         </div>
 
-        {/* Mission sélectionnée */}
-        <Card className="mission-card border-yellow-500/40 dark:border-orange-500/40 ag-mission-card">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Badge 
-                className="font-command text-lg px-4 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-yellow-500"
-              >
-                MISSION ACTIVE - ALERTE GÉNÉRALE
-              </Badge>
-              <Badge variant="outline" className="font-command">
-                ID: {selectedMission.mission.id.toString().padStart(3, '0')}
-              </Badge>
-            </div>
+        {/* Première ligne : Mission sélectionnée et En-tête des objectifs en deux colonnes */}
+        <div className="grid gap-6 lg:grid-cols-2 lg:items-stretch">
+          {/* Colonne gauche - Mission Active */}
+          <Card className="mission-card border-yellow-500/40 dark:border-orange-500/40 ag-mission-card flex flex-col h-full">
+            <div className="space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Badge 
+                    className="font-command text-lg px-4 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-yellow-500"
+                  >
+                    MISSION ACTIVE - ALERTE GÉNÉRALE
+                  </Badge>
+                  <Badge variant="outline" className="font-command">
+                    ID: {selectedMission.mission.id.toString().padStart(3, '0')}
+                  </Badge>
+                </div>
 
-            <div>
-              <h3 className="text-xl font-command text-foreground mb-2">
-                {showTypewriter ? (
-                  <TypewriterText 
-                    text={selectedMission.mission.title}
-                    speed={80}
-                    playSound={true}
-                  />
-                ) : (
-                  selectedMission.mission.title
-                )}
-              </h3>
-            </div>
+                <div>
+                  <h3 className="text-xl font-command text-foreground mb-2">
+                    {showTypewriter ? (
+                      <TypewriterText 
+                        text={selectedMission.mission.title}
+                        speed={80}
+                        playSound={true}
+                      />
+                    ) : (
+                      selectedMission.mission.title
+                    )}
+                  </h3>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span>{selectedMission.mission.location}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span>{selectedMission.mission.location}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Cloud className="h-4 w-4 text-muted-foreground" />
+                    <span>{selectedMission.mission.conditions}</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline" className="font-command text-xs">
+                    {selectedMission.mission.vehicles.length} véhicules
+                  </Badge>
+                  <Badge variant="outline" className="font-command text-xs">
+                    4 corps de métiers mobilisés
+                  </Badge>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Cloud className="h-4 w-4 text-muted-foreground" />
-                <span>{selectedMission.mission.conditions}</span>
+
+              <div className="flex flex-wrap gap-2 mt-4">
+                {selectedMission.mission.vehicles.map((vehicle) => (
+                  <Badge 
+                    key={vehicle}
+                    variant="secondary" 
+                    className="text-xs font-command"
+                    title={vehicles[vehicle]?.description || vehicle}
+                  >
+                    {vehicle}
+                  </Badge>
+                ))}
               </div>
             </div>
+          </Card>
 
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="outline" className="font-command text-xs">
-                {selectedMission.mission.vehicles.length} véhicules
-              </Badge>
-              <Badge variant="outline" className="font-command text-xs">
-                4 corps de métiers mobilisés
-              </Badge>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {selectedMission.mission.vehicles.map((vehicle) => (
-                <Badge 
-                  key={vehicle}
-                  variant="secondary" 
-                  className="text-xs font-command"
-                  title={vehicles[vehicle]?.description || vehicle}
-                >
-                  {vehicle}
+          {/* Colonne droite - En-tête des objectifs */}
+          <Card className="p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-yellow-400/50 border-2 shadow-2xl flex flex-col h-full">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <Siren className="h-8 w-8 text-yellow-300" />
+                  </div>
+                  <h3 className="font-command text-2xl font-bold text-yellow-100 drop-shadow-lg tracking-wide">
+                    OBJECTIFS ALERTE GÉNÉRALE
+                  </h3>
+                </div>
+                <Badge variant="outline" className="font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 text-yellow-100">
+                  0/4 services terminés
                 </Badge>
-              ))}
+              </div>
+              
+              <div className="text-base text-yellow-200 font-command bg-black/30 p-3 rounded-lg border border-yellow-400/30">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">📍</span>
+                  <span className="font-semibold">{selectedMission.mission.title}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </div>
 
-        {/* Objectifs multi-services avec 4 blocs séparés */}
+        {/* Deuxième ligne : Les 4 blocs d'objectifs métiers */}
         <MultiServiceObjectives 
           objectivesByService={selectedMission.mission.objectivesByService}
           missionTitle={selectedMission.mission.title}

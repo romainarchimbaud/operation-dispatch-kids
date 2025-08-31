@@ -80,89 +80,124 @@ export function MultiServiceObjectives({
 
   return (
     <div className="space-y-6">
-      {/* En-tête avec progression globale */}
-      <Card className="p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-yellow-400/50 border-2 shadow-2xl">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Siren className="h-8 w-8 text-yellow-300" />
-            </div>
-            <h3 className="font-command text-2xl font-bold text-yellow-100 drop-shadow-lg tracking-wide">
-              🚨 OBJECTIFS ALERTE GÉNÉRALE 🚨
-            </h3>
-          </div>
-          <Badge variant="outline" className="font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 text-yellow-100">
-            {completedServices.size}/4 services terminés
-          </Badge>
-        </div>
-        
-        <div className="text-base text-yellow-200 font-command mb-4 bg-black/30 p-3 rounded-lg border border-yellow-400/30">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">📍</span>
-            <span className="font-semibold">{missionTitle}</span>
-          </div>
-        </div>
-      </Card>
-
       {/* Grille des 4 blocs d'objectifs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {Object.entries(objectivesByService).map(([service, objectives]) => {
-          const config = serviceConfig[service as keyof typeof serviceConfig];
-          const Icon = config.icon;
-          const isCompleted = completedServices.has(service);
+      <MultiServiceObjectivesBlocks
+        objectivesByService={objectivesByService}
+        completedServices={completedServices}
+        onServiceComplete={handleServiceComplete}
+        canValidateObjectives={canValidateObjectives}
+        serviceConfig={serviceConfig}
+      />
+    </div>
+  );
+}
 
-          return (
-            <Card 
-              key={service} 
-              className={`relative ${config.bgColor} ${config.borderColor} border-3 transition-all duration-500 transform hover:scale-[1.02] shadow-xl ${
-                !canValidateObjectives ? 'opacity-60 grayscale' : ''
-              } ${isCompleted ? 'ring-4 ring-green-400 shadow-green-400/50' : 'hover:shadow-2xl'}`}
-            >
-              <div className="relative p-5">
-                {/* En-tête du service */}
-                <div className="flex items-center gap-4 mb-5">
-                  <div className="relative">
-                    {/* Icon glow supprimé */}
-                    <Icon className={`relative h-8 w-8 ${config.color} ${isCompleted ? 'text-green-400' : ''} drop-shadow-lg`} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className={`font-command text-xl font-bold ${isCompleted ? 'text-green-400' : config.color} drop-shadow-md tracking-wide`}>
-                      {config.title}
-                    </h4>
-                    <Badge variant="outline" className={`font-command text-sm mt-2 px-3 py-1 ${isCompleted ? 'bg-green-500/20 border-green-400 text-green-300' : `${config.badgeColor} border-current`}`}>
-                      {objectives.length} objectifs
-                    </Badge>
-                  </div>
-                  {isCompleted && (
-                    <div className="relative">
-                      <CheckCircle2 className="h-8 w-8 text-green-400 drop-shadow-lg" />
-                    </div>
-                  )}
+// Composant pour l'en-tête
+export function MultiServiceObjectivesHeader({ 
+  completedServices, 
+  missionTitle 
+}: { 
+  completedServices: Set<string>; 
+  missionTitle: string; 
+}) {
+  return (
+    <Card className="p-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-yellow-400/50 border-2 shadow-2xl h-fit">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <Siren className="h-8 w-8 text-yellow-300" />
+          </div>
+          <h3 className="font-command text-2xl font-bold text-yellow-100 drop-shadow-lg tracking-wide">
+            🚨 OBJECTIFS ALERTE GÉNÉRALE 🚨
+          </h3>
+        </div>
+        <Badge variant="outline" className="font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 text-yellow-100">
+          {completedServices.size}/4 services terminés
+        </Badge>
+      </div>
+      
+      <div className="text-base text-yellow-200 font-command mb-4 bg-black/30 p-3 rounded-lg border border-yellow-400/30">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">📍</span>
+          <span className="font-semibold">{missionTitle}</span>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+// Composant pour les blocs d'objectifs
+export function MultiServiceObjectivesBlocks({
+  objectivesByService,
+  completedServices,
+  onServiceComplete,
+  canValidateObjectives,
+  serviceConfig
+}: {
+  objectivesByService: any;
+  completedServices: Set<string>;
+  onServiceComplete: (service: string) => void;
+  canValidateObjectives: boolean;
+  serviceConfig: any;
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {Object.entries(objectivesByService).map(([service, objectives]) => {
+        const config = serviceConfig[service as keyof typeof serviceConfig];
+        const Icon = config.icon;
+        const isCompleted = completedServices.has(service);
+
+        return (
+          <Card 
+            key={service} 
+            className={`relative ${config.bgColor} ${config.borderColor} border-3 transition-all duration-500 transform hover:scale-[1.02] shadow-xl ${
+              !canValidateObjectives ? 'opacity-60 grayscale' : ''
+            } ${isCompleted ? 'ring-4 ring-green-400 shadow-green-400/50' : 'hover:shadow-2xl'}`}
+          >
+            <div className="relative p-5">
+              {/* En-tête du service */}
+              <div className="flex items-center gap-4 mb-5">
+                <div className="relative">
+                  {/* Icon glow supprimé */}
+                  <Icon className={`relative h-8 w-8 ${config.color} ${isCompleted ? 'text-green-400' : ''} drop-shadow-lg`} />
                 </div>
-
-                {/* Badge de statut flashy */}
+                <div className="flex-1">
+                  <h4 className={`font-command text-xl font-bold ${isCompleted ? 'text-green-400' : config.color} drop-shadow-md tracking-wide`}>
+                    {config.title}
+                  </h4>
+                  <Badge variant="outline" className={`font-command text-sm mt-2 px-3 py-1 ${isCompleted ? 'bg-green-500/20 border-green-400 text-green-300' : `${config.badgeColor} border-current`}`}>
+                    {(objectives as string[]).length} objectifs
+                  </Badge>
+                </div>
                 {isCompleted && (
-                  <div className="mb-4 text-center">
-                    <div className="bg-gradient-to-r from-emerald-800/90 to-green-800/90 border border-emerald-400 rounded-lg p-3">
-                      <p className="text-white font-command font-bold text-sm drop-shadow-md">
-                        ✅ SERVICE ACCOMPLI ✅
-                      </p>
-                    </div>
+                  <div className="relative">
+                    <CheckCircle2 className="h-8 w-8 text-green-400 drop-shadow-lg" />
                   </div>
                 )}
-
-                {/* Objectifs spécifiques au service */}
-                <MissionObjectives
-                  objectives={objectives}
-                  missionTitle={config.title}
-                  onMissionComplete={() => handleServiceComplete(service)}
-                  canValidateObjectives={canValidateObjectives && !isCompleted}
-                />
               </div>
-            </Card>
-          );
-        })}
-      </div>
+
+              {/* Badge de statut flashy */}
+              {isCompleted && (
+                <div className="mb-4 text-center">
+                  <div className="bg-gradient-to-r from-emerald-800/90 to-green-800/90 border border-emerald-400 rounded-lg p-3">
+                    <p className="text-white font-command font-bold text-sm drop-shadow-md">
+                      ✅ SERVICE ACCOMPLI ✅
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Objectifs spécifiques au service */}
+              <MissionObjectives
+                objectives={objectives as string[]}
+                missionTitle={config.title}
+                onMissionComplete={() => onServiceComplete(service)}
+                canValidateObjectives={canValidateObjectives && !isCompleted}
+              />
+            </div>
+          </Card>
+        );
+      })}
     </div>
   );
 }

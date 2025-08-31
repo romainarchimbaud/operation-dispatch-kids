@@ -844,7 +844,7 @@ export function CommandDashboard() {
 
         {/* Phase d'acceptation Auto */}
         {autoAcceptancePhase && (
-          <Card className="mission-card mb-6 pulse-alert">
+          <Card className="mission-card mb-6">
             <div className="space-y-4">
               <div className="text-center">
                 <h3 className="text-2xl font-command text-primary mb-2">
