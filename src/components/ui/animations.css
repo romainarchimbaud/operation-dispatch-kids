@@ -54,10 +54,10 @@
 
 @keyframes emergencyGlow {
   0%, 100% {
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 10px var(--emergency-glow-color, rgba(239, 68, 68, 0.6));
   }
   50% {
-    box-shadow: 0 0 25px rgba(239, 68, 68, 0.9), 0 0 40px rgba(239, 68, 68, 0.7);
+    box-shadow: 0 0 25px var(--emergency-glow-color, rgba(239, 68, 68, 0.9)), 0 0 40px var(--emergency-glow-color-secondary, rgba(239, 68, 68, 0.7));
   }
 }
 
