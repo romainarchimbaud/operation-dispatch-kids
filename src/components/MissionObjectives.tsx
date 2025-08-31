@@ -51,11 +51,11 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <Siren className="h-7 w-7 text-yellow-300" />
-            <h3 className="font-command text-xl font-bold text-yellow-900 drop-shadow-lg tracking-wide">
+            <h3 className="font-command text-xl font-bold text-foreground drop-shadow-lg tracking-wide">
               🚨 OBJECTIFS DE LA MISSION 🚨
             </h3>
           </div>
-          <Badge variant="outline" className={`font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 ${allCompleted ? 'text-green-600' : 'text-yellow-900'}`}>
+          <Badge variant="outline" className={`font-command text-lg px-4 py-2 bg-yellow-400/20 border-yellow-400 ${allCompleted ? 'text-green-600' : 'text-foreground'}`}>
             {completedObjectives.size}/{objectives.length} objectifs validés
           </Badge>
         </div>
@@ -70,9 +70,11 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
             return (
               <div 
                 key={index} 
-                className={`flex items-start gap-3 p-3 rounded border cursor-pointer transition-colors hover:bg-muted/50 ${
-                  isCompleted ? 'bg-primary/5 border-primary/20' : 'border-border'
-                } ${!canValidateObjectives ? 'cursor-not-allowed opacity-50' : ''}`}
+                className={`flex items-start gap-3 p-3 rounded border cursor-pointer transition-colors hover:bg-muted/50 dark:hover:bg-muted/30 ${
+                  isCompleted 
+                    ? 'bg-primary/10 border-primary/30 dark:bg-primary/30 dark:border-primary/50' 
+                    : 'border-border dark:bg-card/50 dark:border-border/40'
+                } ${!canValidateObjectives ? 'cursor-not-allowed opacity-40 dark:opacity-30' : ''}`}
                 onClick={() => {
                   if (canValidateObjectives) {
                     handleObjectiveToggle(index, !isCompleted);
@@ -90,7 +92,7 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
                   <label 
                     htmlFor={`objective-${index}`}
                     className={`text-sm font-command cursor-pointer select-none ${
-                      isCompleted ? 'text-green-600 font-medium line-through' : 'text-foreground'
+                      isCompleted ? 'text-green-600 dark:text-green-400 font-medium line-through' : 'text-foreground'
                     }`}
                     onClick={(e) => {
                       e.preventDefault(); // Empêche le comportement par défaut du label
@@ -103,7 +105,7 @@ export function MissionObjectives({ objectives, missionTitle, onMissionComplete,
                   </label>
                 </div>
                 {isCompleted && (
-                  <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
+                  <CheckCircle2 className="h-4 w-4 text-green-500 dark:text-green-400 mt-0.5" />
                 )}
               </div>
             );

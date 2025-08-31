@@ -8,8 +8,10 @@ import { MissionTimer } from './MissionTimer';
 import { SoundSystem, soundManager } from './SoundSystem';
 import { Mascot, useMascot } from './Mascot';
 import { TypewriterText } from './TypewriterText';
+import { ThemeToggle } from './ThemeToggle';
 import { missions } from '../data/missions';
 import { MissionObjectives } from './MissionObjectives';
+import './ui/animations.css';
 
 type Service = 'pompiers' | 'police' | 'eagle' | 'samu' | 'alerte_generale';
 
@@ -188,20 +190,39 @@ export function CommandDashboard() {
     showMascot('encouraging', 'Mission lancée ! Tu as 10 minutes. Courage !');
   };
 
-  const handleStartAuto = (service?: Service) => {
+  const handleStartAuto = (service?: Service | 'global') => {
     soundManager.playSound('alert', 5);
     setAutoMode(true);
     
     // Sélectionner une mission aléatoire du service spécifique ou de tous les services
     let selectedMissions;
-    if (service) {
+    if (service && service !== 'global') {
       selectedMissions = missions[service].map(m => ({ service, mission: m }));
     } else {
+      // Inclure aussi les alertes générales
+      const alerteMissions = missions.alertes.map(alerteMission => ({
+        service: 'alerte_generale' as Service,
+        mission: {
+          id: alerteMission.id,
+          title: alerteMission.title,
+          location: alerteMission.location,
+          conditions: alerteMission.conditions,
+          vehicles: alerteMission.vehicles,
+          objectives: [],
+          objectivesByService: {
+            pompiers: generateObjectivesForService('pompiers', alerteMission),
+            police: generateObjectivesForService('police', alerteMission),
+            eagle: generateObjectivesForService('eagle', alerteMission),
+            samu: generateObjectivesForService('samu', alerteMission)
+          }
+        }
+      }));
       selectedMissions = [
         ...missions.pompiers.map(m => ({ service: 'pompiers' as Service, mission: m })),
         ...missions.police.map(m => ({ service: 'police' as Service, mission: m })),
         ...missions.eagle.map(m => ({ service: 'eagle' as Service, mission: m })),
-        ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m }))
+        ...missions.samu.map(m => ({ service: 'samu' as Service, mission: m })),
+        ...alerteMissions
       ];
     }
     
@@ -370,157 +391,260 @@ export function CommandDashboard() {
 
   if (currentView === 'home') {
     return (
-      <div className="min-h-screen bg-background p-6">
-        <div className="mx-auto max-w-full px-4">
-          {/* Header */}
-          <div className="mb-8 text-center">
-            <h1 className="mb-4 text-4xl font-command text-primary">
-              CENTRE DE COMMANDEMENT
-            </h1>
-            <p className="text-xl text-muted-foreground font-command">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black relative">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10"></div>
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                             radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%)`,
+            backgroundSize: '400px 400px'
+          }}></div>
+        </div>
+
+        <div className="relative z-10 mx-auto max-w-full px-4 flex flex-col min-h-screen">
+          {/* Header with aligned layout */}
+          <div className="mb-6 pt-4 px-4 animate-slide-in-top">
+            <div className="flex items-center justify-between">
+              {/* Left side - Title only */}
+              <div className="text-left flex items-center">
+                <div className="relative py-2 px-3">
+                  <h1 className="text-3xl font-command text-white drop-shadow-2xl tracking-wider">
+                    CENTRE DE COMMANDEMENT
+                  </h1>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-20 animate-glow-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Right side - Buttons */}
+              <div className="flex items-center gap-4">
+                {/* Start Auto Global Button */}
+                <div className="relative animate-fade-in-scale">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg blur opacity-60"></div>
+                  <Button 
+                    onClick={() => handleStartAuto('global')}
+                    className="relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-command font-bold px-6 py-2 rounded-lg text-base shadow-2xl btn-professional"
+                  >
+                    <Zap className="mr-2 h-4 w-4" />
+                    START AUTO GLOBAL
+                  </Button>
+                </div>
+                
+                {/* Theme Toggle */}
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
+
+          {/* Centered subtitle */}
+          <div className="text-center py-6 animate-fade-in-scale">
+            <p className="text-lg text-slate-300 font-command opacity-90">
               Sélectionnez votre service d'intervention
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-            {/* Sapeurs-Pompiers */}
-            <Card 
-              className="btn-command flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
-              onClick={() => handleServiceSelect('pompiers')}
-            >
-              <div className="flex flex-col items-center w-full h-full justify-between">
-                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
-                  <Truck className="h-16 w-16 text-destructive" />
-                  <Siren className="absolute -top-1 -right-1 h-6 w-6 text-destructive animate-pulse" />
+          {/* Services Grid - Redesigned */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8 px-8 animate-fade-in-scale">
+            {/* Sapeurs-Pompiers - Modern Card */}
+            <div className="animate-slide-in-left" style={{animationDelay: '0.1s'}}>
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect border-red-500/30 card-hover-lift bg-pattern-fire"
+                onClick={() => handleServiceSelect('pompiers')}>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                
+                <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
+                  <div className="relative mb-2 flex items-center justify-center h-16 w-16">
+                    <div className="absolute inset-0 bg-red-500 rounded-full opacity-20 animate-glow-pulse"></div>
+                    <Truck className="relative h-12 w-12 text-red-400 group-hover:text-red-300 transition-colors duration-300" />
+                    <Siren className="absolute -top-1 -right-1 h-4 w-4 text-red-400 group-hover:animate-bounce" />
+                  </div>
+                  
+                  <div className="text-center flex-1 flex flex-col justify-center">
+                    <h2 className="mb-1 text-lg font-command text-red-100 group-hover:text-white transition-colors duration-300">
+                      SAPEURS-POMPIERS
+                    </h2>
+                    <p className="text-xs text-slate-400 mb-2 group-hover:text-slate-300 transition-colors duration-300">
+                      Marseille • Paris • Anglet
+                    </p>
+                    <Badge className="bg-red-600/80 text-red-100 font-command mb-2 text-xs border-red-500/50 inline-block">
+                      {missions.pompiers.length} MISSIONS
+                    </Badge>
+                  </div>
+                  
+                  <Button 
+                    onClick={e => { e.stopPropagation(); handleStartAuto('pompiers'); }}
+                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-command px-3 py-2 text-xs w-full btn-professional border-red-500/50"
+                  >
+                    START AUTO (30s)
+                  </Button>
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-destructive">SAPEURS-POMPIERS</h2>
-                <p className="text-sm text-muted-foreground mb-4">Marseille • Paris • Anglet</p>
-                <Badge variant="destructive" className="font-command mb-2">{missions.pompiers.length} MISSIONS</Badge>
-                <Button 
-                  onClick={e => { e.stopPropagation(); handleStartAuto('pompiers'); }}
-                  className="bg-red-600 hover:bg-red-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
-                >
-                  START AUTO (30s)
-                </Button>
-              </div>
-            </Card>
-            {/* Police */}
-            <Card 
-              className="btn-command flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
-              onClick={() => handleServiceSelect('police')}
-            >
-              <div className="flex flex-col items-center w-full h-full justify-between">
-                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
-                  <Shield className="h-16 w-16 text-primary" />
-                  <Car className="absolute -top-1 -right-1 h-6 w-6 text-primary animate-pulse" />
+              </Card>
+            </div>
+            {/* Police - Modern Card */}
+            <div className="animate-slide-in-left" style={{animationDelay: '0.2s'}}>
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect border-blue-500/30 card-hover-lift bg-pattern-police"
+                onClick={() => handleServiceSelect('police')}>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-cyan-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                
+                <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
+                  <div className="relative mb-2 flex items-center justify-center h-16 w-16">
+                    <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-glow-pulse"></div>
+                    <Shield className="relative h-12 w-12 text-blue-400 group-hover:text-blue-300 transition-colors duration-300" />
+                    <Car className="absolute -top-1 -right-1 h-4 w-4 text-blue-400 group-hover:animate-bounce" />
+                  </div>
+                  
+                  <div className="text-center flex-1 flex flex-col justify-center">
+                    <h2 className="mb-1 text-lg font-command text-blue-100 group-hover:text-white transition-colors duration-300">
+                      POLICE NATIONALE
+                    </h2>
+                    <p className="text-xs text-slate-400 mb-2 group-hover:text-slate-300 transition-colors duration-300">
+                      Intervention • Patrouille • Sécurité
+                    </p>
+                    <Badge className="bg-blue-600/80 text-blue-100 font-command mb-2 text-xs border-blue-500/50 inline-block">
+                      {missions.police.length} MISSIONS
+                    </Badge>
+                  </div>
+                  
+                  <Button 
+                    onClick={e => { e.stopPropagation(); handleStartAuto('police'); }}
+                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-command px-3 py-2 text-xs w-full btn-professional border-blue-500/50"
+                  >
+                    START AUTO (30s)
+                  </Button>
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-primary">POLICE NATIONALE</h2>
-                <p className="text-sm text-muted-foreground mb-4">Intervention • Patrouille • Sécurité</p>
-                <Badge variant="secondary" className="font-command mb-2">{missions.police.length} MISSIONS</Badge>
-                <Button 
-                  onClick={e => { e.stopPropagation(); handleStartAuto('police'); }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
-                >
-                  START AUTO (30s)
-                </Button>
-              </div>
-            </Card>
-            {/* Eagle Force */}
-            <Card 
-              className="btn-command-eagle flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
-              onClick={() => handleServiceSelect('eagle')}
-            >
-              <div className="flex flex-col items-center w-full h-full justify-between">
-                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
-                  <Zap className="h-16 w-16 text-eagle" />
-                  <Plane className="absolute -top-1 -right-1 h-6 w-6 text-eagle animate-pulse" />
+              </Card>
+            </div>
+            {/* Eagle Force - Modern Card */}
+            <div className="animate-slide-in-right" style={{animationDelay: '0.1s'}}>
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect border-gray-500/30 card-hover-lift bg-pattern-eagle"
+                onClick={() => handleServiceSelect('eagle')}>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                
+                <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
+                  <div className="relative mb-2 flex items-center justify-center h-16 w-16">
+                    <div className="absolute inset-0 bg-gray-500 rounded-full opacity-20 animate-glow-pulse"></div>
+                    <Zap className="relative h-12 w-12 text-gray-400 group-hover:text-gray-300 transition-colors duration-300" />
+                    <Plane className="absolute -top-1 -right-1 h-4 w-4 text-gray-400 group-hover:animate-bounce" />
+                  </div>
+                  
+                  <div className="text-center flex-1 flex flex-col justify-center">
+                    <h2 className="mb-1 text-lg font-command text-gray-100 group-hover:text-white transition-colors duration-300">
+                      EAGLE FORCE
+                    </h2>
+                    <p className="text-xs text-slate-400 mb-2 group-hover:text-slate-300 transition-colors duration-300">
+                      Forces Spéciales • Missions Secrètes
+                    </p>
+                    <Badge className="bg-gray-600/80 text-gray-100 font-command mb-2 text-xs border-gray-500/50 inline-block">
+                      {missions.eagle.length} MISSIONS
+                    </Badge>
+                  </div>
+                  
+                  <Button 
+                    onClick={e => { e.stopPropagation(); handleStartAuto('eagle'); }}
+                    className="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 text-white font-command px-3 py-2 text-xs w-full btn-professional border-gray-500/50"
+                  >
+                    START AUTO (30s)
+                  </Button>
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-eagle">EAGLE FORCE</h2>
-                <p className="text-sm text-muted-foreground mb-4">Forces Spéciales • Missions Secrètes</p>
-                <Badge style={{backgroundColor: 'hsl(var(--eagle))', color: 'hsl(var(--eagle-foreground))'}} className="font-command mb-2">{missions.eagle.length} MISSIONS</Badge>
-                <Button 
-                  onClick={e => { e.stopPropagation(); handleStartAuto('eagle'); }}
-                  className="bg-gray-700 hover:bg-gray-800 text-white font-command px-2 py-2 text-xs w-full mt-2"
-                >
-                  START AUTO (30s)
-                </Button>
-              </div>
-            </Card>
-            {/* Samu */}
-            <Card 
-              className="btn-command-samu flex flex-col items-center justify-between h-full cursor-pointer text-center p-6"
-              onClick={() => handleServiceSelect('samu')}
-            >
-              <div className="flex flex-col items-center w-full h-full justify-between">
-                <div className="relative mb-4 flex items-center justify-center h-16 w-16">
-                  <Ambulance className="h-16 w-16 text-samu" />
-                  <Ambulance className="absolute -top-1 -right-1 h-6 w-6 text-samu animate-pulse" />
+              </Card>
+            </div>
+            {/* SAMU - Modern Card */}
+            <div className="animate-slide-in-right" style={{animationDelay: '0.2s'}}>
+              <Card className="group relative overflow-hidden h-full min-h-[240px] cursor-pointer glass-effect border-yellow-500/30 card-hover-lift bg-pattern-samu"
+                onClick={() => handleServiceSelect('samu')}>
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                
+                <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
+                  <div className="relative mb-2 flex items-center justify-center h-16 w-16">
+                    <div className="absolute inset-0 bg-yellow-500 rounded-full opacity-20 animate-glow-pulse"></div>
+                    <Ambulance className="relative h-12 w-12 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-300" />
+                    <Ambulance className="absolute -top-1 -right-1 h-4 w-4 text-yellow-400 group-hover:animate-bounce" />
+                  </div>
+                  
+                  <div className="text-center flex-1 flex flex-col justify-center">
+                    <h2 className="mb-1 text-lg font-command text-yellow-100 group-hover:text-white transition-colors duration-300">
+                      SAMU - YELLOW LIFE LINE
+                    </h2>
+                    <p className="text-xs text-slate-400 mb-2 group-hover:text-slate-300 transition-colors duration-300">
+                      Yellow Life Line • Urgences Médicales
+                    </p>
+                    <Badge className="bg-yellow-600/80 text-yellow-100 font-command mb-2 text-xs border-yellow-500/50 inline-block">
+                      {missions.samu.length} MISSIONS
+                    </Badge>
+                  </div>
+                  
+                  <Button 
+                    onClick={e => { e.stopPropagation(); handleStartAuto('samu'); }}
+                    className="bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-500 hover:to-yellow-600 text-white font-command px-3 py-2 text-xs w-full btn-professional border-yellow-500/50"
+                  >
+                    START AUTO (30s)
+                  </Button>
                 </div>
-                <h2 className="mb-2 text-2xl font-command text-samu">SAMU - YELLOW LIFE LINE</h2>
-                <p className="text-sm text-muted-foreground mb-4">Yellow Life Line • Urgences Médicales</p>
-                <Badge style={{backgroundColor: 'hsl(var(--samu))', color: 'hsl(var(--samu-foreground))'}} className="font-command mb-2">{missions.samu.length} MISSIONS</Badge>
-                <Button 
-                  onClick={e => { e.stopPropagation(); handleStartAuto('samu'); }}
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white font-command px-2 py-2 text-xs w-full mt-2"
-                >
-                  START AUTO (30s)
-                </Button>
-              </div>
-            </Card>
+              </Card>
+            </div>
           </div>
 
-          {/* Alerte Générale */}
-          <div className="mb-8">
-            <div className="relative">
-              {/* Glow effect background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-lg blur-lg opacity-75 animate-pulse"></div>
+          {/* Alerte Générale - Ultra Modern */}
+          <div className="mb-6 px-8 animate-fade-in-scale" style={{animationDelay: '0.4s'}}>
+            <div className="relative mx-0 group">
+              {/* Dynamic background effect */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-xl blur-lg opacity-60 animate-emergency-glow"></div>
               
-              <Card className="relative bg-gradient-to-br from-red-600 via-orange-600 to-red-800 border-yellow-400/70 border-4 p-8 w-full shadow-2xl transform hover:scale-[1.02] transition-all duration-300">
-                {/* Warning stripes animation */}
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-yellow-400 to-transparent animate-slow-pulse animate-rainbow-border"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-transparent via-yellow-400 to-transparent animate-slow-pulse animate-rainbow-border"></div>
+              <Card className="relative glass-effect border-2 border-orange-400/50 p-4 shadow-2xl overflow-hidden ag-card-special">{/* Classe spéciale pour AG */}
+                {/* Animated background pattern */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-orange-500/20 to-yellow-500/20 animate-shimmer"
+                    style={{
+                      backgroundSize: '200% 100%',
+                      backgroundImage: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)'
+                    }}>
+                  </div>
+                </div>
                 
-                <div className="flex items-center justify-between relative z-10">
-                  <div className="flex items-center gap-8">
-                    {/* Icon with multiple effects */}
+                {/* Warning stripes */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-60"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-60"></div>
+                
+                <div className="relative z-10 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    {/* Ultra modern icon */}
                     <div className="relative">
-                      <div className="absolute inset-0 bg-yellow-400 rounded-full blur-md opacity-60 animate-ping"></div>
-                      <Siren className="relative h-16 w-16 text-yellow-300 drop-shadow-2xl animate-slow-pulse filter drop-shadow-[0_0_10px_rgba(255,255,0,0.8)]" />
+                      <div className="absolute inset-0 bg-orange-500 rounded-full blur-md opacity-60 animate-emergency-glow"></div>
+                      <div className="relative h-12 w-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                        <Siren className="h-6 w-6 text-white drop-shadow-lg" />
+                      </div>
                     </div>
                     
                     <div>
-                      <h2 className="text-3xl font-command text-yellow-100 drop-shadow-lg mb-2 animate-slow-pulse tracking-wider">
+                      <h2 className="text-2xl font-command text-white drop-shadow-lg mb-1 tracking-wider">
                         🚨 ALERTE GÉNÉRALE 🚨
                       </h2>
-                      <p className="text-lg text-yellow-200 font-semibold drop-shadow-md">
+                      <p className="text-base text-orange-200 font-semibold drop-shadow-md">
                         ⚡ Mission critique multi-services ⚡
                       </p>
-                      <p className="text-sm text-red-100 mt-1">
+                      <p className="text-xs text-red-100 mt-1 opacity-90">
                         Mobilisation immédiate de toutes les unités d'intervention
                       </p>
                     </div>
                   </div>
                   
-                  {/* Super flashy button */}
+                  {/* Ultra flashy button */}
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-500 rounded-lg blur-md opacity-70 animate-slow-pulse"></div>
+                    <div className="absolute -inset-1 bg-gradient-to-r from-orange-600 to-red-600 rounded-lg blur opacity-70"></div>
                     <Button
-                      className="relative button-emergency bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-300 hover:via-orange-400 hover:to-red-400 text-black font-command font-black px-12 py-8 text-xl border-4 border-yellow-300 shadow-2xl transform hover:scale-110 transition-all duration-200 active:scale-95"
+                      className="relative bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 hover:from-orange-400 hover:via-red-400 hover:to-orange-500 text-white font-command font-black px-8 py-4 text-lg border border-orange-400/50 shadow-2xl btn-professional transform hover:scale-105 transition-all duration-300"
                       onClick={handleGeneralAlert}
                     >
-                      <span className="flex items-center gap-3">
-                        <Zap className="h-6 w-6 animate-bounce" />
-                        DÉCLENCHER
-                        <Zap className="h-6 w-6 animate-bounce" />
+                      <span className="flex items-center gap-2">
+                        ⚡ DÉCLENCHER ⚡
                       </span>
                     </Button>
                   </div>
                 </div>
                 
-                {/* Bottom warning message */}
-                <div className="mt-6 text-center">
-                  <div className="bg-black/30 rounded-lg p-3 border border-yellow-400/50">
+                {/* Bottom warning */}
+                <div className="mt-3 text-center">
+                  <div className="glass-effect-dark rounded-lg p-2 border border-orange-400/30">
                     <p className="text-yellow-300 text-sm font-bold animate-pulse">
                       ⚠️ ATTENTION : Cette action mobilise TOUS les corps de métier simultanément ⚠️
                     </p>
@@ -531,17 +655,6 @@ export function CommandDashboard() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-center gap-4">
-           <Button 
-              onClick={() => handleStartAuto()}
-              className="bg-green-600 hover:bg-green-700 text-white font-command px-8 py-4 text-lg"
-            >
-              <Timer className="mr-2 h-6 w-6" />
-              START AUTO GLOBAL (30s)
-            </Button>
-
-            
-          </div>
         </div>
         
         {/* Système de sons et mascotte */}
@@ -566,8 +679,18 @@ export function CommandDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-full px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-slate-900 dark:to-black relative">
+      {/* Background Pattern identique à la home */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-cyan-600/10"></div>
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                           radial-gradient(circle at 75% 75%, rgba(147, 51, 234, 0.1) 0%, transparent 50%)`,
+          backgroundSize: '100px 100px'
+        }}></div>
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-full px-4 flex flex-col min-h-screen p-6">
         {/* Header avec controls */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -744,15 +867,14 @@ export function CommandDashboard() {
             buttonHoverColor: "hover:bg-red-500",
             buttonTextColor: "text-white"
           })}
+          {/* Système de sons et mascotte */}
+          <SoundSystem ambientSoundEnabled={false} />
+          <Mascot 
+            mood={mascotState.mood}
+            message={mascotState.message}
+            show={mascotState.show}
+          />
         </>
-        
-        {/* Système de sons et mascotte */}
-        <SoundSystem ambientSoundEnabled={false} />
-        <Mascot 
-          mood={mascotState.mood}
-          message={mascotState.message}
-          show={mascotState.show}
-        />
       </div>
     </div>
   );

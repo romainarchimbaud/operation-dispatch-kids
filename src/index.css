@@ -8,78 +8,131 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
 
 @layer base {
   :root {
-    /* Interface claire et enfantine */
-    --background: 210 40% 96%;
-    --foreground: 215 25% 25%;
+    /* Mode clair avec fond bleu et cards transparentes */
+    --background: 217 91% 65%; /* fond bleu plus clair */
+    --foreground: 220 15% 15%; /* gris anthracite foncé */
 
-    /* Cartes avec effet doux */
-    --card: 210 40% 98%;
-    --card-foreground: 215 25% 25%;
+    --card: 0 0% 96%; /* cards très claires pour transparence */
+    --card-foreground: 220 15% 15%;
 
-    --popover: 210 40% 98%;
-    --popover-foreground: 215 25% 25%;
+    --popover: 0 0% 94%;
+    --popover-foreground: 220 15% 15%;
 
-    /* Bleu pompier/police principal */
-    --primary: 217 91% 60%;
+    --primary: 217 91% 35%; /* bleu plus sombre pour contraste */
     --primary-foreground: 0 0% 100%;
 
-    /* Gris doux secondaire */
-    --secondary: 215 20% 85%;
-    --secondary-foreground: 215 25% 25%;
+    --secondary: 0 0% 90%; /* gris très clair */
+    --secondary-foreground: 220 15% 15%;
 
-    /* Zones d'information */
-    --muted: 210 30% 90%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 0 0% 92%; /* plus clair */
+    --muted-foreground: 220 15% 25%;
 
-    /* Accents lumineux */
-    --accent: 197 71% 73%;
-    --accent-foreground: 215 25% 25%;
+    --accent: 197 71% 45%; /* accent plus sombre */
+    --accent-foreground: 220 15% 15%;
 
-    /* Rouge d'urgence adouci */
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 55%; /* rouge pour AG */
     --destructive-foreground: 0 0% 100%;
 
-    /* Bordures et inputs */
-    --border: 215 20% 80%;
-    --input: 210 30% 94%;
-    --ring: 217 91% 60%;
+    --border: 0 0% 85%; /* bordures claires */
+    --input: 0 0% 94%;
+    --ring: 217 91% 35%;
 
-    /* Forces spéciales Eagle Force */
-    --eagle: 210 6% 35%;
+    --eagle: 220 15% 25%; /* gris anthracite */
     --eagle-foreground: 0 0% 98%;
 
-    /* Samu - Équipe ambulancier */
-    --samu: 45 100% 51%;
-    --samu-foreground: 215 25% 25%;
+    --samu: 45 90% 45%; /* jaune pour contraste */
+    --samu-foreground: 220 15% 15%;
 
-    /* Gradients doux */
-    --gradient-command: linear-gradient(135deg, hsl(217 91% 60% / 0.1), hsl(197 71% 73% / 0.05));
-    --gradient-alert: linear-gradient(135deg, hsl(0 84% 60% / 0.1), hsl(14 91% 50% / 0.05));
-    --gradient-special: linear-gradient(135deg, hsl(210 6% 35% / 0.1), hsl(210 6% 25% / 0.05));
-    --gradient-samu: linear-gradient(135deg, hsl(45 100% 51% / 0.1), hsl(45 90% 45% / 0.05));
+    --gradient-command: linear-gradient(135deg, hsl(217 91% 35% / 0.12), hsl(197 71% 45% / 0.08));
+    --gradient-alert: linear-gradient(135deg, hsl(14 91% 55% / 0.2), hsl(0 84% 55% / 0.15)); /* AG rouge/orange */
+    --gradient-special: linear-gradient(135deg, hsl(220 15% 25% / 0.12), hsl(220 15% 15% / 0.08));
+    --gradient-samu: linear-gradient(135deg, hsl(45 90% 45% / 0.12), hsl(45 80% 40% / 0.08));
 
-    /* Effets lumineux doux */
-    --glow-primary: 0 0 15px hsl(217 91% 60% / 0.2);
-    --glow-destructive: 0 0 15px hsl(0 84% 60% / 0.2);
-    --glow-eagle: 0 0 15px hsl(210 6% 35% / 0.2);
-    --glow-samu: 0 0 15px hsl(45 100% 51% / 0.2);
+    --glow-primary: 0 0 12px hsl(217 91% 55% / 0.15);
+    --glow-destructive: 0 0 12px hsl(0 84% 65% / 0.15);
+    --glow-eagle: 0 0 12px hsl(220 15% 25% / 0.15);
+    --glow-samu: 0 0 12px hsl(45 100% 55% / 0.15);
 
-    /* Animations et transitions */
     --transition-command: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
     --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-foreground: 220 15% 15%;
+    --sidebar-primary: 220 15% 15%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 210 15% 85%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 210 15% 82%;
+    --sidebar-ring: 217.2 91.2% 55%;
   }
 
-  /* Pas de mode sombre séparé - interface de commandement uniforme */
+  .dark {
+    /* Mode sombre avec meilleur contraste */
+    --background: 220 15% 6%; /* fond noir profond */
+    --foreground: 0 0% 96%;
+
+    --card: 220 15% 8%; /* cartes légèrement plus claires */
+    --card-foreground: 0 0% 96%;
+
+    --popover: 220 15% 8%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 217 91% 70%; /* bleu plus lumineux */
+    --primary-foreground: 220 15% 6%;
+
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 0 0% 92%;
+
+    --muted: 220 15% 10%;
+    --muted-foreground: 0 0% 75%;
+
+    --accent: 197 71% 65%; /* accent plus lumineux */
+    --accent-foreground: 220 15% 6%;
+
+    --destructive: 0 84% 75%; /* rouge plus lumineux */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%; /* bordures plus visibles */
+    --input: 220 15% 10%;
+    --ring: 217 91% 70%;
+
+    --eagle: 210 15% 80%; /* gris plus clair pour contraste */
+    --eagle-foreground: 220 15% 6%;
+
+    --samu: 45 100% 70%; /* jaune plus lumineux */
+    --samu-foreground: 220 15% 6%;
+
+    --gradient-command: linear-gradient(135deg, hsl(217 91% 70% / 0.2), hsl(197 71% 65% / 0.15));
+    --gradient-alert: linear-gradient(135deg, hsl(0 84% 75% / 0.2), hsl(14 91% 70% / 0.15));
+    --gradient-special: linear-gradient(135deg, hsl(210 15% 80% / 0.2), hsl(210 15% 75% / 0.15));
+    --gradient-samu: linear-gradient(135deg, hsl(45 100% 70% / 0.2), hsl(45 90% 65% / 0.15));
+
+    --glow-primary: 0 0 20px hsl(217 91% 70% / 0.4); /* glow plus intense */
+    --glow-destructive: 0 0 20px hsl(0 84% 75% / 0.4);
+    --glow-eagle: 0 0 20px hsl(210 15% 80% / 0.4);
+    --glow-samu: 0 0 20px hsl(45 100% 70% / 0.4);
+
+    --transition-command: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 220 15% 8%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 0 0% 96%;
+    --sidebar-primary-foreground: 220 15% 8%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 0 0% 92%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 217.2 91.2% 65%;
+    --glow-samu: 0 0 30px hsl(45 100% 70% / 0.5);
+
+    --sidebar-background: 220 20% 6%;
+    --sidebar-foreground: 0 0% 92%;
+    --sidebar-primary: 0 0% 96%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 18% 16%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 220 18% 20%;
+    --sidebar-ring: 217 91% 75%;
+  }
 }
 
 @layer base {
@@ -90,9 +143,16 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
   body {
     @apply bg-background text-foreground font-mono;
     background-image: 
-      radial-gradient(circle at 20% 80%, hsl(217 91% 60% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(197 71% 73% / 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, hsl(210 40% 98%) 0%, transparent 70%);
+      radial-gradient(circle at 20% 80%, hsl(217 91% 35% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(197 71% 45% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(217 91% 70%) 0%, transparent 70%);
+  }
+
+  .dark body {
+    background-image: 
+      radial-gradient(circle at 20% 80%, hsl(217 91% 65% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(197 71% 60% / 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(220 15% 8%) 0%, transparent 70%);
   }
 
   /* Polices de commandement */
@@ -149,6 +209,17 @@ Couleurs: bleu/gris/rouge pompier, interface sombre futuriste
   .mission-card {
     @apply relative overflow-hidden rounded-lg border border-border bg-card p-6 transition-all duration-300 hover:border-primary/40;
     background: var(--gradient-command);
+  }
+
+  /* Carte d'objectifs avec fond neutre */
+  .objectives-card {
+    @apply relative overflow-hidden rounded-lg border border-border bg-card p-6 transition-all duration-300;
+    background: hsl(var(--card)) !important; /* Fond neutre uniforme */
+  }
+
+  .dark .objectives-card {
+    background: hsl(220 15% 8%) !important; /* Fond sombre uniforme */
+    border-color: hsl(220 15% 18%) !important;
   }
 
   .mission-card:hover {

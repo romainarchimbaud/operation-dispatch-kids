@@ -35,7 +35,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
       <div className="space-y-6">
         {/* Header du service */}
         <div className="text-center">
-          <h2 className="text-3xl font-command text-destructive mb-2">
+          <h2 className="text-3xl font-command text-yellow-500 dark:text-yellow-400 mb-2 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent font-bold">
             ALERTE GÉNÉRALE
           </h2>
           <p className="text-muted-foreground">
@@ -44,12 +44,11 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
         </div>
 
         {/* Mission sélectionnée */}
-        <Card className="mission-card border-destructive/40">
+        <Card className="mission-card border-yellow-500/40 dark:border-orange-500/40 ag-mission-card">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Badge 
-                variant="destructive"
-                className="font-command text-lg px-4 py-1"
+                className="font-command text-lg px-4 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-yellow-500"
               >
                 MISSION ACTIVE - ALERTE GÉNÉRALE
               </Badge>
@@ -127,6 +126,40 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
     alerte_generale: 'destructive'
   };
 
+  // Couleurs spécifiques par service pour les accents
+  const serviceAccentColors = {
+    pompiers: {
+      primary: 'text-red-600 dark:text-red-600',
+      border: 'border-red-500/40',
+      icon: 'text-red-500',
+      header: 'text-red-600 dark:text-red-600'
+    },
+    police: {
+      primary: 'text-blue-600 dark:text-blue-400', 
+      border: 'border-blue-500/40',
+      icon: 'text-blue-500',
+      header: 'text-blue-600 dark:text-blue-400'
+    },
+    eagle: {
+      primary: 'text-gray-500 dark:text-gray-300',
+      border: 'border-gray-500/40', 
+      icon: 'text-gray-500',
+      header: 'text-gray-600 dark:text-gray-300'
+    },
+    samu: {
+      primary: 'text-yellow-600 dark:text-yellow-400',
+      border: 'border-yellow-500/40',
+      icon: 'text-yellow-500', 
+      header: 'text-yellow-600 dark:text-yellow-400'
+    },
+    alerte_generale: {
+      primary: 'text-yellow-500 dark:text-yellow-400',
+      border: 'border-yellow-500/40 dark:border-orange-500/40',
+      icon: 'text-yellow-500',
+      header: 'text-yellow-500 dark:text-yellow-400'
+    }
+  };
+
   const getRandomMission = () => {
     // On délègue au parent la gestion du random auto avec timer d'acceptation
     if (typeof (window as any).handleStartAutoFromMissionList === 'function') {
@@ -151,11 +184,20 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Classe utilitaire pour le badge Mission Active
+  const missionActiveBadgeClass = {
+    pompiers: 'bg-red-600 text-white',
+    police: 'bg-blue-600 text-blue-50',
+    eagle: 'bg-gray-800 text-white',
+    samu: 'bg-yellow-600 text-yellow-50',
+    alerte_generale: 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white',
+  };
+
   return (
     <div className="space-y-6">
       {/* Header du service */}
       <div className="text-center">
-        <h2 className="text-3xl font-command text-primary mb-2">
+        <h2 className={`text-3xl font-command mb-2 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.header || 'text-primary'}`}>
           {getServiceTitle()}
         </h2>
         <p className="text-muted-foreground">
@@ -165,15 +207,12 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
 
       {/* Mission sélectionnée */}
       {selectedMission && (
-        <Card className="mission-card border-primary/40">
+        <Card className={`mission-card ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.border || 'border-primary/40'}`}>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <Badge 
-                variant={serviceColors[service as keyof typeof serviceColors] as any}
-                className="font-command text-lg px-4 py-1"
-              >
+              <div className={`inline-flex items-center rounded-full font-command text-lg px-4 py-1 font-semibold transition-colors border border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${missionActiveBadgeClass[service as keyof typeof missionActiveBadgeClass]}`}>
                 MISSION ACTIVE
-              </Badge>
+              </div>
               <Badge variant="outline" className="font-command">
                 ID: {selectedMission.mission.id.toString().padStart(3, '0')}
               </Badge>
@@ -195,19 +234,19 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
 
             <div className="grid gap-4 md:grid-cols-3">
               <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-primary" />
+                <MapPin className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-primary'}`} />
                 <span className="font-command text-sm">
                   {selectedMission.mission.location}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Cloud className="h-4 w-4 text-accent" />
+                <Cloud className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-accent'}`} />
                 <span className="font-command text-sm">
                   {selectedMission.mission.conditions}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Car className="h-4 w-4 text-secondary" />
+                <Car className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-secondary'}`} />
                 <span className="font-command text-sm">
                   {selectedMission.mission.vehicles.length} véhicules
                 </span>
@@ -221,7 +260,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
                   <Badge 
                     key={vehicle}
                     variant="outline" 
-                    className="font-command hover:bg-primary/20 cursor-help"
+                    className="font-command hover:bg-gray-100 dark:hover:bg-gray-700 cursor-help border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
                     title={vehicles[vehicle]?.description || vehicle}
                   >
                     {vehicle}
@@ -240,7 +279,6 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
           missionTitle={selectedMission.mission.title}
           onMissionComplete={onObjectivesComplete}
           canValidateObjectives={!!timerActive}
-          service={service === 'alerte_generale' ? undefined : service}
         />
       )}
 
@@ -262,10 +300,10 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
             key={mission.id}
             className={`mission-card transition-all duration-300 ${
               selectedMission?.mission.id === mission.id
-                ? 'border-primary ring-2 ring-primary/20'
+                ? `${serviceAccentColors[service as keyof typeof serviceAccentColors]?.border} ring-2 ring-current/20`
                 : timerActive
                   ? 'opacity-60 grayscale pointer-events-none'
-                  : 'cursor-pointer hover:border-primary/60'
+                  : `cursor-pointer hover:${serviceAccentColors[service as keyof typeof serviceAccentColors]?.border?.replace('/40', '/60') || 'hover:border-primary/60'}`
             }`}
             onClick={() => {
               if (!timerActive || selectedMission?.mission.id === mission.id) {
@@ -279,8 +317,7 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
                   #{mission.id.toString().padStart(3, '0')}
                 </Badge>
                 <Badge 
-                  variant={serviceColors[service] as any}
-                  className="font-command text-xs"
+                  className={`font-command text-xs inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent ${missionActiveBadgeClass[service as keyof typeof missionActiveBadgeClass]}`}
                 >
                   {mission.vehicles.length} VÉH.
                 </Badge>
@@ -292,11 +329,11 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
 
               <div className="space-y-2 text-xs">
                 <div className="flex items-center gap-1">
-                  <MapPin className="h-3 w-3 text-primary" />
+                  <MapPin className={`h-3 w-3 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-primary'}`} />
                   <span className="text-muted-foreground">{mission.location}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Cloud className="h-3 w-3 text-accent" />
+                  <Cloud className={`h-3 w-3 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-accent'}`} />
                   <span className="text-muted-foreground">{mission.conditions}</span>
                 </div>
               </div>
@@ -306,13 +343,13 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
                   <Badge 
                     key={vehicle}
                     variant="outline" 
-                    className="text-xs font-mono"
+                    className="text-xs font-mono border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
                   >
                     {vehicle}
                   </Badge>
                 ))}
                 {mission.vehicles.length > 3 && (
-                  <Badge variant="outline" className="text-xs font-mono">
+                  <Badge variant="outline" className="text-xs font-mono border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800">
                     +{mission.vehicles.length - 3}
                   </Badge>
                 )}

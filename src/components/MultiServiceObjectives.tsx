@@ -46,40 +46,32 @@ export function MultiServiceObjectives({
       title: 'SAPEURS-POMPIERS',
       icon: Truck,
       color: 'text-red-600',
-      bgColor: 'bg-red-50',
+      bgColor: 'bg-red-50 dark:bg-gray-800/50',
       borderColor: 'border-red-200',
-      glowColor: 'bg-red-500',
-      iconGlow: 'bg-red-400',
       badgeColor: 'text-red-600'
     },
     police: {
       title: 'POLICE NATIONALE', 
       icon: Shield,
       color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
+      bgColor: 'bg-blue-50 dark:bg-gray-800/50',
       borderColor: 'border-blue-200',
-      glowColor: 'bg-blue-500',
-      iconGlow: 'bg-blue-400',
       badgeColor: 'text-blue-600'
     },
     eagle: {
       title: 'EAGLE FORCE',
       icon: Zap,
-      color: 'text-gray-600', 
-      bgColor: 'bg-gray-50',
+      color: 'text-gray-400', 
+      bgColor: 'bg-gray-50 dark:bg-gray-800/50',
       borderColor: 'border-gray-200',
-      glowColor: 'bg-gray-500',
-      iconGlow: 'bg-gray-400',
-      badgeColor: 'text-gray-600'
+      badgeColor: 'text-gray-400'
     },
     samu: {
       title: 'SAMU',
       icon: Ambulance,
       color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50', 
+      bgColor: 'bg-yellow-50 dark:bg-gray-800/50', 
       borderColor: 'border-yellow-200',
-      glowColor: 'bg-yellow-500',
-      iconGlow: 'bg-yellow-400',
       badgeColor: 'text-yellow-600'
     }
   };
@@ -126,18 +118,11 @@ export function MultiServiceObjectives({
                 !canValidateObjectives ? 'opacity-60 grayscale' : ''
               } ${isCompleted ? 'ring-4 ring-green-400 shadow-green-400/50' : 'hover:shadow-2xl'}`}
             >
-              {/* Glow effect pour les services actifs */}
-              {!isCompleted && canValidateObjectives && (
-                <div className={`absolute inset-0 ${config.glowColor} rounded-lg blur-sm opacity-20`}></div>
-              )}
-              
               <div className="relative p-5">
                 {/* En-tête du service */}
                 <div className="flex items-center gap-4 mb-5">
                   <div className="relative">
-                    {!isCompleted && canValidateObjectives && (
-                      <div className={`absolute inset-0 ${config.iconGlow} rounded-full blur-md opacity-60`}></div>
-                    )}
+                    {/* Icon glow supprimé */}
                     <Icon className={`relative h-8 w-8 ${config.color} ${isCompleted ? 'text-green-400' : ''} drop-shadow-lg`} />
                   </div>
                   <div className="flex-1">
