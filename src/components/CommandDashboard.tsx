@@ -520,7 +520,7 @@ export function CommandDashboard() {
                     <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
                       theme === 'light'
                         ? 'text-red-600 group-hover:text-red-500'
-                        : 'text-red-100 group-hover:text-white'
+                        : 'text-red-400 group-hover:text-red-300'
                     }`}>
                       SAPEURS-POMPIERS
                     </h2>
@@ -582,7 +582,7 @@ export function CommandDashboard() {
                     <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
                       theme === 'light'
                         ? 'text-blue-600 group-hover:text-blue-500'
-                        : 'text-blue-100 group-hover:text-white'
+                        : 'text-blue-400 group-hover:text-blue-300'
                     }`}>
                       POLICE NATIONALE
                     </h2>
@@ -623,7 +623,11 @@ export function CommandDashboard() {
                   : 'border-gray-500/30'
               }`}
                 onClick={() => handleServiceSelect('eagle')}>
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                <div className={`absolute inset-0 bg-gradient-to-br from-gray-600/20 to-slate-600/20 transition-all duration-500 ${
+                  theme === 'light'
+                    ? 'opacity-100'
+                    : 'opacity-0 group-hover:opacity-100'
+                }`}></div>
                 
                 <div className="relative z-10 flex flex-col items-center justify-between h-full p-4">
                   <div className="relative mb-2 flex items-center justify-center h-16 w-16">
@@ -644,7 +648,7 @@ export function CommandDashboard() {
                     <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
                       theme === 'light'
                         ? 'text-gray-600 group-hover:text-gray-500'
-                        : 'text-gray-100 group-hover:text-white'
+                        : 'text-gray-400 group-hover:text-gray-300'
                     }`}>
                       EAGLE FORCE
                     </h2>
@@ -706,7 +710,7 @@ export function CommandDashboard() {
                     <h2 className={`mb-1 text-lg font-command transition-colors duration-300 ${
                       theme === 'light'
                         ? 'text-yellow-600 group-hover:text-yellow-500'
-                        : 'text-yellow-100 group-hover:text-white'
+                        : 'text-yellow-400 group-hover:text-yellow-300'
                     }`}>
                       SAMU - YELLOW LIFE LINE
                     </h2>
@@ -720,7 +724,7 @@ export function CommandDashboard() {
                     <Badge className={`font-command mb-2 text-xs inline-block ${
                       theme === 'light'
                         ? 'bg-yellow-200/80 text-yellow-800 border-yellow-300/50'
-                        : 'bg-yellow-600/80 text-yellow-100 border-yellow-500/50'
+                        : 'bg-yellow-400/80 text-black border-yellow-400/50'
                     }`}>
                       {missions.samu.length} MISSIONS
                     </Badge>
@@ -731,7 +735,7 @@ export function CommandDashboard() {
                     className={`font-command px-3 py-2 text-xs w-full btn-professional ${
                       theme === 'light'
                         ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-white border-yellow-400/50'
-                        : 'bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-500 hover:to-yellow-600 text-white border-yellow-500/50'
+                        : 'bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black border-yellow-400/50'
                     }`}
                   >
                     START AUTO (30s)
