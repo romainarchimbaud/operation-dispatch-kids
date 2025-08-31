@@ -123,78 +123,83 @@ export function MissionTimer({ duration, onComplete, onStop }: MissionTimerProps
   };
 
   return (
-    <Card className={`mission-card mb-6 ${timeLeft <= 60 && status === 'running' ? 'pulse-alert' : ''}`}>
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon()}
-            <span className="font-command text-lg text-foreground">
-              {getStatusText()}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            {status === 'running' || status === 'paused' ? (
-              <>
-                <Button
-                  onClick={handleTogglePause}
-                  variant="outline"
-                  size="sm"
-                  className="btn-command"
-                >
-                  {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                </Button>
-                <Button
-                  onClick={handleMarkComplete}
-                  variant="outline"
-                  size="sm"
-                  className="btn-command"
-                >
-                  <CheckCircle className="h-4 w-4" />
-                </Button>
-                <Button
-                  onClick={handleStop}
-                  variant="outline"
-                  size="sm"
-                  className="btn-command-alert"
-                >
-                  <Square className="h-4 w-4" />
-                </Button>
-              </>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="text-center">
-          <div className={`text-6xl font-command font-bold ${
-            timeLeft <= 60 && status === 'running' ? 'text-destructive' : 'text-primary'
-          }`}>
+    <div className="relative flex items-center justify-between bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg px-4 py-2 h-10 w-full shadow-lg" style={{boxShadow: '0 0 20px rgba(59, 130, 246, 0.15)'}}>
+      {/* Timer à gauche - prend toute la largeur disponible */}
+      <div className="flex items-center gap-4 flex-1">
+        <div className="flex items-center gap-2">
+          {getStatusIcon()}
+          <span className={`text-lg font-command font-bold ${timeLeft <= 60 && status === 'running' ? 'text-destructive' : 'text-primary'}`}>
             {formatTime(timeLeft)}
+          </span>
+          <span className="text-xs text-muted-foreground font-command">
+            / {formatTime(duration)}
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-2 flex-1 max-w-4xl">
+          <div className="flex-1 h-2 relative overflow-hidden rounded-full bg-secondary">
+            <div
+              className="h-full transition-all"
+              style={{
+                width: `${getProgressValue()}%`,
+                background: `linear-gradient(to right, #22c55e, #eab308, #ef4444)`
+              }}
+            />
           </div>
-          <p className="text-sm text-muted-foreground font-command mt-1">
-            Temps restant sur {formatTime(duration)}
-          </p>
+          <span className="text-xs text-muted-foreground font-command w-8 text-right">
+            {Math.round(getProgressValue())}%
+          </span>
         </div>
 
-        <div className="space-y-2">
-          <Progress 
-            value={getProgressValue()} 
-            className="progress-bar h-4"
-          />
-          <div className="flex justify-between text-xs text-muted-foreground font-command">
-            <span>Début</span>
-            <span>{Math.round(getProgressValue())}% accompli</span>
-            <span>Objectif</span>
-          </div>
-        </div>
-
-        {timeLeft <= 60 && status === 'running' && (
-          <div className="text-center p-2 bg-destructive/10 border border-destructive/20 rounded">
-            <p className="text-destructive font-command text-sm">
-              ⚠️ DERNIÈRE MINUTE - FINALISEZ VOTRE MISSION !
-            </p>
-          </div>
-        )}
+        <span className="font-command text-xs text-foreground whitespace-nowrap flex-shrink-0 mx-3">
+          {getStatusText()}
+        </span>
       </div>
-    </Card>
+
+      {/* Trois boutons regroupés à droite */}
+      <div className="flex items-center gap-1">
+        <Button
+          onClick={handleStop}
+          variant="outline"
+          size="sm"
+          className="btn-command-alert h-8 w-8 p-0"
+          title="Arrêter la mission"
+        >
+          <Square className="h-4 w-4" />
+        </Button>
+        
+        {status === 'running' || status === 'paused' ? (
+          <>
+            <Button
+              onClick={handleTogglePause}
+              variant="outline"
+              size="sm"
+              className="btn-command h-8 w-8 p-0"
+              title={isRunning ? 'Mettre en pause' : 'Reprendre'}
+            >
+              {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            </Button>
+            <Button
+              onClick={handleMarkComplete}
+              variant="outline"
+              size="sm"
+              className="btn-command h-8 w-8 p-0"
+              title="Valider la mission"
+            >
+              <CheckCircle className="h-4 w-4" />
+            </Button>
+          </>
+        ) : null}
+      </div>
+      
+      {/* Alerte dernière minute */}
+      {timeLeft <= 60 && status === 'running' && (
+        <div className="absolute top-full left-0 right-0 mt-1 mb-1" style={{marginTop: '5px', marginBottom: '5px'}}>
+          <div className="text-center p-1 bg-destructive/10 border border-destructive/20 rounded">
+            <p className="text-destructive font-command text-xs">⚠️ DERNIÈRE MINUTE !</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

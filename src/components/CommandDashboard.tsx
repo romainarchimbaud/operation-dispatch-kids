@@ -725,8 +725,19 @@ export function CommandDashboard() {
             {/* Bouton NOUVELLE MISSION supprimé */}
           </div>
 
-          {selectedMission && (
-            <div className="flex items-center gap-4">
+          {/* Timer entre les boutons quand actif - même hauteur que les boutons */}
+          {timerActive && (
+            <div className="flex-1 mx-8 flex items-center">
+              <MissionTimer 
+                duration={timerDuration}
+                onComplete={() => setTimerActive(false)}
+                onStop={() => setTimerActive(false)}
+              />
+            </div>
+          )}
+
+          <div className="flex items-center gap-4">
+            {selectedMission && (
               <Button 
                 onClick={startMission}
                 disabled={timerActive}
@@ -735,8 +746,9 @@ export function CommandDashboard() {
                 <Play className="mr-2 h-4 w-4" />
                 DÉMARRER MISSION
               </Button>
-            </div>
-          )}
+            )}
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Phase d'acceptation Auto */}
@@ -781,15 +793,6 @@ export function CommandDashboard() {
               </div>
             </div>
           </Card>
-        )}
-
-        {/* Timer */}
-        {timerActive && (
-          <MissionTimer 
-            duration={timerDuration}
-            onComplete={() => setTimerActive(false)}
-            onStop={() => setTimerActive(false)}
-          />
         )}
 
         {/* Mission Content */}

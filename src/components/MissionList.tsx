@@ -205,81 +205,84 @@ export function MissionList({ service, selectedMission, onMissionSelect, onObjec
         </p>
       </div>
 
-      {/* Mission sélectionnée */}
+      {/* Mission sélectionnée et Objectifs en deux colonnes */}
       {selectedMission && (
-        <Card className={`mission-card ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.border || 'border-primary/40'}`}>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className={`inline-flex items-center rounded-full font-command text-lg px-4 py-1 font-semibold transition-colors border border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${missionActiveBadgeClass[service as keyof typeof missionActiveBadgeClass]}`}>
-                MISSION ACTIVE
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Colonne gauche - Mission Active */}
+          <Card className={`mission-card ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.border || 'border-primary/40'}`}>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className={`inline-flex items-center rounded-full font-command text-lg px-4 py-1 font-semibold transition-colors border border-transparent focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${missionActiveBadgeClass[service as keyof typeof missionActiveBadgeClass]}`}>
+                  MISSION ACTIVE
+                </div>
+                <Badge variant="outline" className="font-command">
+                  ID: {selectedMission.mission.id.toString().padStart(3, '0')}
+                </Badge>
               </div>
-              <Badge variant="outline" className="font-command">
-                ID: {selectedMission.mission.id.toString().padStart(3, '0')}
-              </Badge>
-            </div>
 
-            <div>
-              <h3 className="text-xl font-command text-foreground mb-2">
-                {showTypewriter ? (
-                  <TypewriterText 
-                    text={selectedMission.mission.title}
-                    speed={80}
-                    playSound={true}
-                  />
-                ) : (
-                  selectedMission.mission.title
-                )}
-              </h3>
-            </div>
+              <div>
+                <h3 className="text-xl font-command text-foreground mb-2">
+                  {showTypewriter ? (
+                    <TypewriterText 
+                      text={selectedMission.mission.title}
+                      speed={80}
+                      playSound={true}
+                    />
+                  ) : (
+                    selectedMission.mission.title
+                  )}
+                </h3>
+              </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="flex items-center gap-2">
-                <MapPin className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-primary'}`} />
-                <span className="font-command text-sm">
-                  {selectedMission.mission.location}
-                </span>
+              <div className="grid gap-4 md:grid-cols-1">
+                <div className="flex items-center gap-2">
+                  <MapPin className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-primary'}`} />
+                  <span className="font-command text-sm">
+                    {selectedMission.mission.location}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Cloud className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-accent'}`} />
+                  <span className="font-command text-sm">
+                    {selectedMission.mission.conditions}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Car className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-secondary'}`} />
+                  <span className="font-command text-sm">
+                    {selectedMission.mission.vehicles.length} véhicules
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Cloud className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-accent'}`} />
-                <span className="font-command text-sm">
-                  {selectedMission.mission.conditions}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Car className={`h-4 w-4 ${serviceAccentColors[service as keyof typeof serviceAccentColors]?.icon || 'text-secondary'}`} />
-                <span className="font-command text-sm">
-                  {selectedMission.mission.vehicles.length} véhicules
-                </span>
+
+              <div>
+                <h4 className="font-command text-foreground mb-2">VÉHICULES RECOMMANDÉS:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedMission.mission.vehicles.map((vehicle) => (
+                    <Badge 
+                      key={vehicle}
+                      variant="outline" 
+                      className="font-command hover:bg-gray-100 dark:hover:bg-gray-700 cursor-help border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
+                      title={vehicles[vehicle]?.description || vehicle}
+                    >
+                      {vehicle}
+                    </Badge>
+                  ))}
+                </div>
               </div>
             </div>
+          </Card>
 
-            <div>
-              <h4 className="font-command text-foreground mb-2">VÉHICULES RECOMMANDÉS:</h4>
-              <div className="flex flex-wrap gap-2">
-                {selectedMission.mission.vehicles.map((vehicle) => (
-                  <Badge 
-                    key={vehicle}
-                    variant="outline" 
-                    className="font-command hover:bg-gray-100 dark:hover:bg-gray-700 cursor-help border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
-                    title={vehicles[vehicle]?.description || vehicle}
-                  >
-                    {vehicle}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Card>
-      )}
-
-      {/* Objectifs de mission */}
-      {selectedMission && selectedMission.mission.objectives && (
-        <MissionObjectives 
-          objectives={selectedMission.mission.objectives}
-          missionTitle={selectedMission.mission.title}
-          onMissionComplete={onObjectivesComplete}
-          canValidateObjectives={!!timerActive}
-        />
+          {/* Colonne droite - Objectifs de mission */}
+          {selectedMission.mission.objectives && (
+            <MissionObjectives 
+              objectives={selectedMission.mission.objectives}
+              missionTitle={selectedMission.mission.title}
+              onMissionComplete={onObjectivesComplete}
+              canValidateObjectives={!!timerActive}
+            />
+          )}
+        </div>
       )}
 
       {/* Actions rapides */}
