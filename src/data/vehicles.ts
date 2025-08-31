@@ -20,8 +20,5 @@ export const vehicles: Vehicles = {
   'Camion blindé PC': { name: 'Camion blindé PC', description: 'Véhicule Léger blindé pour missions spéciales' },
   'Camion logistique': { name: 'Camion logistique', description: 'Véhicule de transport et logistique' },
   'Quad': { name: 'Quad', description: "Véhicule tout-terrain d'intervention rapide" },
-  'Bateau rapide': { name: 'Bateau rapide', description: "Embarcation d'intervention maritime" },
   'Hélico Eagle': { name: 'Hélico Eagle', description: "Hélicoptère d'assaut et transport" },
-  'Drone': { name: 'Drone', description: 'Drone de reconnaissance et surveillance' },
-  'Hélico': { name: 'Hélico', description: 'Hélicoptère (générique Eagle)' },
 };

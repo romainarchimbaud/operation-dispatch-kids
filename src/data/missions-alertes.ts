@@ -6,7 +6,7 @@ export const alertesMissions: Mission[] = [
     title: 'EXPLOSION CHIMIQUE MARSEILLE — Explosion dans une usine chimique au port de Marseille. Nuage toxique, évacuation massive, blessés multiples.',
     location: 'Zone industrielle portuaire, Marseille',
     conditions: 'Jour, Vent du Sud-Est, Visibilité réduite par les fumées',
-    vehicles: ['vl feu', 'bateau pompe', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Hélico Eagle', 'Drone', 'ambulance'],
+    vehicles: ['vl feu', 'bateau pompe', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Hélico Eagle', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       'Éteindre les foyers d\'incendie secondaires',
@@ -93,7 +93,7 @@ export const alertesMissions: Mission[] = [
     title: 'ACCIDENT TRANSPORT MATIÈRES DANGEREUSES — Collision entre un camion-citerne et un car scolaire sur l\'A6. Fuite de produits toxiques.',
     location: 'Autoroute A6, aire de repos Auxerre-Sud',
     conditions: 'Matin, Brouillard dense, Trafic bloqué',
-    vehicles: ['vl feu', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Drone', 'ambulance'],
+    vehicles: ['vl feu', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       'Contenir la fuite de produits chimiques toxiques',
@@ -151,7 +151,7 @@ export const alertesMissions: Mission[] = [
     title: 'PRISE D\'OTAGES ÉCOLE — Individu armé retient une classe dans une école primaire. Négociation en cours, périmètre de sécurité.',
     location: 'École primaire Jean-Jaurès, Toulouse',
     conditions: 'Midi, Journée ensoleillée, Médias présents',
-    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'hélico', 'Camion blindé PC', 'Drone', 'ambulance'],
+    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'hélico', 'Camion blindé PC', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       'Sécuriser les systèmes d\'incendie de l\'école',
@@ -267,7 +267,7 @@ export const alertesMissions: Mission[] = [
     title: 'CYBERATTAQUE INFRASTRUCTURE — Piratage du réseau électrique national. Hôpitaux en panne, feux tricolores coupés, chaos urbain.',
     location: 'Métropole lilloise (zone test)',
     conditions: 'Nuit, Panne généralisée, GPS inutilisable',
-    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'Camion blindé PC', 'Hélico Eagle', 'Drone', 'ambulance'],
+    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'Camion blindé PC', 'Hélico Eagle', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       "Sécuriser et éteindre les foyers d'incendie",
@@ -325,7 +325,7 @@ export const alertesMissions: Mission[] = [
     title: 'ÉMEUTES URBAINES MASSIVES — Violences généralisées dans plusieurs quartiers de Strasbourg. Commerces pillés, véhicules incendiés.',
     location: 'Quartiers Neuhof et Hautepierre, Strasbourg',
     conditions: 'Nuit, Projectiles, Visibilité réduite par la fumée',
-    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'hélico', 'Camion blindé PC', 'Drone', 'ambulance'],
+    vehicles: ['vl police', 'fourgon blindé', 'voiture banalisée', 'hélico', 'Camion blindé PC', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       "Sécuriser et éteindre les foyers d'incendie",
@@ -383,7 +383,7 @@ export const alertesMissions: Mission[] = [
     title: 'ACCIDENT NUCLÉAIRE — Incident grave à la centrale de Gravelines. Risque de rejet radioactif, évacuation dans un rayon de 20km.',
     location: 'Centrale nucléaire de Gravelines, Nord',
     conditions: 'Vent du Nord-Ouest, Risque de contamination, Panique',
-    vehicles: ['vl feu', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Hélico Eagle', 'Drone', 'ambulance'],
+    vehicles: ['vl feu', 'hélico (recherche)', 'vl police', 'fourgon blindé', 'Camion blindé PC', 'Hélico Eagle', 'Quad', 'ambulance'],
     objectives: [
       // POMPIERS (4 objectifs)
       "Sécuriser et éteindre les foyers d'incendie",
